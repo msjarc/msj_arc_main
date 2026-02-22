@@ -1,0 +1,38 @@
+# 1. Backend Configuration (For Cloudflare)
+backend:
+  name: github
+  repo: msjarc/msj_arc_main # Replace with your GitHub info
+  branch: main
+  base_url: https://msj-arc-website.msjamateurradio.workers.dev/ # Your Cloudflare URL
+  auth_endpoint: /api/auth
+
+# 2. Asset Management
+media_folder: "public/assets/img" # Where images are stored in this template
+public_folder: "/assets/img"
+
+# 3. Content Collections
+collections:
+  - name: "blog"
+    label: "Blog Posts"
+    folder: "src/content/blog" # Matches the starter's directory
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "string" }
+      - { label: "Publish Date", name: "pubDate", widget: "datetime", format: "YYYY-MM-DD" }
+      - { label: "Author", name: "author", widget: "string", default: "Admin" }
+      - { label: "Featured Image", name: "img", widget: "image", required: false }
+      - { label: "Alt Text", name: "imgAlt", widget: "string", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
+      
+  - name: "pages"
+    label: "Static Pages"
+    files:
+      - label: "About Page"
+        name: "about"
+        file: "src/pages/about.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Description", name: "description", widget: "string" }
+          - { label: "Body", name: "body", widget: "markdown" }
