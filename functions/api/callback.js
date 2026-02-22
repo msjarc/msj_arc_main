@@ -1,3 +1,4 @@
+export const prerender = false
 function renderBody(status, content) {
     const html = `
     <script>
