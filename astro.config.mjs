@@ -6,6 +6,8 @@ import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 import { enhanceConfigForWorkspace } from './scripts/workspace-config.js'
+import cloudflare from '@astrojs/cloudflare';
+
 
 // Vite configuration with path aliases and SCSS settings
 const viteConfig = {
@@ -38,9 +40,10 @@ const viteConfig = {
 // https://astro.build/config
 export default defineConfig({
   compressHTML: true,
-  site: 'https://accessible-astro-starter.incluud.dev',
+  site: 'https://msjarc.org',
   integrations: [compress(), icon(), mdx(), sitemap()],
   vite: enhanceConfigForWorkspace(viteConfig),
+  adapter: cloudflare(),
   env: {
     schema: {
       BLOG_API_URL: envField.string({
