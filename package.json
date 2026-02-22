@@ -60,6 +60,7 @@
     "tailwindcss": "^4.1.18"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^12.6.12",
     "@astrojs/sitemap": "^3.7.0",
     "@tailwindcss/vite": "^4.1.18",
     "accessible-astro-components": "^5.1.2",
