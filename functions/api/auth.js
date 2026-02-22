@@ -1,3 +1,4 @@
+export const prerender = false;
 export async function onRequest(context) {
     const {
         request, // same as existing Worker API
