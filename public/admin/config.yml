@@ -3,8 +3,8 @@ backend:
   name: github
   repo: msjarc/msj_arc_main # Replace with your GitHub info
   branch: main
-  base_url: https://msj-arc-website.msjamateurradio.workers.dev/ # Your Cloudflare URL
-  auth_endpoint: /api/auth
+  base_url: https://msjarc.org/ # Your Cloudflare URL
+  auth_endpoint: https://msjarc.org/api/auth
 
 # 2. Asset Management
 media_folder: "public/assets/img" # Where images are stored in this template
