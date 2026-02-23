@@ -1,12 +1,14 @@
 {
   "name": "msj-arc-website",
-  // Set this to today's date
   "compatibility_date": "2026-02-22",
   "assets": {
     "directory": "./dist"
   },
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "observability": {
-      "enabled": true,
-      "head_sampling_rate": 1 // optional. default = 1.
+    "enabled": true,
+    "head_sampling_rate": 1
   }
 }
