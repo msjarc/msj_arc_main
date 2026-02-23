@@ -15,7 +15,7 @@ const viteConfig = {
     preprocessorOptions: {
       scss: {
         logger: {
-          warn: () => {},
+          warn: () => { },
         },
       },
     },
@@ -43,8 +43,8 @@ export default defineConfig({
   site: 'https://msjarc.org',
   integrations: [compress(), icon(), mdx(), sitemap()],
   vite: enhanceConfigForWorkspace(viteConfig),
-  adapter: cloudflare({ mode: 'directory' }),
-  output: "static",
+  adapter: cloudflare(),
+  output: "server",
   env: {
     schema: {
       BLOG_API_URL: envField.string({
