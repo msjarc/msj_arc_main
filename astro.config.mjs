@@ -45,14 +45,14 @@ export default defineConfig({
   vite: enhanceConfigForWorkspace(viteConfig),
   adapter: cloudflare(),
   output: "server",
-  // env: {
-  //   schema: {
-  //     BLOG_API_URL: envField.string({
-  //       context: 'server',
-  //       access: 'secret',
-  //       optional: true,
-  //       default: 'https://jsonplaceholder.typicode.com/posts',
-  //     }),
-  //   },
-  // },
+  env: {
+    schema: {
+      BLOG_API_URL: envField.string({
+        context: 'server',
+        access: 'secret',
+        optional: true,
+        default: 'https://jsonplaceholder.typicode.com/posts',
+      }),
+    },
+  },
 })
