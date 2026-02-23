@@ -43,7 +43,7 @@ export default defineConfig({
   site: 'https://msjarc.org',
   integrations: [compress(), icon(), mdx(), sitemap()],
   vite: enhanceConfigForWorkspace(viteConfig),
-  adapter: cloudflare(),
+  adapter: cloudflare({ mode: 'directory' }),
   output: "static",
   env: {
     schema: {
