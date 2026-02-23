@@ -44,7 +44,7 @@ export default defineConfig({
   integrations: [compress(), icon(), mdx(), sitemap()],
   vite: enhanceConfigForWorkspace(viteConfig),
   adapter: cloudflare(),
-  output: "server",
+  output: "static",
   env: {
     schema: {
       BLOG_API_URL: envField.string({
