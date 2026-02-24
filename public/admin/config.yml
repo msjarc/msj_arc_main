@@ -7,32 +7,58 @@ backend:
   # auth_endpoint: /api/auth
 
 # 2. Asset Management
-media_folder: "public/assets/img" # Where images are stored in this template
-public_folder: "/assets/img"
+media_folder: "public/projects" # Project images directory
+public_folder: "/projects"
 
 # 3. Content Collections
 collections:
-  - name: "blog"
-    label: "Blog Posts"
-    folder: "src/content/blog" # Matches the starter's directory
+  # ── Projects (Astro Content Collection: src/content/projects/*.mdx) ──
+  - name: "projects"
+    label: "Projects"
+    folder: "src/content/projects"
     create: true
+    extension: "mdx"
+    format: "frontmatter"
     slug: "{{slug}}"
     fields:
       - { label: "Title", name: "title", widget: "string" }
+      - { label: "Author", name: "author", widget: "string" }
       - { label: "Description", name: "description", widget: "string" }
-      - { label: "Publish Date", name: "pubDate", widget: "datetime", format: "YYYY-MM-DD" }
-      - { label: "Author", name: "author", widget: "string", default: "Admin" }
-      - { label: "Featured Image", name: "img", widget: "image", required: false }
-      - { label: "Alt Text", name: "imgAlt", widget: "string", required: false }
+      - { label: "Tags", name: "tags", widget: "list", default: [] }
       - { label: "Body", name: "body", widget: "markdown" }
-      
+
+  # ── Static Pages (file-based, each defined individually) ──
   - name: "pages"
-    label: "Static Pages"
+    label: "Pages"
     files:
-      - label: "About Page"
-        name: "about"
-        file: "src/pages/about.md"
+      - label: "Markdown Page"
+        name: "markdown-page"
+        file: "src/pages/markdown-page.md"
         fields:
+          - { label: "Layout", name: "layout", widget: "hidden", default: "../layouts/MarkdownLayout.astro" }
           - { label: "Title", name: "title", widget: "string" }
-          - { label: "Description", name: "description", widget: "string" }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+      - label: "MDX Page"
+        name: "mdx-page"
+        file: "src/pages/mdx-page.mdx"
+        fields:
+          - { label: "Layout", name: "layout", widget: "hidden", default: "../layouts/MarkdownLayout.astro" }
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+      - label: "Accessibility Statement"
+        name: "accessibility-statement"
+        file: "src/pages/accessibility-statement.mdx"
+        fields:
+          - { label: "Layout", name: "layout", widget: "hidden", default: "@layouts/MarkdownLayout.astro" }
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Narrow", name: "narrow", widget: "boolean", default: true }
+          - label: "Page Header"
+            name: "pageHeader"
+            widget: "object"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Subtitle", name: "subtitle", widget: "string" }
+              - { label: "Background Type", name: "bgType", widget: "select", options: ["bordered", "default"], default: "bordered" }
           - { label: "Body", name: "body", widget: "markdown" }

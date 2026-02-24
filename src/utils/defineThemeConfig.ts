@@ -2,25 +2,25 @@ import type { ImageMetadata } from 'astro'
 
 export type NavigationItem =
   | {
-      type?: 'link'
+    type?: 'link'
+    label: string
+    href: string
+    external?: boolean
+    highlight?: boolean
+    icon?: string
+    excludeFromLauncher?: boolean
+  }
+  | {
+    type: 'dropdown'
+    label: string
+    icon?: string
+    items: {
       label: string
       href: string
       external?: boolean
-      highlight?: boolean
-      icon?: string
-      excludeFromLauncher?: boolean
-    }
-  | {
-      type: 'dropdown'
-      label: string
-      icon?: string
-      items: {
-        label: string
-        href: string
-        external?: boolean
-      }[]
-      excludeFromLauncher?: boolean
-    }
+    }[]
+    excludeFromLauncher?: boolean
+  }
 
 export type SocialItem = {
   label: string
@@ -55,9 +55,9 @@ export type ThemeConfig = {
 
 const defaultConfig: Omit<ThemeConfig, 'name' | 'id'> = {
   seo: {
-    title: 'My Astro Site',
+    title: 'MSJ Amateur Radio Club',
     subtitle: '',
-    description: 'A website built with Accessible Astro Starter',
+    description: 'Mission San Jose High School Amateur Radio Club Website',
     author: '',
     image: null,
   },
