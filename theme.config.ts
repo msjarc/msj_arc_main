@@ -1,21 +1,21 @@
 import { defineThemeConfig } from '@utils/defineThemeConfig'
 import previewImage from '@assets/img/social-preview-image.png'
-import logoImage from '@assets/img/logo.svg'
+import logoImage from '@assets/img/logo_4.svg'
 
 export default defineThemeConfig({
-  name: 'Accessible Astro',
-  id: 'accessible-astro-starter',
+  name: 'MSJ Amateur Radio Club',
+  id: 'msjarc-web',
   logo: logoImage,
   seo: {
-    title: 'Accessible Astro Starter',
+    title: 'Mission San Jose High School Amateur Radio Club',
     description:
-      'An Accessible Starter Theme for Astro including several accessibility features and tools to help you build faster.',
-    author: 'Incluud',
+      'The official website for Mission San Jose High School Amateur Radio Club, MSJ ARC W6MSJ.',
+    author: 'MSJ ARC Team',
     image: previewImage, // Can also be a string e.g. '/social-preview-image.png',
   },
   colors: {
-    primary: '#d648ff',
-    secondary: '#00d1b7',
+    primary: '#0a4b39',
+    secondary: '#319905',
     neutral: '#b9bec4',
     outline: '#ff4500',
   },
@@ -29,16 +29,21 @@ export default defineThemeConfig({
       },
       {
         type: 'link',
+        label: 'About Us',
+        href: '/portfolio',
+      },
+      {
+        type: 'link',
         label: 'Blog',
         href: '/blog',
       },
       {
         type: 'link',
-        label: 'Portfolio',
-        href: '/portfolio',
+        label: 'New Ham?',
+        href: '/newham',
       },
       {
-        label: 'Features',
+        label: 'Resources',
         type: 'dropdown',
         items: [
           {

@@ -15,17 +15,17 @@ interface Props {
   src?: string
 }
 
-const { src = '/astronaut-hero-img.webp' }: Props = Astro.props
+const { src = '/hero1.png' }: Props = Astro.props
 ---
 
-<section class="hero my-24">
+<section class="hero mt-12 mb-24">
   <div class="container">
     <div class="grid grid-cols-1 items-center gap-24 lg:grid-cols-2">
       <div class="flex flex-col items-center gap-8 md:items-start">
-        <h1 class="text-center text-6xl md:text-left lg:text-8xl">
-          <slot><span class="text-gradient">Accessible</span> Starter for Astro</slot>
+        <h1 class="text-center md:text-left lg:text-7xl">
+          <slot><span class="text-gradient text-6xl">Mission San Jose High School</span> Amateur Radio Club</slot>
         </h1>
-        <div class="flex flex-col gap-3 min-[500px]:flex-row">
+        <!-- <div class="flex flex-col gap-3 min-[500px]:flex-row">
           <Link
             href="https://github.com/incluud/accessible-astro-starter"
             isButton
@@ -46,7 +46,7 @@ const { src = '/astronaut-hero-img.webp' }: Props = Astro.props
             <Icon aria-hidden="true" name="lucide:bookmark" size="1.5rem" />
             Read the docs
           </Link>
-        </div>
+        </div> -->
       </div>
       <Image class="hidden lg:block" src={src} alt="" decoding="async" width={800} height={600} loading="eager" />
     </div>
