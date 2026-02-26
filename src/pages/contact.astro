@@ -1,16 +1,34 @@
 ---
 import DefaultLayout from '@layouts/DefaultLayout.astro'
 import PageHeader from '@components/PageHeader.astro'
-import { Form, Input, Button, Textarea, Checkbox, Fieldset, Heading, Link, Radio } from 'accessible-astro-components'
+import {
+  Form,
+  Input,
+  Button,
+  Textarea,
+  Checkbox,
+  Fieldset,
+  Heading,
+  Link,
+  Radio,
+  Notification,
+} from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 ---
 
 <DefaultLayout title="Contact">
   <PageHeader title="Contact" subtitle="Have a question? Get in touch with us!" bgType="gradient" />
-  <section class="my-16">
-    <div class="container">
+  <section class="container my-16">
+    <div>
       <Heading level="h2">Let's talk</Heading>
     </div>
+    <Notification type="warning" variant="accent" role="status" class="my-10">
+      <!-- <Icon name="lucide:octagon-x" /> -->
+      <p>
+        <strong>Please note: </strong>This contact form is currently not yet functional! Please email us via our contact
+        info instead. Thanks!
+      </p>
+    </Notification>
   </section>
   <section class="container">
     <div class="grid grid-cols-1 gap-32 md:grid-cols-2">
@@ -27,30 +45,26 @@ import { Icon } from 'astro-icon/components'
 
           <Input name="email" label="Email address" type="email" required autocomplete="email" />
 
-          <!-- Custom validation with pattern -->
-          <Input name="phone" label="Phone number" type="tel" required data-validation-pattern="^[0-9]{10}$" />
+          <Input name="callsign" label="Callsign" />
 
-          <Textarea name="message" label="Message" required />
+          <!-- Custom validation with pattern -->
+          <Input name="phone" label="Phone number" type="tel" data-validation-pattern="^[0-9]{10}$" />
 
           <!-- Checkbox group with validation -->
           <Fieldset
-            name="interests"
-            legend="What are you interested in?"
+            name="subject"
+            legend="What would you like to reach out to us about?"
             required
-            data-validation="Please select at least one area of interest"
+            data-validation="Please select at least one subject for your message."
           >
-            <Checkbox name="accessibility" value="a11y" label="Accessibility and inclusive design" />
-            <Checkbox name="wcag-compliance" value="wcag" label="WCAG compliance and testing" />
-            <Checkbox name="screen-reader" value="sr" label="Screen reader optimization" />
-            <Checkbox name="keyboard-nav" value="keyboard" label="Keyboard navigation" />
+            <Checkbox name="general_ham_radio" value="general_ham" label="General Amateur Radio and The Hobby" />
+            <Checkbox name="theclub" value="msjarc" label="General MSJ Amateur Radio Club" />
+            <Checkbox name="projects-ops" value="ops" label="Club Projects and Operations" />
+            <Checkbox name="web_feedback" value="wf" label="Website Feedback" />
+            <Checkbox name="other" value="na" label="Other / Not Applicable" />
           </Fieldset>
 
-          <!-- Radio group (shared names) -->
-          <Fieldset name="experience" legend="Your experience level" required>
-            <Radio name="experience" value="beginner" label="Beginner" />
-            <Radio name="experience" value="intermediate" label="Intermediate" />
-            <Radio name="experience" value="advanced" label="Advanced" />
-          </Fieldset>
+          <Textarea name="message" label="Message" required />
 
           <Button htmlType="submit" type="primary">Send Message</Button>
         </Form>
@@ -58,28 +72,19 @@ import { Icon } from 'astro-icon/components'
       <div class="space-content">
         <Heading level="h3">Contact us</Heading>
         <p class="text-lg">
-          Experience the power of Accessible Astro Starter's Form components! This contact form showcases our
-          comprehensive form validation system with built-in accessibility features and WCAG 2.2 compliance.
+          We would love to speak with you about the club or amateur radio! Please feel free to use any of the contact
+          methods, such as the website form or email.
         </p>
         <p>
-          Our Form component includes automatic validation, proper error handling, semantic HTML structure, and screen
-          reader support. Test out the various input types, validation patterns, and interactive elements to see how
-          accessibility and usability work together seamlessly.
+          If you have any way you can help support our club or any feedback, please reach out! We would love to speak
+          with you.
         </p>
-
-        <div class="gap-2xs flex items-center">
-          <Icon aria-hidden="true" name="lucide:phone" size={20} class="flex-shrink-0" />
-          <p>
-            <span class="font-bold">Phone:</span>
-            <Link href="tel:+12345678900">+1 (234) 567-8900</Link>
-          </p>
-        </div>
 
         <div class="gap-2xs flex items-center">
           <Icon aria-hidden="true" name="lucide:mail" size={20} class="flex-shrink-0" />
           <p>
             <span class="font-bold">Email:</span>
-            <Link href="mailto:hello@accessibleastro.dev">hello@accessibleastro.dev</Link>
+            <Link href="mailto:w6msj@msjarc.org">w6msj@msjarc.org</Link>
           </p>
         </div>
 
@@ -87,37 +92,58 @@ import { Icon } from 'astro-icon/components'
           <Icon aria-hidden="true" name="lucide:map-pin" size={20} class="flex-shrink-0" />
           <p>
             <span class="font-bold">Address:</span>
-            123 Accessibility Lane, Web Standards City
+            MSJ ARC 41717 Palm Avenue, Fremont, CA 94539
           </p>
         </div>
 
         <div class="gap-2xs flex items-center">
-          <Icon aria-hidden="true" name="lucide:clock" size={20} class="flex-shrink-0" />
+          <Icon aria-hidden="true" name="lucide:phone" size={20} class="flex-shrink-0" />
           <p>
-            <span class="font-bold">Business Hours:</span>
-            Monday - Friday, 9:00 AM - 5:00 PM EST
+            <span class="font-bold">Phone:</span>
+            <Link href="tel:+16692230212">+1 (669) 223-0212</Link>
+          </p>
+        </div>
+
+        <div class="gap-2xs flex items-center">
+          <Icon aria-hidden="true" name="lucide:printer" size={20} class="flex-shrink-0" />
+          <p>
+            <span class="font-bold">Fax:</span>
+            <Link href="/fax"> Learn more</Link>
           </p>
         </div>
 
         <ul class="flex flex-wrap gap-2">
           <li>
-            <Link href="/" isButton isExternal hideIcon animateOnHover animationType="boop">
-              <Icon aria-hidden="true" name="lucide:facebook" size={32} />
-              <span class="sr-only">Go to our Facebook page, opens in a new tab</span>
+            <Link href="/discord" isButton hideIcon animateOnHover animationType="boop">
+              <Icon aria-hidden="true" name="ion:logo-discord" size={32} />
+              <span class="sr-only">Go to our webpage about contacting us on Discord, opens in a new tab</span>
             </Link>
           </li>
           <li>
-            <Link href="/" isButton isExternal hideIcon animateOnHover animationType="boop">
-              <Icon aria-hidden="true" name="lucide:twitter" size={32} />
-              <span class="sr-only">Go to our Twitter page, opens in a new tab</span>
+            <Link
+              href="https://www.instagram.com/msj_arc/"
+              isButton
+              isExternal
+              hideIcon
+              animateOnHover
+              animationType="boop"
+            >
+              <Icon aria-hidden="true" name="ion:logo-instagram" size={32} />
+              <span class="sr-only">Go to our Instagram page, opens in a new tab</span>
             </Link>
           </li>
           <li>
-            <Link href="/" isButton isExternal hideIcon animateOnHover animationType="boop">
-              <Icon aria-hidden="true" name="lucide:linkedin" size={32} />
-              <span class="sr-only">Go to our LinkedIn page, opens in a new tab</span>
+            <Link href="https://qrz.com/db/w6msj" isButton isExternal hideIcon animateOnHover animationType="boop">
+              <Icon aria-hidden="true" name="ion:globe-outline" size={32} />
+              <span class="sr-only">Go to our QRZ page, opens in a new tab</span>
             </Link>
           </li>
+          <!-- <li>
+            <Link href="/fax" isButton hideIcon animateOnHover animationType="boop">
+              <Icon aria-hidden="true" name="ion:print-outline" size={32} />
+              <span class="sr-only">Go to our page on faxing documents to us, opens in a new tab</span>
+            </Link>
+          </li> -->
         </ul>
       </div>
     </div>

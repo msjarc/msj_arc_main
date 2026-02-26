@@ -38,6 +38,7 @@
     "@astrojs/partytown": "^2.1.4",
     "@eslint/eslintrc": "^3.3.3",
     "@eslint/js": "^9.39.2",
+    "@iconify-json/ion": "^1.2.6",
     "@iconify-json/lucide": "^1.2.87",
     "@types/sanitize-html": "^2.16.0",
     "@typescript-eslint/eslint-plugin": "^8.54.0",

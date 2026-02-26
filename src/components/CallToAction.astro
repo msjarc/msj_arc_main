@@ -10,26 +10,22 @@ import { Icon } from 'astro-icon/components'
 interface Props {
   /**
    * The title text to display
-   * @default "Get this theme on GitHub"
+   * @default "Interested? Learn more today!"
    */
   title?: string
   /**
    * The URL the button should link to
-   * @default "https://github.com/incluud/accessible-astro-starter"
+   * @default "/aboutus"
    */
   link?: string
   /**
    * The text to display on the button
-   * @default "Get Started"
+   * @default "More about us"
    */
   linkText?: string
 }
 
-const {
-  title = 'Get this theme on GitHub',
-  link = 'https://github.com/incluud/accessible-astro-starter',
-  linkText = 'Use this theme',
-} = Astro.props
+const { title = 'New to amateur radio? Learn more here!', link = '/newham', linkText = 'Take me there!' } = Astro.props
 ---
 
 <div class="container">

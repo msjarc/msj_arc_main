@@ -45,6 +45,9 @@ export default defineConfig({
   vite: enhanceConfigForWorkspace(viteConfig),
   adapter: cloudflare(),
   output: "static",
+  redirects: {
+    "/fax": "/itsjustthefax.webp"
+  },
   env: {
     schema: {
       BLOG_API_URL: envField.string({
