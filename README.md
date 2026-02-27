@@ -1,6 +1,15 @@
-# Accessible Astro Starter
+# MSJ ARC Website
 
-<img width="1200" height="627" alt="social-preview-image" src="https://github.com/user-attachments/assets/bcd886fb-dd70-4a81-ac73-e138f3ce8d35" />
+[MSJ ARC Website](https://msjarc.org)
+
+The website for Mission San Jose High School Amateur Radio Club. Built with [Astro](https://astro.build) and the [Astro Accessible Starter Template](https://accessible-astro.incluud.dev/).
+
+This is definitely still a work-in-progress. Feedback is welcome and contact info can be found on the website. 
+
+## Contribution Guide
+I don't know why you'd want to do this, but you can I guess. File a PR and contact staff.
+
+<!-- <img width="1200" height="627" alt="social-preview-image" src="https://github.com/user-attachments/assets/bcd886fb-dd70-4a81-ac73-e138f3ce8d35" />
 
 [![Built with Astro](https://astro.badg.es/v2/built-with-astro/small.svg)](https://astro.build)
 
@@ -115,4 +124,4 @@ We want to express our heartfelt gratitude to everyone who contributes to making
 
 Together, we're not just building documentation or components – we're creating a more inclusive and accessible web for everyone. Every contribution, whether it's code, documentation, bug reports, or feedback, helps move us closer to this goal. ✨
 
-Remember: Accessibility is not a feature, it's a fundamental right. Thank you for being part of this journey!
+Remember: Accessibility is not a feature, it's a fundamental right. Thank you for being part of this journey! -->

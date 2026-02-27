@@ -30,7 +30,7 @@ export default defineThemeConfig({
       {
         type: 'link',
         label: 'About Us',
-        href: '/portfolio',
+        href: '/about',
       },
       {
         type: 'link',
@@ -47,37 +47,37 @@ export default defineThemeConfig({
         type: 'dropdown',
         items: [
           {
-            label: 'Accessibility statement',
-            href: '/accessibility-statement',
+            label: 'Calendars',
+            href: '/calendars',
           },
           {
-            label: 'Accessible components',
-            href: '/accessible-components',
+            label: 'Local Clubs',
+            href: '/clubs',
           },
           {
-            label: 'Accessible launcher',
-            href: '/accessible-launcher',
+            label: 'Local Nets',
+            href: '/nets',
           },
           {
-            label: 'Color contrast checker',
-            href: '/color-contrast-checker',
+            label: 'Local Repeaters',
+            href: '/repeaters',
           },
           {
-            label: 'Markdown page',
-            href: '/markdown-page',
+            label: 'Presentations & Reference Materials',
+            href: '/materials',
           },
           {
-            label: 'MDX page',
-            href: '/mdx-page',
+            label: 'Miscellaneous',
+            href: '/misc',
           },
-          {
-            label: '404 page',
-            href: '/404',
-          },
-          {
-            label: 'Sitemap',
-            href: '/sitemap',
-          },
+          // {
+          //   label: '404 page',
+          //   href: '/404',
+          // },
+          // {
+          //   label: 'Sitemap',
+          //   href: '/sitemap',
+          // },
         ],
       },
       {
@@ -88,7 +88,7 @@ export default defineThemeConfig({
       {
         type: 'link',
         label: 'Go to our GitHub page, opens in new tab',
-        href: 'https://github.com/incluud/accessible-astro-starter',
+        href: 'https://github.com/msjarc/msj_arc_main',
         icon: 'lucide:github',
         external: true,
         excludeFromLauncher: true,
@@ -98,18 +98,18 @@ export default defineThemeConfig({
   socials: [
     {
       label: 'GitHub',
-      href: 'https://github.com/incluud/',
+      href: 'https://github.com/msjarc',
       icon: 'lucide:github',
     },
     {
-      label: 'Bluesky',
-      href: 'https://bsky.app/profile/incluud.dev',
-      icon: 'lucide:bot-message-square',
+      label: 'Instagram',
+      href: 'https://instagram.com/msj_arc',
+      icon: 'ion:logo-instagram',
     },
     {
-      label: 'Open Collective',
-      href: 'https://opencollective.com/incluud',
-      icon: 'lucide:hand-heart',
+      label: 'QRZ',
+      href: 'https://qrz.com/db/w6msj',
+      icon: 'ion:globe-outline',
     },
   ],
 })

@@ -1,0 +1,7 @@
+- [ ] Update logo / favicon for website
+- [ ] Make about into dropdown
+- [ ] Update github listings
+- [ ] Update footer listings
+- [ ] Add "support us" page
+- [ ] Fix blog 
+- [ ] 
