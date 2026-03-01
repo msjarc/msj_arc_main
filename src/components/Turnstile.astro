@@ -1,0 +1,152 @@
+---
+interface Props {
+  /**
+   * Site key for turnstile
+   */
+  siteKey: string
+
+  //   onSuccess: Function
+
+  //   onError: Function
+}
+
+const { siteKey } = Astro.props
+---
+
+<!-- <div class="cf-turnstile" data-sitekey={siteKey} data-size="flexible"></div> -->
+<div id="turnstile-verification">
+  <input
+    type="hidden"
+    name="Security Check"
+    required
+    data-validation="Security Captcha needs to be completed"
+    data-validation-fn="validateTurnstile"
+    value="placeholder"
+  />
+</div>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async></script>
+
+<script define:vars={{ siteKey }}>
+  let turnstileReady = false
+
+  //   const originalInit = window.initializeFormValidation
+
+  //   window.originalInit = originalInit
+
+  //   window.initializeFormValidation = function () {
+  //     if (!turnstileReady) {
+  //       console.log('form validation search blocked until cloudflare turnstile can initialize')
+  //       return
+  //     }
+
+  //     console.log('validation proceeding')
+  //     originalInit()
+  //   }
+
+  const syncTurnstileTheme = () => {
+    const widget = document.querySelector('#turnstile-verification')
+    if (widget && window.turnstile) {
+      const theme = window.darkMode.isEnabled() ? 'dark' : 'light'
+      widget.setAttribute('data-theme', theme)
+      window.turnstile.reset('#turnstile-verification')
+      console.log('reset color theme to match page')
+    }
+  }
+
+  window.validateTurnstile = (value) => {
+    console.log('validation for turnstile running')
+
+    if (!turnstileReady) {
+      return false
+    }
+    // alert('validation!')
+    if (document.getElementsByName('cf-turnstile-response')[0].value) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  window.onload = function () {
+    // window.turnstileComplete = false
+
+    turnstile.render('#turnstile-verification', {
+      sitekey: siteKey,
+      size: 'flexible',
+      retry: 'auto',
+      //   response-field-name: ''
+
+      theme: 'auto',
+      callback: function (token) {
+        // window.turnstileComplete = true
+        console.log('verified! token = ', token)
+      },
+      'expired-callback': function (token) {
+        // window.turnstileComplete = false
+        console.log('Turnstile token expired:', token)
+      },
+      'error-callback': function (errorCode) {
+        // window.turnstileComplete = false
+        console.log('Challenge Error:', errorCode)
+      },
+      'timeout-callback': function (errorCode) {
+        // window.turnstileComplete = false
+        console.log('Challenge timed out')
+      },
+    })
+
+    // const inputContainer = document.getElementsByName('cf-turnstile-response')[0]
+    // inputContainer.setAttribute('data-validation-fn', 'validateTurnstile')
+    // inputContainer.setAttribute('data-validation', 'Security Captcha needs to be completed')
+    // inputContainer.setAttribute('required', '')
+    // inputContainer.setAttribute('name', '')
+
+    // const event = new CustomEvent('turnstile-ready', {
+    //   detail: { status: 'ready' },
+    // })
+    // window.dispatchEvent(event)
+
+    turnstileReady = true
+
+    // window.initializeFormValidation
+
+    console.log('injection complete!')
+  }
+
+  //   document.addEventListener('onLoad', () => {
+  //     const inputContainer = document.getElementsByName('cf-turnstile-response')[0]
+  //     inputContainer.setAttribute('data-validation-fn', 'validateTurnstile')
+  //     inputContainer.setAttribute('data-validation', 'Security Captcha needs to be completed')
+  //     console.log('injection complete!')
+  //   })
+
+  // This code runs in the browser
+  document.addEventListener('darkmode:change', (e) => {
+    setTimeout(syncTurnstileTheme, 50)
+  })
+</script>
+
+<!-- <style lang="scss" is:global>
+    blockquote {
+        font-size: var(--font-size-2);
+
+        p {
+        display: inline;
+        }
+
+        svg {
+        display: inline;
+        margin-block-start: calc(var(--space-s) * -1);
+
+        &:first-child {
+            scale: -1 1;
+        }
+        }
+
+        cite {
+        margin-block-start: var(--space-s);
+        font-size: var(--font-size-1);
+        }
+    }
+    </style> -->
