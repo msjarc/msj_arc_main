@@ -4,16 +4,11 @@ interface Props {
    * Site key for turnstile
    */
   siteKey: string
-
-  //   onSuccess: Function
-
-  //   onError: Function
 }
 
 const { siteKey } = Astro.props
 ---
 
-<!-- <div class="cf-turnstile" data-sitekey={siteKey} data-size="flexible"></div> -->
 <div id="turnstile-verification">
   <input
     type="hidden"
@@ -29,20 +24,6 @@ const { siteKey } = Astro.props
 
 <script define:vars={{ siteKey }}>
   let turnstileReady = false
-
-  //   const originalInit = window.initializeFormValidation
-
-  //   window.originalInit = originalInit
-
-  //   window.initializeFormValidation = function () {
-  //     if (!turnstileReady) {
-  //       console.log('form validation search blocked until cloudflare turnstile can initialize')
-  //       return
-  //     }
-
-  //     console.log('validation proceeding')
-  //     originalInit()
-  //   }
 
   const syncTurnstileTheme = () => {
     const widget = document.querySelector('#turnstile-verification')
@@ -68,8 +49,14 @@ const { siteKey } = Astro.props
     }
   }
 
-  window.onload = function () {
+  function renderTurnstile() {
     // window.turnstileComplete = false
+    if (turnstileReady) {
+      console.log('race blocked')
+      return
+    }
+
+    turnstileReady = true
 
     turnstile.render('#turnstile-verification', {
       sitekey: siteKey,
@@ -96,57 +83,22 @@ const { siteKey } = Astro.props
       },
     })
 
-    // const inputContainer = document.getElementsByName('cf-turnstile-response')[0]
-    // inputContainer.setAttribute('data-validation-fn', 'validateTurnstile')
-    // inputContainer.setAttribute('data-validation', 'Security Captcha needs to be completed')
-    // inputContainer.setAttribute('required', '')
-    // inputContainer.setAttribute('name', '')
-
-    // const event = new CustomEvent('turnstile-ready', {
-    //   detail: { status: 'ready' },
-    // })
-    // window.dispatchEvent(event)
-
-    turnstileReady = true
-
-    // window.initializeFormValidation
+    // turnstileReady = true
 
     console.log('injection complete!')
   }
 
-  //   document.addEventListener('onLoad', () => {
-  //     const inputContainer = document.getElementsByName('cf-turnstile-response')[0]
-  //     inputContainer.setAttribute('data-validation-fn', 'validateTurnstile')
-  //     inputContainer.setAttribute('data-validation', 'Security Captcha needs to be completed')
-  //     console.log('injection complete!')
-  //   })
+  document.addEventListener('DOMContentLoaded', renderTurnstile)
 
-  // This code runs in the browser
+  // For Astro View Transitions
+  document.addEventListener('astro:page-load', renderTurnstile)
+
   document.addEventListener('darkmode:change', (e) => {
+    renderTurnstile()
     setTimeout(syncTurnstileTheme, 50)
   })
+
+  document.addEventListener('astro:before-swap', () => {
+    turnstileReady = false
+  })
 </script>
-
-<!-- <style lang="scss" is:global>
-    blockquote {
-        font-size: var(--font-size-2);
-
-        p {
-        display: inline;
-        }
-
-        svg {
-        display: inline;
-        margin-block-start: calc(var(--space-s) * -1);
-
-        &:first-child {
-            scale: -1 1;
-        }
-        }
-
-        cite {
-        margin-block-start: var(--space-s);
-        font-size: var(--font-size-1);
-        }
-    }
-    </style> -->
