@@ -21,10 +21,11 @@ import { HighContrast, Notification, ReducedMotion, SkipLink } from 'accessible-
   <Navigation />
   {/* To remove the launcher, delete this component and remove the LauncherTrigger from `Navigation.astro`. */}
   <LauncherConfig />
-
-  <Notification type="info" variant="accent" role="status" class="container my-2">
-    <p><strong>Please note:</strong> This website is still under construction. Please pardon our dust!</p>
-  </Notification>
+  <div class="mx-8 lg:mx-0">
+    <Notification type="info" variant="accent" role="status" class="container my-2">
+      <p><strong>Please note:</strong> This website is still under construction. Please pardon our dust!</p>
+    </Notification>
+  </div>
 </header>
 
 <style lang="scss" is:global>

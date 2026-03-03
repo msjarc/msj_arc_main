@@ -52,7 +52,7 @@ const {
 
 // For social sharing, we need the full absolute URL
 // If image is an ImageMetadata object, use its src, otherwise treat as string path
-const imagePath = image ? (typeof image === 'string' ? image : image.src) : '/social-preview-image.png'
+const imagePath = image ? (typeof image === 'string' ? image : image.src) : '/index_preview.png'
 const imageUrl = new URL(imagePath, Astro.site).href
 ---
 
@@ -63,7 +63,9 @@ const imageUrl = new URL(imagePath, Astro.site).href
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
     <!-- favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon_light_2.svg" media="(prefers-color-scheme: light)" />
+
+    <link rel="icon" href="/favicon_dark_3.svg" media="(prefers-color-scheme: dark)" />
 
     <!-- theme colors from config -->
     <style
