@@ -18,12 +18,15 @@ interface Props {
 const { src = '/hero1.png' }: Props = Astro.props
 ---
 
-<section class="hero mt-12 mb-24">
+<section class="hero mt-12 mb-24 lg:mt-6 lg:mb-12">
   <div class="container">
-    <div class="grid grid-cols-1 items-center gap-24 lg:grid-cols-2">
-      <div class="flex flex-col items-center gap-8 md:items-start">
-        <h1 class="text-center md:text-left lg:text-7xl">
-          <slot><span class="text-gradient text-6xl">Mission San Jose High School</span> Amateur Radio Club</slot>
+    <div class="grid grid-cols-1 items-center gap-24 lg:grid-cols-[1fr_1.5fr] lg:gap-12">
+      <div class="flex flex-col items-center gap-8 md:items-start lg:order-last">
+        <h1 class="text-center md:text-left lg:text-5xl">
+          <slot>
+            <span class="text-gradient text-6xl lg:block lg:text-5xl">Mission San Jose High School</span>
+            <span class="lg:block">Amateur Radio Club</span></slot
+          >
         </h1>
         <!-- <div class="flex flex-col gap-3 min-[500px]:flex-row">
           <Link
@@ -48,7 +51,15 @@ const { src = '/hero1.png' }: Props = Astro.props
           </Link>
         </div> -->
       </div>
-      <Image class="hidden lg:block" src={src} alt="" decoding="async" width={800} height={600} loading="eager" />
+      <Image
+        class="hidden lg:order-first lg:mx-auto lg:block lg:max-h-[300px] lg:w-auto lg:object-contain"
+        src={src}
+        alt=""
+        decoding="async"
+        width={900}
+        height={600}
+        loading="eager"
+      />
     </div>
   </div>
 </section>

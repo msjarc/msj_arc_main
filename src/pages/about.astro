@@ -1,0 +1,65 @@
+---
+import DefaultLayout from '@layouts/DefaultLayout.astro'
+import PageHeader from '@components/PageHeader.astro'
+import Feature from '@components/Feature.astro'
+import { Heading } from 'accessible-astro-components'
+---
+
+<DefaultLayout title="About Us">
+  <PageHeader
+    title="About Us"
+    subtitle="The Mission San Jose High School Amateur Radio Club — call sign W6MSJ."
+    bgType="bordered"
+  />
+
+  <section class="container my-16 space-content">
+    <Heading level="h2">Who we are</Heading>
+    <p class="text-2xl">
+      We are a student-run amateur radio club at Mission San Jose High School in Fremont, California. Our members explore
+      radio communication, electronics, and public service while working toward and using their amateur radio (ham)
+      licenses under our club call sign, <strong>W6MSJ</strong>.
+    </p>
+    <p>
+      Amateur radio is a hobby and a service that brings people together through wireless communication — from chatting
+      with a friend across town, to bouncing signals off satellites, to providing emergency communication when other
+      systems fail. No prior experience is needed to get started.
+    </p>
+  </section>
+
+  <section class="container my-16 space-content">
+    <Heading level="h2">What we do</Heading>
+    <div class="mt-8 grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
+      <Feature icon="lucide:graduation-cap" title="Get licensed">
+        We help members study for and pass their FCC amateur radio license exams, from Technician all the way to Amateur
+        Extra.
+      </Feature>
+      <Feature icon="lucide:wrench" title="Build & experiment">
+        Antennas, circuits, digital modes, and more. Radio is a great excuse to get hands-on with electronics and
+        engineering.
+      </Feature>
+      <Feature icon="lucide:radio" title="Get on the air">
+        Operate the club station and personal radios, make contacts locally and around the world, and take part in
+        contests and special events.
+      </Feature>
+      <Feature icon="lucide:shield" title="Public service">
+        Amateur radio operators provide communication support for community events and emergencies. We practice the
+        skills that make that possible.
+      </Feature>
+      <Feature icon="lucide:users" title="Community">
+        Connect with a welcoming community of students, teachers, and local hams who love to share what they know.
+      </Feature>
+      <Feature icon="lucide:satellite" title="Explore">
+        Satellites, weather balloons, foxhunts, Morse code — there is always something new to try in amateur radio.
+      </Feature>
+    </div>
+  </section>
+
+  <section class="container my-16 space-content">
+    <Heading level="h2">Meetings</Heading>
+    <p class="text-lg">
+      MSJ ARC meets during the school year at Mission San Jose High School. Meetings are open to all students, whether
+      you are already licensed or just curious. Meeting days, times, and room are announced to members and posted on the
+      <a href="/calendars">calendars page</a>.
+    </p>
+  </section>
+</DefaultLayout>

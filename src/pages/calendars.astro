@@ -1,0 +1,39 @@
+---
+import DefaultLayout from '@layouts/DefaultLayout.astro'
+import PageHeader from '@components/PageHeader.astro'
+import { Heading, Link } from 'accessible-astro-components'
+---
+
+<DefaultLayout title="Calendars">
+  <PageHeader
+    title="Calendars"
+    subtitle="Club meetings, events, and important amateur radio dates."
+    bgType="bordered"
+  />
+
+  <section class="container my-16 space-content">
+    <Heading level="h2">Club meetings</Heading>
+    <p class="text-lg">
+      MSJ ARC meets during the school year at Mission San Jose High School. Meeting days, times, and room are announced
+      to members and will be posted here. A live club calendar is on the way.
+    </p>
+  </section>
+
+  <section class="container my-16 space-content">
+    <Heading level="h2">Amateur radio calendars</Heading>
+    <p>Useful calendars for events, contests, and on-the-air activities beyond our club:</p>
+    <ul class="space-content">
+      <li>
+        <Link isExternal href="https://www.arrl.org/contest-calendar">ARRL Contest Calendar</Link> — major operating events
+      </li>
+      <li>
+        <Link isExternal href="https://www.contestcalendar.com/weeklycont.php">WA7BNM Contest Calendar</Link> — weekly contest
+        listings
+      </li>
+      <li>
+        <Link isExternal href="https://www.arrl.org/hamfests-and-conventions-calendar">ARRL Hamfests &amp; Conventions</Link>
+        — swap meets and gatherings
+      </li>
+    </ul>
+  </section>
+</DefaultLayout>

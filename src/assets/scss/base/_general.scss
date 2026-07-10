@@ -50,6 +50,31 @@ footer a {
   }
 }
 
+// Consistent, gently rounded buttons across the site (matches the quick-links).
+// Element-qualified so this out-specifies the component's scoped
+// `[data-astro-cid-…]:where(.button)` rule (which is specificity 0,1,0).
+a.button,
+button.button {
+  border-radius: var(--radius-m);
+}
+
+// Quick-link style: gradient border with a solid interior fill (less bright than
+// a full gradient). Opt in by adding `class="button-gradient"` to any Button or
+// Link isButton. Two classes = specificity 0,2,0, so it beats the component styles.
+.button.button-gradient {
+  border: 2px solid transparent;
+  border-radius: var(--radius-m);
+  background:
+    linear-gradient(var(--background-color), var(--background-color)) padding-box,
+    linear-gradient(
+        315deg,
+        light-dark(var(--color-primary-300), var(--color-secondary-100)) 25%,
+        light-dark(var(--color-secondary-300), var(--color-primary-200))
+      )
+      border-box;
+  color: var(--foreground-color);
+}
+
 *:focus,
 *:focus-visible {
   @include outline;

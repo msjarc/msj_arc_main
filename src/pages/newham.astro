@@ -1,0 +1,116 @@
+---
+import DefaultLayout from '@layouts/DefaultLayout.astro'
+import PageHeader from '@components/PageHeader.astro'
+import Feature from '@components/Feature.astro'
+import { Accordion, AccordionItem, Heading, Link } from 'accessible-astro-components'
+---
+
+<DefaultLayout title="New Ham?">
+  <PageHeader
+    title="New to Ham Radio?"
+    subtitle="Everything you need to get started in amateur radio — no experience required."
+    bgType="bordered"
+  />
+
+  <section class="container my-16 space-content">
+    <Heading level="h2">What is amateur radio?</Heading>
+    <p class="text-2xl">
+      Amateur (&ldquo;ham&rdquo;) radio is a licensed radio service that lets you communicate wirelessly — by voice,
+      Morse code, text, and digital modes — with people across your city and around the world, all without relying on
+      the internet or cell networks.
+    </p>
+    <p>
+      To transmit, you need an FCC amateur radio license. The good news: getting your first license is easier than most
+      people expect, and it does <em>not</em> require knowing Morse code.
+    </p>
+  </section>
+
+  <section class="container my-16 space-content">
+    <Heading level="h2">The three license levels</Heading>
+    <p>
+      Each license grants more operating privileges. You take them in order, and each is a single multiple-choice exam
+      drawn from a public question pool.
+    </p>
+    <div class="mt-8 grid grid-cols-1 gap-12 md:grid-cols-3">
+      <Feature icon="lucide:signal" title="Technician">
+        Your entry point. Grants full privileges on VHF/UHF bands (great for local repeaters and handheld radios) plus
+        some HF privileges. 35 questions.
+      </Feature>
+      <Feature icon="lucide:globe" title="General">
+        Opens up most of the HF bands, letting you talk around the world. A big step up in what you can do. 35 questions.
+      </Feature>
+      <Feature icon="lucide:award" title="Amateur Extra">
+        The top license, granting all amateur privileges. The most technical exam. 50 questions.
+      </Feature>
+    </div>
+  </section>
+
+  <section class="container my-16 space-content">
+    <Heading level="h2">How to get licensed</Heading>
+    <ol class="space-content list-decimal pl-6 text-lg">
+      <li><strong>Study</strong> for the Technician exam using the free resources below.</li>
+      <li><strong>Take a practice test</strong> until you are consistently passing.</li>
+      <li><strong>Find an exam session</strong> near you.</li>
+      <li><strong>Pass the exam</strong> and wait for your call sign to appear in the FCC database.</li>
+      <li><strong>Get on the air</strong> and have fun! Then start studying for General.</li>
+    </ol>
+  </section>
+
+  <section class="container my-16 space-content">
+    <Heading level="h2">Study &amp; exam resources</Heading>
+    <div class="mt-4 grid grid-cols-1 gap-12 md:grid-cols-2">
+      <div class="space-content">
+        <Heading level="h3" size="h5">Free study tools</Heading>
+        <ul class="space-content">
+          <li><Link isExternal href="https://hamstudy.org">HamStudy.org</Link> — flashcards and practice exams</li>
+          <li><Link isExternal href="https://www.arrl.org/getting-licensed">ARRL — Getting Licensed</Link></li>
+          <li>
+            <Link isExternal href="https://www.kb6nu.com/study-guides/">KB6NU&rsquo;s free study guides</Link>
+          </li>
+        </ul>
+      </div>
+      <div class="space-content">
+        <Heading level="h3" size="h5">Taking the exam</Heading>
+        <ul class="space-content">
+          <li>
+            <Link isExternal href="https://www.arrl.org/find-an-amateur-radio-license-exam-session"
+              >Find an exam session (ARRL)</Link
+            >
+          </li>
+          <li><Link isExternal href="https://hamstudy.org/sessions">Find a session (HamStudy)</Link></li>
+          <li>
+            <Link isExternal href="https://www.fcc.gov/wireless/universal-licensing-system">FCC ULS</Link> — look up your
+            license
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="container my-16 space-content">
+    <Heading level="h2">Common questions</Heading>
+    <Accordion>
+      <AccordionItem name="newham" title="How much does it cost?" open>
+        <p>
+          Exam sessions typically charge a small fee (often around $15). The FCC also charges a $35 application fee for a
+          new license. Study materials can be completely free.
+        </p>
+      </AccordionItem>
+      <AccordionItem name="newham" title="Do I need to know Morse code?">
+        <p>No. Morse code has not been required for any U.S. amateur license since 2007. You can still learn it for fun!</p>
+      </AccordionItem>
+      <AccordionItem name="newham" title="How old do I need to be?">
+        <p>
+          There is no minimum age. Students of all ages can and do earn their licenses — including many members of our
+          club.
+        </p>
+      </AccordionItem>
+      <AccordionItem name="newham" title="What radio should I buy first?">
+        <p>
+          Many new hams start with an inexpensive handheld (HT) radio for local VHF/UHF use. Talk to us before buying —
+          we are happy to give recommendations based on what you want to do.
+        </p>
+      </AccordionItem>
+    </Accordion>
+  </section>
+</DefaultLayout>

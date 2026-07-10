@@ -65,5 +65,18 @@ import { HighContrast, Notification, ReducedMotion, SkipLink } from 'accessible-
         display: block;
       }
     }
+
+    // Recolor the Ctrl+K launcher's animated gradient border to match the
+    // quick-link buttons on the homepage (looping A -> B -> A for a seamless
+    // hover animation). The animation itself is kept from the launcher package.
+    .launcher-trigger.gradient-border .trigger {
+      background: linear-gradient(
+        115deg,
+        light-dark(var(--color-primary-300), var(--color-secondary-100)),
+        light-dark(var(--color-secondary-300), var(--color-primary-200)),
+        light-dark(var(--color-primary-300), var(--color-secondary-100))
+      );
+      background-size: 200% 100%;
+    }
   }
 </style>
