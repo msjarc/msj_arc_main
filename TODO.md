@@ -4,4 +4,5 @@
 - [ ] Update footer listings
 - [ ] Add "support us" page
 - [ ] Fix blog 
+  - [ ] Fix optimization that includes images
 - [ ] 

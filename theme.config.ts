@@ -47,8 +47,8 @@ export default defineThemeConfig({
         type: 'dropdown',
         items: [
           {
-            label: 'Calendars',
-            href: '/calendars',
+            label: 'Calendar',
+            href: '/calendar',
           },
           {
             label: 'Local Clubs',
