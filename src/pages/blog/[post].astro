@@ -2,50 +2,21 @@
 import DefaultLayout from '@layouts/DefaultLayout.astro'
 import PageHeader from '@components/PageHeader.astro'
 import SocialShares from '@components/SocialShares.astro'
-import BreakoutImage from '@components/BreakoutImage.astro'
 import { Heading } from 'accessible-astro-components'
-import { Image } from 'astro:assets'
-import { BLOG_API_URL } from 'astro:env/server'
-import { slugify } from '@utils/slugify'
-
-interface ApiPost {
-  id: number
-  userId: number
-  title: string
-  body: string
-}
-
-interface Props {
-  post: ApiPost & {
-    featuredImage: string
-  }
-}
+import { getCollection, getEntries, render } from 'astro:content'
+import type { CollectionEntry } from 'astro:content'
+import { getEntry } from 'astro:content'
 
 export async function getStaticPaths() {
-  if (!BLOG_API_URL) {
-    console.warn('BLOG_API_URL not set; skipping blog generation.')
-    return []
-  }
-  let data: ApiPost[] = []
-  try {
-    const response = await fetch(BLOG_API_URL)
-    if (!response.ok) {
-      console.warn(`BLOG_API_URL returned ${response.status}`)
-      return []
-    }
-    data = (await response.json()) as ApiPost[]
-  } catch (error) {
-    console.warn('Failed to fetch blog posts', error)
-    return []
-  }
+  const posts = await getCollection('blog')
 
   const postImages = [
-    { src: '/posts/post-image-1.png' },
-    { src: '/posts/post-image-2.png' },
-    { src: '/posts/post-image-3.png' },
-    { src: '/posts/post-image-4.png' },
-    { src: '/posts/post-image-5.png' },
-    { src: '/posts/post-image-6.png' },
+    { src: '/projects/project-image-1.png' },
+    { src: '/projects/project-image-2.png' },
+    { src: '/projects/project-image-3.png' },
+    { src: '/projects/project-image-4.png' },
+    { src: '/projects/project-image-5.png' },
+    { src: '/projects/project-image-6.png' },
   ]
 
   function truncateTitle(title: string) {
@@ -57,117 +28,54 @@ export async function getStaticPaths() {
     }
   }
 
-  return data.map((post) => {
-    const titleObj = truncateTitle(post.title)
+  return posts.map((post, index) => {
+    const titleObj = truncateTitle(post.data.title)
 
     const postWithImage = {
       ...post,
-      featuredImage: postImages[post.id % postImages.length].src,
+      featuredImage: postImages[index % postImages.length].src,
       title: titleObj.truncated,
     }
 
     return {
-      params: { post: slugify(titleObj.truncated) },
+      params: { post: post.id },
       props: { post: postWithImage },
     }
   })
 }
 
-const { post } = Astro.props as Props
-const postSlug = Astro.params.post ?? slugify(post.title)
-const canonicalUrl = new URL(`/blog/${postSlug}`, Astro.site ?? Astro.url).href
-const author = {
-  name: 'A11Y Person',
-  image: '/posts/post-image-1.png',
-  bio: 'Pasionate accessibility advocate',
+interface Props {
+  post: CollectionEntry<'blog'> & { featuredImage: string }
 }
+
+const { post } = Astro.props
+const { Content } = await render(post)
+
+const authorEntry = await getEntry(post.data.author)
+
+console.log(authorEntry)
+
+const author = {
+  name: authorEntry.data.title,
+  // image: authorEntry.data.image,
+  image: authorEntry.data.image || '/projects/project-image-1.png',
+  bio: authorEntry.data.bio || 'A pretty cool guy, probably',
+}
+
+console.log('author name: ' + authorEntry.data.image)
 ---
 
-<DefaultLayout title={post.title} description={post.body} url={canonicalUrl}>
+<DefaultLayout title={post.data.title} description={post.data.description} url={`/portfolio/${post.id}`}>
   <PageHeader
-    title={post.title}
-    subtitle={post.body}
+    title={post.data.title}
+    subtitle={post.data.description}
     author={author}
     bgType="bordered"
     featuredImage={post.featuredImage}
   />
   <section class="my-12">
-    <div class="narrow container">
-      <p class="text-2xl">{post.body}</p>
-    </div>
-  </section>
-  <section class="my-12">
     <div class="narrow space-content container">
-      <Heading level="h2">Demo content</Heading>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur
-        adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
-      </p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</p>
-      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <Image
-          src="/posts/post-image-1.png"
-          alt=""
-          width={1200}
-          height={600}
-          class="h-[250px] w-full rounded-lg object-cover"
-        />
-        <Image
-          src="/posts/post-image-2.png"
-          alt=""
-          width={1200}
-          height={600}
-          class="h-[250px] w-full rounded-lg object-cover"
-        />
-        <Image
-          src="/posts/post-image-3.png"
-          alt=""
-          width={1200}
-          height={600}
-          class="h-[250px] w-full rounded-lg object-cover"
-        />
-        <Image
-          src="/posts/post-image-4.png"
-          alt=""
-          width={1200}
-          height={600}
-          class="h-[250px] w-full rounded-lg object-cover"
-        />
-      </div>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur
-        adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem
-        ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur
-        adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
-      </p>
-      <Heading level="h3">Demo content</Heading>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur
-        adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
-      </p>
-      <ul class="list-inside list-disc">
-        <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</li>
-        <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</li>
-        <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</li>
-        <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</li>
-        <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.</li>
-      </ul>
-      <Heading level="h3">Breakout Image</Heading>
-      <p>
-        This image breaks out of the narrow container on larger screens, creating a more immersive visual experience.
-      </p>
-      <BreakoutImage src="/posts/post-image-2.png" decorative={true} />
-      <p>
-        Notice how the image above extends beyond the boundaries of the text content, creating visual interest and
-        drawing attention to important visual elements.
-      </p>
-      <Heading level="h3">Demo content</Heading>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur
-        adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem
-        ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur
-        adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
-      </p>
+      <Content />
     </div>
   </section>
   <section class="my-12">
@@ -178,3 +86,10 @@ const author = {
     </div>
   </section>
 </DefaultLayout>
+
+<style lang="scss" is:global>
+  .narrow {
+    margin-inline: auto;
+    max-width: 65ch;
+  }
+</style>

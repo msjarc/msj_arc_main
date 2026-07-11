@@ -30,15 +30,17 @@ interface Props {
   title?: string
 }
 
-const { class: className, limit = 3, title = 'Featured projects' } = Astro.props
+const { class: className, limit = 3, title = 'Featured Posts' } = Astro.props
 
 // Get projects from content collection
-const projects = await getCollection('projects')
+const projects = await getCollection('blog')
+const authors = await getCollection('authors')
 const projectImages = [projectImage1, projectImage2, projectImage3]
 
 // Limit projects and add featured images
 const featuredProjects = projects.slice(0, limit).map((project, index) => ({
   ...project,
+  authorName: authors.find((a) => a.id === project.data.author.id)?.data.title,
   featuredImage: projectImages[index % projectImages.length],
 }))
 ---
@@ -51,10 +53,10 @@ const featuredProjects = projects.slice(0, limit).map((project, index) => ({
         featuredProjects.map((project) => (
           <Card
             imageComponent={project.featuredImage}
-            url={'/portfolio/' + project.id}
+            url={'/blog/' + project.id}
             headingLevel="h2"
             title={project.data.title}
-            footer={'Author: ' + project.data.author}
+            footer={'Author: ' + project.authorName}
           >
             {project.data.description}
           </Card>
@@ -62,8 +64,8 @@ const featuredProjects = projects.slice(0, limit).map((project, index) => ({
       }
     </div>
     <div class="mt-12">
-      <Link href="/portfolio/" isButton animateOnHover animationType="nudge">
-        View all projects
+      <Link href="/blog/" isButton animateOnHover animationType="nudge">
+        View all posts
         <Icon aria-hidden="true" name="lucide:arrow-right" size="1.5rem" />
       </Link>
     </div>
