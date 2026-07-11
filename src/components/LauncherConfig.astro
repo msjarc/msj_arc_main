@@ -1,11 +1,5 @@
 ---
-import {
-  Launcher,
-  LauncherPreferences,
-  LauncherSwitch,
-  LauncherNav,
-  LauncherLink,
-} from 'accessible-astro-launcher'
+import { Launcher, LauncherPreferences, LauncherSwitch, LauncherNav, LauncherLink } from 'accessible-astro-launcher'
 import { Icon } from 'astro-icon/components'
 import { getCollection } from 'astro:content'
 import { BLOG_API_URL } from 'astro:env/server'
@@ -48,46 +42,46 @@ const truncateBlogTitle = (title: string): string => {
   return title.split(' ').slice(0, 4).join(' ')
 }
 
+// /**
+//  * Blog items for the launcher, fetched from `BLOG_API_URL`.
+//  * Shows up to `maxLauncherBlogPosts` items.
+//  *
+//  * @type {Array<{ label: string, href: string }>}
+//  */
+// const launcherBlogItems = await (async () => {
+//   if (!BLOG_API_URL) return []
+
+//   try {
+//     const response = await fetch(BLOG_API_URL)
+//     if (!response.ok) {
+//       console.warn(`Failed to fetch blog posts: ${response.status} ${response.statusText}`)
+//       return []
+//     }
+
+//     const data = (await response.json()) as Array<{ title: string }>
+
+//     return data.slice(0, maxLauncherBlogPosts).map((post) => {
+//       const truncatedTitle = truncateBlogTitle(post.title)
+//       const shortUrl = slugify(truncatedTitle)
+
+//       return {
+//         label: truncatedTitle,
+//         href: `/blog/${shortUrl}`,
+//       }
+//     })
+//   } catch {
+//     return []
+//   }
+// })()
+
 /**
- * Blog items for the launcher, fetched from `BLOG_API_URL`.
- * Shows up to `maxLauncherBlogPosts` items.
- *
- * @type {Array<{ label: string, href: string }>}
- */
-const launcherBlogItems = await (async () => {
-  if (!BLOG_API_URL) return []
-
-  try {
-    const response = await fetch(BLOG_API_URL)
-    if (!response.ok) {
-      console.warn(`Failed to fetch blog posts: ${response.status} ${response.statusText}`)
-      return []
-    }
-
-    const data = (await response.json()) as Array<{ title: string }>
-
-    return data.slice(0, maxLauncherBlogPosts).map((post) => {
-      const truncatedTitle = truncateBlogTitle(post.title)
-      const shortUrl = slugify(truncatedTitle)
-
-      return {
-        label: truncatedTitle,
-        href: `/blog/${shortUrl}`,
-      }
-    })
-  } catch {
-    return []
-  }
-})()
-
-/**
- * Project items for the launcher, sourced from the 'projects' collection.
+ * Project items for the launcher, sourced from the 'blog' collection.
  *
  * @type {Array<{ label: string, href: string, keywords: Array<string> }>}
  */
-const launcherProjectItems = (await getCollection('projects')).map((project) => ({
+const launcherProjectItems = (await getCollection('blog')).map((project) => ({
   label: project.data.title,
-  href: `/portfolio/${project.id}`,
+  href: `/blog/${project.id}`,
   keywords: [project.data.author, ...project.data.tags],
 }))
 
@@ -165,11 +159,7 @@ const launcherAccessibleAstroProjects = [
 
 <Launcher id="site-launcher">
   <LauncherPreferences label="Preferences">
-    {
-      launcherPreferenceItems.map((item) => (
-        <LauncherSwitch label={item.label} onAction={item.onAction} />
-      ))
-    }
+    {launcherPreferenceItems.map((item) => <LauncherSwitch label={item.label} onAction={item.onAction} />)}
   </LauncherPreferences>
   <LauncherNav label="Navigate to">
     {
@@ -182,7 +172,7 @@ const launcherAccessibleAstroProjects = [
       ))
     }
   </LauncherNav>
-  {
+  <!-- {
     launcherBlogItems.length > 0 && (
       <LauncherNav label="Blog posts">
         {launcherBlogItems.map((item) => (
@@ -192,10 +182,10 @@ const launcherAccessibleAstroProjects = [
         ))}
       </LauncherNav>
     )
-  }
+  } -->
   {
     launcherProjectItems.length > 0 && (
-      <LauncherNav label="Projects">
+      <LauncherNav label="Blog posts">
         {launcherProjectItems.map((item) => (
           <LauncherLink label={item.label} href={item.href} keywords={item.keywords}>
             <Icon slot="icon" aria-hidden="true" name="lucide:bookmark" size="16" />
