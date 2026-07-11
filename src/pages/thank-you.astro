@@ -6,12 +6,14 @@ import { Icon } from 'astro-icon/components'
 ---
 
 <DefaultLayout title="Thank You">
-  <PageHeader title="Splendid!" subtitle="The form was successfully validated." bgType="gradient" />
+  <!-- <PageHeader title="Yay!" subtitle="Your message was successfully sent." bgType="gradient" /> -->
+  <PageHeader title="..." subtitle="This form is currently not functional." bgType="gradient" />
   <section class="container my-16">
     <div class="space-content">
-      <Notification type="info">
-        <Icon aria-hidden="true" name="lucide:info" size={24} />
-        <p>This was a test of the form validation system, no email was sent 😉.</p>
+      <Notification type="error">
+        <Icon aria-hidden="true" name="lucide:circle-alert" size={24} />
+        <p>This form is not functional yet. Please send all messages to our email. Sorry for the inconvenience :/</p>
+        <!-- <p>Thank you for your message! We'll get back to you soon.</p> -->
       </Notification>
       <Link href="/contact" isButton type="primary" animateOnHover animation="boop" pulse>
         <Icon aria-hidden="true" name="lucide:mail" size={24} />

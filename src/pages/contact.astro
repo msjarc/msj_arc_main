@@ -20,9 +20,9 @@ import { Icon } from 'astro-icon/components'
 <DefaultLayout title="Contact">
   <PageHeader title="Contact" subtitle="Have a question? Get in touch with us!" bgType="gradient" />
   <section class="container my-16">
-    <div>
+    <!-- <div>
       <Heading level="h2">Let's talk</Heading>
-    </div>
+    </div> -->
     <Notification type="warning" variant="accent" role="status" class="my-10">
       <!-- <Icon name="lucide:octagon-x" /> -->
       <p>
@@ -64,6 +64,7 @@ import { Icon } from 'astro-icon/components'
             legend="What would you like to reach out to us about?"
             required
             data-validation="Please select at least one subject for your message."
+            id="checkboxes"
           >
             <Checkbox name="general_ham_radio" value="general_ham" label="General Amateur Radio and The Hobby" />
             <Checkbox name="theclub" value="msjarc" label="General MSJ Amateur Radio Club" />

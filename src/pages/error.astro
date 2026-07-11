@@ -1,0 +1,46 @@
+---
+import DefaultLayout from '@layouts/DefaultLayout.astro'
+import { Heading, Link, Media } from 'accessible-astro-components'
+import { Icon } from 'astro-icon/components'
+
+const validStatusCodes = [
+  400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 419, 420, 421, 422,
+  423, 424, 425, 426, 428, 429, 431, 444, 451, 495, 496, 497, 498, 499, 500, 501, 502, 503, 504, 506, 507, 508, 509,
+  510, 511, 521, 522, 523, 525, 530, 599,
+]
+---
+
+<DefaultLayout title="Error">
+  <section class="my-12">
+    <div class="container">
+      <Heading level="h1">Error</Heading>
+    </div>
+  </section>
+  <section class="my-12">
+    <div class="space-content container">
+      <p class="text-2xl">Interesting. I don't know how you got here, and I don't know if you know either.</p>
+      <p class="text-2xl">
+        Please reference this picture <Link isExternal href="https://http.cat">featuring an expert</Link> for more info
+      </p>
+      <img
+        id="cat"
+        src="https://http.cat/102.jpg"
+        alt="Randomly chosen image of a cat that fits an http error code. Learn more at https://http.cat"
+      />
+      <p class="text-1xl">Please note the above image is not actually representative of this situation.</p>
+      <Link href="/" isButton type="primary" animateOnHover animationType="nudge">
+        There's no place like home.
+        <Icon aria-hidden="true" name="lucide:tornado" size="1.5rem" />
+      </Link>
+    </div>
+  </section>
+  <script define:vars={{ validStatusCodes }}>
+    const imgElement = document.getElementById('cat')
+
+    if (imgElement) {
+      const randomIndex = Math.floor(Math.random() * validStatusCodes.length)
+      statusCode = validStatusCodes[randomIndex]
+      imgElement.src = `https://http.cat/${statusCode}.jpg`
+    }
+  </script>
+</DefaultLayout>
