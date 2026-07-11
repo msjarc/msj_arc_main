@@ -1,0 +1,87 @@
+---
+import PageHeader from '@components/PageHeader.astro'
+import DefaultLayout from '@layouts/DefaultLayout.astro'
+import { Avatar, AvatarGroup, Heading, Link, Media } from 'accessible-astro-components'
+import { Icon } from 'astro-icon/components'
+---
+
+<DefaultLayout title="About Us">
+  <!-- <PageHeader title="Yay!" subtitle="Your message was successfully sent." bgType="gradient" /> -->
+  <PageHeader
+    title="About Us"
+    subtitle="Proudly Fremont's largest (and only) high school amateur radio club"
+    bgType="gradient"
+  />
+  <section class="container my-16">
+    <div class="space-content">
+      <!-- <Link href="/contact" isButton type="primary" animateOnHover animation="boop" pulse>
+        <Icon aria-hidden="true" name="lucide:mail" size={24} />
+        Send another message
+      </Link> -->
+    </div>
+  </section>
+
+  <section class="my-16">
+    <div class="space-content container">
+      <Heading level="h2">Leadership</Heading>
+      <p class="text-2xl">
+        We're a community of developers who are passionate about making the web more accessible. We're always looking
+        for new ways to improve the accessibility of the web.
+      </p>
+      <AvatarGroup display="grid" gridItemsSize="300px" gridGap="2rem">
+        <Avatar img="/uploads/authors/cat_square1.jpg" title="Allen H. KN6UZU" subtitle="Co-President" />
+        <Avatar img="/uploads/authors/cat_square5.jpg" title="Jack W. N6CH" subtitle="Co-President" />
+        <Avatar img="/uploads/authors/cat_square2.jpg" title="Bradley C. SWL" subtitle="Treasurer" />
+        <Avatar img="/uploads/authors/cat_square3.jpg" title="Vincent H. KO6LXI" subtitle="Secretary" />
+        <Avatar img="/uploads/authors/cat_square4.jpg" title="Ms. Yulee Kim SWL" subtitle="Staff Advisor" />
+        <!-- <Avatar initials="LW" title="Lisa Wong" subtitle="Product Owner" />
+        <Avatar initials="DM" title="David Martinez" subtitle="UX Researcher" />
+        <Avatar initials="EB" title="Emma Brown" subtitle="Accessibility Specialist" />
+        <Avatar initials="TC" title="Thomas Chen" subtitle="Frontend Developer" /> -->
+      </AvatarGroup>
+    </div>
+  </section>
+
+  <section class="my-64">
+    <div class="space-content container">
+      <Heading level="h2">Acknowledgements</Heading>
+      <p>test</p>
+    </div>
+  </section>
+
+  <section class="container my-16">
+    <Heading level="h4">Picture Credits</Heading>
+
+    <p>
+      <a href="https://commons.wikimedia.org/wiki/User:Alvesgaspar">Alvesgaspar</a>, <a
+        href="https://commons.wikimedia.org/wiki/File:Cat_November_2010-1a.jpg">Cat November 2010-1a</a
+      >, cropped, <a href="https://creativecommons.org/licenses/by-sa/3.0/legalcode" rel="license">CC BY-SA 3.0</a>
+    </p>
+
+    <p>
+      <a href="https://flickr.com/people/34745138@N00">Umberto Salvagnin</a>, <a
+        href="https://commons.wikimedia.org/wiki/File:Sleeping_cat_on_her_back.jpg">Sleeping cat on her back</a
+      >, <a href="https://creativecommons.org/licenses/by/2.0/legalcode" rel="license">CC BY 2.0</a>
+    </p>
+
+    <p>
+      <a href="https://commons.wikimedia.org/wiki/User:Tatiana_Matlina">Tatiana Markina</a>, <a
+        href="https://commons.wikimedia.org/wiki/File:TSNA_MINSK_20240519_22.jpg">TSNA MINSK 20240519 22</a
+      >, cropped, <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode" rel="license">CC BY-SA 4.0</a>
+    </p>
+
+    <p>
+      <a href="https://commons.wikimedia.org/wiki/User:Basile_Morin">Basile Morin</a>, <a
+        href="https://commons.wikimedia.org/wiki/File:Felis_silvestris_catus_lying_on_rice_straw.jpg"
+        >Felis silvestris catus lying on rice straw</a
+      >, cropped, <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode" rel="license">CC BY-SA 4.0</a>
+    </p>
+
+    <p>
+      <a href="https://commons.wikimedia.org/wiki/User:Von.grzanka">Von.grzanka</a>, <a
+        href="https://commons.wikimedia.org/wiki/File:Felis_catus-black_tabby_cat_on_snow_(cropped).jpg"
+        >Felis catus-black tabby cat on snow (cropped)</a
+      >, cropped, <a href="https://creativecommons.org/licenses/by-sa/3.0/legalcode" rel="license">CC BY-SA 3.0</a>
+    </p>
+  </section>
+</DefaultLayout>

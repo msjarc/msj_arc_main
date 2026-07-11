@@ -6,12 +6,26 @@ import Counter from '@components/Counter.astro'
 import ContentMedia from '@components/ContentMedia.astro'
 import FeaturedProjects from '@components/FeaturedProjects.astro'
 import FeaturedPosts from '@components/FeaturedPosts.astro'
-import { Accordion, AccordionItem, Avatar, AvatarGroup, Heading, Link } from 'accessible-astro-components'
+// import { Link } from 'accessible-astro-components'
+import { Accordion, AccordionItem, Avatar, AvatarGroup, Heading, Link, Media } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
+
+import { Tabs, TabsList, TabsTab, TabsPanel } from 'accessible-astro-components'
 ---
 
 <DefaultLayout title="MSJ Amateur Radio Club" useTitleTemplate={false}>
   <Hero />
+
+  <ContentMedia imgSrc="/msjhs_map_arc_annotated.jpg">
+    <Heading level="h2">Meetings</Heading>
+    <p class="text-2xl">
+      We hold meetings every other Monday in E1A during lunch (Ms. Kim's room, previously Mr. Sale's room).
+    </p>
+    <p class="text-2xl">Note: we don't hold meetings in E2B anymore, as Ms. Kim switched classrooms.</p>
+
+    <Link isButton type="info" href="/meeting-schedule"><Icon name="ion:calendar-outline" />Meeting Schedule</Link>
+  </ContentMedia>
+
   <section class="my-64">
     <div class="container">
       <Heading level="h2" class="mb-8">Features</Heading>
@@ -48,6 +62,7 @@ import { Icon } from 'astro-icon/components'
       </div>
     </div>
   </section>
+
   <ContentMedia imgSrc="/accessible-components.webp">
     <Heading level="h2">Accessible components</Heading>
     <p class="text-2xl">
@@ -58,16 +73,11 @@ import { Icon } from 'astro-icon/components'
       >. They'll get you up and running in building an accessible solution for your visitors.
     </p>
   </ContentMedia>
-  <ContentMedia imgSrc="/wcag-compliant.webp" reverseImg={true}>
-    <Heading level="h2">WCAG 2.2 AA compliant</Heading>
-    <p class="text-2xl">
-      Using semantic HTML, landmarks, skip links, screen reader friendly content, aria-labels, keyboard accessible
-      navigation and components, clear outlines and tab indicators and the right color contrast, you're more certain of
-      reaching WCAG AA compliance.
-    </p>
-  </ContentMedia>
+
   <FeaturedProjects />
+
   <FeaturedPosts />
+
   <section class="my-64">
     <div class="container grid grid-cols-1 gap-12 md:grid-cols-2">
       <div class="flex flex-col items-start gap-4">
@@ -129,24 +139,24 @@ import { Icon } from 'astro-icon/components'
       </div>
     </div>
   </section>
+
   <section class="my-64">
-    <div class="space-content container">
-      <Heading level="h2">Our community</Heading>
-      <p class="text-2xl">
-        We're a community of developers who are passionate about making the web more accessible. We're always looking
-        for new ways to improve the accessibility of the web.
-      </p>
-      <AvatarGroup display="grid" gridItemsSize="300px" gridGap="2rem">
-        <Avatar initials="RJ" title="Robert Johnson" subtitle="Manager" />
-        <Avatar initials="MT" title="Maria Torres" subtitle="Developer" />
-        <Avatar initials="AK" title="Alex Kim" subtitle="Designer" />
-        <Avatar initials="SL" title="Sarah Lee" subtitle="Content Strategist" />
-        <Avatar initials="JP" title="James Peterson" subtitle="QA Engineer" />
-        <Avatar initials="LW" title="Lisa Wong" subtitle="Product Owner" />
-        <Avatar initials="DM" title="David Martinez" subtitle="UX Researcher" />
-        <Avatar initials="EB" title="Emma Brown" subtitle="Accessibility Specialist" />
-        <Avatar initials="TC" title="Thomas Chen" subtitle="Frontend Developer" />
-      </AvatarGroup>
+    <div class="media-wrapper container">
+      <picture>
+        <source srcset="https://www.hamqsl.com/solar101vhfpic.php" media="(orientation: landscape)" />
+        <source srcset="https://www.hamqsl.com/solarn0nbh.php" media="(orientation: portrait)" />
+
+        <img
+          src="https://www.hamqsl.com/solar101vhfpic.php"
+          alt="Solar and amateur radio band data from https://www.hamqsl.com"
+          loading="lazy"
+        />
+      </picture>
+
+      <!-- <Media
+        src="https://www.hamqsl.com/solar101vhfpic.php"
+        alt="Solar and amateur radio band data from https://www.hamqsl.com"
+      /> -->
     </div>
   </section>
   <section class="mt-64 mb-32">
@@ -167,5 +177,19 @@ import { Icon } from 'astro-icon/components'
     border: 1px solid var(--border-color-subtle);
     border-radius: var(--radius-md);
     padding: var(--space-s);
+  }
+
+  :where(.media-wrapper) {
+    position: relative;
+    border-radius: 0.5rem;
+    inline-size: 100%;
+    overflow: hidden;
+  }
+
+  :where(.media-wrapper img) {
+    border-radius: inherit;
+    inline-size: 100%;
+    block-size: auto;
+    object-fit: cover;
   }
 </style>
