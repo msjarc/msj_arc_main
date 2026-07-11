@@ -1,30 +1,68 @@
-# 1. Backend Configuration (For Cloudflare)
+logo:
+  src: /favicon_dark_3.svg
+
+app_title: MSJ ARC Site Administration
+
+logout_redirect_url: https://msjarc.org
+
+# 1. Backend Configuration 
 backend:
   name: github
-  repo: msjarc/msj_arc_main # Replace with your GitHub info
+  repo: msjarc/msj_arc_main 
   branch: main
   base_url: https://internal.msjarc.org # Your Cloudflare URL
   # auth_endpoint: /api/auth
 
 # 2. Asset Management
-media_folder: "public/projects" # Project images directory
-public_folder: "/projects"
+media_folder: "public/uploads" # Project images directory
+public_folder: "/uploads"
 
 # 3. Content Collections
 collections:
+  # Authors
+
+  - name: "authors"
+    label: "Authors"
+    folder: "src/data/authors"
+    create: true
+    extension: "json"
+    format: "json"
+    media_folder: "{{media_folder}}/authors"
+    public_folder: "{{public_folder}}/authors"
+    fields:
+      - { label: "Name", name: "title", widget: "string" }
+      - { label: "Bio", name: "bio", widget: "text", required: false }
+      - { label: "Avatar Image", name: "image", widget: "image", required: false }
+
+
   # ── Projects (Astro Content Collection: src/content/projects/*.mdx) ──
-  - name: "projects"
-    label: "Projects"
-    folder: "src/content/projects"
+  - name: "blog"
+    label: "Blog"
+    folder: "src/content/blog"
+    media_folder: "{{media_folder}}/posts"
+    public_folder: "{{public_folder}}/posts"
     create: true
     extension: "mdx"
     format: "frontmatter"
     slug: "{{slug}}"
     fields:
       - { label: "Title", name: "title", widget: "string" }
-      - { label: "Author", name: "author", widget: "string" }
+
+
+      - name: "author"
+        label: "Author"
+        widget: "relation"
+        collection: "authors"
+        search_fields: ["title"]
+        value_field: "{{slug}}" # This passes the filename (slug) to Astro
+        display_fields: ["title"]
+        multiple: false # Allows selecting more than one author
+
+      - { label: "Publish Date", name: "pubDate", widget: "datetime" }
+
       - { label: "Description", name: "description", widget: "string" }
       - { label: "Tags", name: "tags", widget: "list", default: [] }
+
       - { label: "Body", name: "body", widget: "markdown" }
 
   # ── Static Pages (file-based, each defined individually) ──
