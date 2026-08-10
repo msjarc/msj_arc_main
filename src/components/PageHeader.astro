@@ -160,36 +160,35 @@ const sanitizedSubtitle: string = subtitle
 </section>
 
 <style>
-  .page-header {
-    .bg-primary {
-      background-color: light-dark(var(--color-primary-100), var(--color-primary-500));
-    }
+  /* Keep selectors flat: nested CSS here gets corrupted by astro-compress HTML minify. */
+  .page-header .bg-primary {
+    background-color: light-dark(var(--color-primary-100), var(--color-primary-500));
+  }
 
-    .bg-secondary {
-      background-color: light-dark(var(--color-secondary-100), var(--color-secondary-500));
-    }
+  .page-header .bg-secondary {
+    background-color: light-dark(var(--color-secondary-100), var(--color-secondary-500));
+  }
 
-    .bg-neutral {
-      background-color: light-dark(var(--color-neutral-300), var(--color-neutral-800));
-    }
+  .page-header .bg-neutral {
+    background-color: light-dark(var(--color-neutral-300), var(--color-neutral-800));
+  }
 
-    .bg-gradient {
-      background-image: linear-gradient(
-        315deg,
-        light-dark(var(--color-primary-100), var(--color-secondary-100)) 25%,
-        light-dark(var(--color-secondary-100), var(--color-primary-200))
-      );
-      color: var(--color-neutral-900);
-    }
+  .page-header .bg-gradient {
+    background-image: linear-gradient(
+      315deg,
+      light-dark(var(--color-primary-100), var(--color-secondary-100)) 25%,
+      light-dark(var(--color-secondary-100), var(--color-primary-200))
+    );
+    color: var(--color-neutral-900);
+  }
 
-    .bg-bordered {
-      border: 1px solid var(--border-color-subtle);
-      border-inline: 0;
-    }
+  .page-header .bg-bordered {
+    border: 1px solid var(--border-color-subtle);
+    border-inline: 0;
+  }
 
-    .featured-image-container {
-      max-height: 500px;
-      overflow: hidden;
-    }
+  .page-header .featured-image-container {
+    max-height: 500px;
+    overflow: hidden;
   }
 </style>
