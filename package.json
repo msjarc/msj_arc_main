@@ -1,38 +1,28 @@
 {
-  "name": "accessible-astro-starter",
-  "description": "An Accessible Starter Theme for Astro including several accessibility features and tools to help you build faster.",
-  "version": "5.0.1",
-  "author": "Incluud",
+  "name": "msj-arc-website",
+  "description": "Mission San Jose High School Amateur Radio Club's official website",
+  "version": "0.1.0",
+  "author": "MSJ ARC <webmaster@msjarc.org>",
   "license": "MIT",
   "type": "module",
-  "homepage": "https://accessible-astro-starter.incluud.dev/",
+  "homepage": "https://msjarc.org/",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview"
   },
-  "keywords": [
-    "astro",
-    "astro-component",
-    "astro-components",
-    "accessible",
-    "accessibility",
-    "a11y",
-    "wcag",
-    "responsive",
-    "ui-library",
-    "ui-components",
-    "blog",
-    "portfolio"
-  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/incluud/accessible-astro-starter.git"
+    "url": "git+https://github.com/msjarc/msj_arc_main.git"
   },
   "bugs": {
-    "url": "https://github.com/incluud/accessible-astro-starter/issues"
+    "url": "https://github.com/msjarc/msj_arc_main/issues"
   },
+  "keywords": [
+    "amateur-radio",
+    "ARC"
+  ],
   "devDependencies": {
     "@astrojs/mdx": "^4.3.13",
     "@astrojs/partytown": "^2.1.4",

@@ -1,5 +1,5 @@
 import { defineThemeConfig } from '@utils/defineThemeConfig'
-import previewImage from '@assets/img/social-preview-image.png'
+import previewImage from '@assets/img/index_preview.png'
 import logoImage from '@assets/img/logo_4.svg'
 
 export default defineThemeConfig({
@@ -47,8 +47,8 @@ export default defineThemeConfig({
         type: 'dropdown',
         items: [
           {
-            label: 'Calendar',
-            href: '/calendar',
+            label: 'Calendars',
+            href: '/calendars',
           },
           {
             label: 'Local Clubs',
