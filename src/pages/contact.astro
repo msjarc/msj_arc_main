@@ -18,7 +18,7 @@ import { Icon } from 'astro-icon/components'
 ---
 
 <DefaultLayout title="Contact">
-  <PageHeader title="Contact" subtitle="Have a question? Get in touch with us!" bgType="gradient" />
+  <PageHeader title="Contact" subtitle="Have a question? Get in touch with us!" bgType="bordered" />
   <section class="container my-16">
     <!-- <div>
       <Heading level="h2">Let's talk</Heading>
@@ -31,7 +31,7 @@ import { Icon } from 'astro-icon/components'
       </p>
     </Notification>
   </section>
-  <section class="container">
+  <section class="container mb-24">
     <div class="grid grid-cols-1 gap-32 md:grid-cols-2">
       <div class="space-content">
         <Form name="contact" action="/thank-you" method="post">
@@ -77,7 +77,7 @@ import { Icon } from 'astro-icon/components'
 
           <Turnstile siteKey="0x4AAAAAACkG2IGI2RwHHQRF" />
 
-          <Button htmlType="submit" type="primary">Send Message</Button>
+          <Button htmlType="submit" type="primary" class="button-gradient">Send Message</Button>
         </Form>
       </div>
       <div class="space-content">
@@ -125,9 +125,9 @@ import { Icon } from 'astro-icon/components'
 
         <ul class="flex flex-wrap gap-2">
           <li>
-            <Link href="/discord" isButton hideIcon animateOnHover animationType="boop">
+            <Link href="https://discord.gg/TR7VpTzjgx" isButton isExternal hideIcon animateOnHover animationType="boop">
               <Icon aria-hidden="true" name="ion:logo-discord" size={32} />
-              <span class="sr-only">Go to our webpage about contacting us on Discord, opens in a new tab</span>
+              <span class="sr-only">Join our Discord server, opens in a new tab</span>
             </Link>
           </li>
           <li>

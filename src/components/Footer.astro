@@ -1,7 +1,8 @@
 ---
-import CallToAction from './CallToAction.astro'
 import Logo from './Logo.astro'
+import themeConfig from '@theme-config'
 import { Heading, Link } from 'accessible-astro-components'
+import { Icon } from 'astro-icon/components'
 
 /**
  * Footer Component
@@ -12,75 +13,62 @@ const currentYear = new Date().getFullYear()
 ---
 
 <footer>
-  <CallToAction />
   <section class="py-20">
     <Heading level="h2" class="sr-only">Footer</Heading>
     <div class="container grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
       <div class="flex flex-col gap-4">
-        <Heading level="h3" size="h6">Features</Heading>
+        <Heading level="h3" size="h6">Club</Heading>
         <ul class="flex flex-col gap-2">
-          <li><Link href="/accessibility-statement">Accessibility statement</Link></li>
-          <li><Link href="/accessible-components">Accessible components</Link></li>
-          <li><Link href="/color-contrast-checker">Color contrast checker</Link></li>
-          <li><Link href="/markdown-page">Markdown page</Link></li>
-          <li><Link href="/mdx-page">MDX page</Link></li>
-          <li><Link href="/404-page">404 page</Link></li>
-          <li><Link href="/sitemap">Sitemap</Link></li>
+          <li><Link href="/">Home</Link></li>
+          <li><Link href="/about">About Us</Link></li>
+          <li><Link href="/newham">New Ham?</Link></li>
+          <li><Link href="/blog">Blog</Link></li>
+          <li><Link href="/contact">Contact</Link></li>
         </ul>
       </div>
       <div class="flex flex-col gap-4">
-        <Heading level="h3" size="h6">Incluud projects</Heading>
+        <Heading level="h3" size="h6">Resources</Heading>
         <ul class="flex flex-col gap-2">
-          <li>
-            <Link isExternal href="https://accessible-astro-starter.incluud.dev">Accessible Astro Starter</Link>
-          </li>
-          <li>
-            <Link isExternal href="https://accessible-astro-dashboard.incluud.dev">Accessible Astro Dashboard</Link>
-          </li>
-          <li>
-            <Link isExternal href="https://accessible-astro-starter.incluud.dev/accessible-components"
-              >Accessible Astro Components</Link
-            >
-          </li>
-          <li>
-            <Link isExternal href="https://accessible-astro-docs.incluud.dev">Accessible Astro Docs</Link>
-          </li>
-          <li>
-            <Link isExternal href="https://color-contrast.incluud.dev">Color Contrast Checker</Link>
-          </li>
+          <li><Link href="/calendars">Calendars</Link></li>
+          <li><Link href="/clubs">Local Clubs</Link></li>
+          <li><Link href="/nets">Local Nets</Link></li>
+          <li><Link href="/repeaters">Local Repeaters</Link></li>
+          <li><Link href="/materials">Presentations &amp; Reference Materials</Link></li>
+          <li><Link href="/misc">Miscellaneous</Link></li>
         </ul>
       </div>
       <div class="flex flex-col gap-4">
-        <Heading level="h3" size="h6">Developer tools</Heading>
+        <Heading level="h3" size="h6">Get in touch</Heading>
         <ul class="flex flex-col gap-2">
           <li>
-            <Link isExternal href="https://chrispederick.com/work/web-developer/">Web Developer Extension</Link>
+            <span class="font-bold">Email:</span>
+            <Link href="mailto:w6msj@msjarc.org">w6msj@msjarc.org</Link>
           </li>
           <li>
-            <Link isExternal href="https://accessibilityinsights.io/">Accessibility Insights</Link>
+            <span class="font-bold">Phone:</span>
+            <Link href="tel:+16692230212">+1 (669) 223-0212</Link>
           </li>
-          <li>
-            <Link isExternal href="https://www.deque.com/axe/devtools/">axe DevTools</Link>
-          </li>
-          <li>
-            <Link isExternal href="https://wave.webaim.org/extension/">WAVE Web Accessibility</Link>
-          </li>
-          <li>
-            <Link isExternal href="https://www.w3.org/WAI/ARIA/apg/patterns/">ARIA Design Patterns</Link>
-          </li>
-          <li>
-            <Link isExternal href="https://aaardvarkaccessibility.com/wcag-plain-english/">WCAG Plain English</Link>
-          </li>
+          <li>MSJ ARC, 41717 Palm Avenue, Fremont, CA 94539</li>
+        </ul>
+        <ul class="flex flex-wrap gap-3">
+          {
+            themeConfig.socials?.map((social) => (
+              <li>
+                <Link href={social.href} isButton isExternal hideIcon animateOnHover animationType="boop">
+                  <Icon aria-hidden="true" name={social.icon} size={28} />
+                  <span class="sr-only">{social.label}</span>
+                </Link>
+              </li>
+            ))
+          }
         </ul>
       </div>
       <div class="flex flex-col gap-4">
         <Logo loading="lazy" />
         <p class="leading-[1.75]">
-          Tip: always test for screen reader support. Press <kbd class="kbd">⌘</kbd> + <kbd class="kbd">F5</kbd> to start
-          VoiceOver or <kbd class="kbd">Win</kbd>
-          + <kbd class="kbd">Ctrl</kbd> + <kbd class="kbd">Enter</kbd> for Narrator.
+          Mission San Jose High School Amateur Radio Club - MSJ ARC; call sign <strong>W6MSJ</strong>. Sharing the joy
+          of the hobby with our school and the local community.
         </p>
-        <p>Cute astronaut image by <Link href="https://unsplash.com/@kobbymendez">Kobby Mendez</Link> on Unsplash.</p>
       </div>
     </div>
   </section>

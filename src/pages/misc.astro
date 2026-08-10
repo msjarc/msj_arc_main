@@ -1,0 +1,43 @@
+---
+import DefaultLayout from '@layouts/DefaultLayout.astro'
+import PageHeader from '@components/PageHeader.astro'
+import { Heading, Link } from 'accessible-astro-components'
+---
+
+<DefaultLayout title="Miscellaneous">
+  <PageHeader
+    title="Miscellaneous"
+    subtitle="Odds and ends — useful links, tools, and a few fun extras."
+    bgType="bordered"
+  />
+
+  <section class="container my-16 space-content">
+    <Heading level="h2">Handy tools</Heading>
+    <ul class="space-content text-lg">
+      <li><Link isExternal href="https://www.qrz.com">QRZ.com</Link> — call sign lookup and profiles</li>
+      <li>
+        <Link isExternal href="https://www.qrz.com/db/w6msj">Our club on QRZ (W6MSJ)</Link>
+      </li>
+      <li><Link isExternal href="https://www.repeaterbook.com">RepeaterBook</Link> — find repeaters anywhere</li>
+      <li>
+        <Link isExternal href="https://hamstudy.org">HamStudy.org</Link> — study for your license
+      </li>
+      <li>
+        <Link isExternal href="https://www.levinecentral.com/ham/grid_square.php">Grid Square Locator</Link> — find your Maidenhead
+        grid
+      </li>
+      <li>
+        <Link isExternal href="https://pskreporter.info/pskmap.html">PSK Reporter</Link> — see where your digital signals are
+        heard
+      </li>
+    </ul>
+  </section>
+
+  <section class="container my-16 space-content">
+    <Heading level="h2">Find us online</Heading>
+    <ul class="space-content text-lg">
+      <li><Link isExternal href="https://github.com/msjarc">GitHub</Link> — including this website&rsquo;s source</li>
+      <li><Link isExternal href="https://instagram.com/msj_arc">Instagram</Link></li>
+    </ul>
+  </section>
+</DefaultLayout>

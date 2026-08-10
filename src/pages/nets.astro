@@ -1,0 +1,92 @@
+---
+import DefaultLayout from '@layouts/DefaultLayout.astro'
+import PageHeader from '@components/PageHeader.astro'
+import { Heading, Link } from 'accessible-astro-components'
+---
+
+<DefaultLayout title="Local Nets">
+  <PageHeader
+    title="Local Nets"
+    subtitle="Scheduled on-the-air gatherings where operators check in and share information."
+    bgType="bordered"
+  />
+
+  <section class="container my-16 space-content">
+    <p class="text-2xl">
+      A <strong>net</strong> (short for network) is a scheduled on-air meeting on a specific frequency. Nets are a
+      friendly, structured way for new operators to practice getting on the air. A net control operator directs
+      check-ins.
+    </p>
+    <p class="text-sm">
+      The schedule below shows the format only. Please confirm current frequencies and times with the sponsoring club
+      before relying on them.
+    </p>
+  </section>
+
+  <section class="container my-16 space-content">
+    <Heading level="h2">Net schedule</Heading>
+    <div class="table-wrap">
+      <table>
+        <caption class="sr-only">Local amateur radio net schedule</caption>
+        <thead>
+          <tr>
+            <th scope="col">Net</th>
+            <th scope="col">Day</th>
+            <th scope="col">Time</th>
+            <th scope="col">Frequency / Repeater</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>MSJ ARC Club Net</td>
+            <td>TBD</td>
+            <td>TBD</td>
+            <td>Club repeater (see Repeaters)</td>
+          </tr>
+          <tr>
+            <td>Local 2m Rag Chew</td>
+            <td>Weekly</td>
+            <td>Evening</td>
+            <td>2m FM repeater</td>
+          </tr>
+          <tr>
+            <td>Emergency / ARES practice net</td>
+            <td>Weekly</td>
+            <td>Evening</td>
+            <td>2m FM repeater</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="container my-16 space-content">
+    <Heading level="h2">Finding more nets</Heading>
+    <ul class="space-content text-lg">
+      <li><Link isExternal href="https://www.arrl.org/arrl-net-directory-search">ARRL Net Directory</Link></li>
+      <li><Link isExternal href="https://www.repeaterbook.com">RepeaterBook</Link> — find repeaters that host nets in our area</li>
+    </ul>
+  </section>
+</DefaultLayout>
+
+<style>
+  .table-wrap {
+    overflow-x: auto;
+  }
+
+  table {
+    inline-size: 100%;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    padding: var(--space-2xs) var(--space-xs);
+    border-bottom: 1px solid var(--border-color-subtle);
+    text-align: start;
+  }
+
+  th {
+    font-weight: 700;
+  }
+</style>
