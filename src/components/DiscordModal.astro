@@ -1,0 +1,43 @@
+---
+import { Modal, Link, Button } from 'accessible-astro-components'
+import { Icon } from 'astro-icon/components'
+
+/**
+ * Discord Modal Component
+ *
+ * @description Premade modal to confirm users are students before showing discord invite
+ */
+
+interface Props {
+  /**
+   * The source URL for the image
+   */
+  modalTriggerId?: string
+}
+
+const { modalTriggerId = 'discord-modal-trigger' }: Props = Astro.props
+---
+
+<Modal
+    triggerId={modalTriggerId}
+    title="Join our Discord"
+  >
+    <p>To protect student privacy, we ask that only current or future Mission San Jose High School students join our Discord server. </p>
+
+    <Link
+      href="https://discord.gg/TR7VpTzjgx"
+      isExternal
+      isButton
+      type="primary"
+      ariaLabel="Discord server invite for students"
+    >
+      <Icon name="ion:logo-discord" />
+      Discord Invite
+    </Link>
+
+    <Button onclick="closeModal()" variant="outlined">Close</Button>
+
+  </Modal>
+
+
+
