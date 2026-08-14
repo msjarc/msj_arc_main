@@ -8,46 +8,48 @@ import type { CollectionEntry } from 'astro:content'
 import { slugify } from '@utils/slugify'
 
 // Import images directly for optimization
-import projectImage1 from '@assets/images/projects/project-image-1.png'
-import projectImage2 from '@assets/images/projects/project-image-2.png'
-import projectImage3 from '@assets/images/projects/project-image-3.png'
-import projectImage4 from '@assets/images/projects/project-image-4.png'
-import projectImage5 from '@assets/images/projects/project-image-5.png'
-import projectImage6 from '@assets/images/projects/project-image-6.png'
+import activityImage1 from '@assets/images/projects/project-image-1.png'
+import activityImage2 from '@assets/images/projects/project-image-2.png'
+import activityImage3 from '@assets/images/projects/project-image-3.png'
+import activityImage4 from '@assets/images/projects/project-image-4.png'
+import activityImage5 from '@assets/images/projects/project-image-5.png'
+import activityImage6 from '@assets/images/projects/project-image-6.png'
 
 export const getStaticPaths = (async ({ paginate }) => {
-  const projects = await getCollection('activities')
-  const allTags = projects.map((project) => project.data.tags).flat()
+  const activities = await getCollection('activities')
+  const authors = await getCollection('authors')
+  const allTags = activities.map((activity) => activity.data.tags).flat()
   const uniqueTagLabels = [...new Set(allTags)].sort((a, b) => a.localeCompare(b))
   const uniqueTags = uniqueTagLabels.map((label) => ({
     label,
     slug: slugify(label),
   }))
 
-  const projectImages = [projectImage1, projectImage2, projectImage3, projectImage4, projectImage5, projectImage6]
+  const activityImages = [activityImage1, activityImage2, activityImage3, activityImage4, activityImage5, activityImage6]
 
-  const projectsWithImages = projects.map((project, index) => {
+  const activitiesWithImages = activities.map((activity, index) => {
     return {
-      ...project,
-      featuredImage: projectImages[index % projectImages.length],
+      ...activity,
+      authorName: authors.find((a) => a.id === activity.data.author.id)?.data.title,
+      featuredImage: activityImages[index % activityImages.length],
     }
   })
 
-  return paginate(projectsWithImages, {
+  return paginate(activitiesWithImages, {
     pageSize: 6,
     props: { uniqueTags },
   })
 }) satisfies GetStaticPaths
 
 interface Props {
-  page: Page<CollectionEntry<'activities'> & { featuredImage: any }>
+  page: Page<CollectionEntry<'activities'> & { featuredImage: any; authorName: any }>
   uniqueTags: { label: string; slug: string }[]
 }
 
 const { page, uniqueTags } = Astro.props
 ---
 
-<DefaultLayout title="Activities" description="An overview of some activities within amateur radio. ">
+<DefaultLayout title="Activities" description="An overview of some activities within amateur radio.">
   <PageHeader title="Activities" subtitle="An overview of some activities within amateur radio." bgType="bordered" />
   <section class="my-12">
     <div class="container">
@@ -55,31 +57,31 @@ const { page, uniqueTags } = Astro.props
       <div class="flex flex-wrap gap-4">
         {
           uniqueTags.map((tag: { label: string; slug: string }) => (
-            <Link href={'/portfolio/tag/' + tag.slug}>{tag.label}</Link>
+            <Link href={'/activities/tag/' + tag.slug}>{tag.label}</Link>
           ))
         }
       </div>
       <p class="mt-8 text-sm">
-        <em>Project {page.start + 1} through {page.end + 1} of {page.total} total projects</em>
+        <em>Activity {page.start + 1} through {page.end + 1} of {page.total} total activities</em>
       </p>
       <ul class="mt-3 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {
-          page.data.map((project) => (
+          page.data.map((activity) => (
             <li>
               <Card
-                imageComponent={project.featuredImage}
-                url={'/portfolio/' + project.id}
-                title={project.data.title}
+                imageComponent={activity.featuredImage}
+                url={'/activities/' + activity.id}
+                title={activity.data.title}
                 headingLevel="h2"
-                footer={'Author: ' + project.data.author}
+                footer={'Author: ' + activity.authorName}
                 fullHeight={true}
               >
                 <span slot="meta">
-                  {project.data.tags.map((tag) => (
+                  {activity.data.tags.map((tag: unknown) => (
                     <Badge>{tag}</Badge>
                   ))}
                 </span>
-                {project.data.description}
+                {activity.data.description}
               </Card>
             </li>
           ))
@@ -89,13 +91,13 @@ const { page, uniqueTags } = Astro.props
         page && page.lastPage > 1 && (
           <div class="mt-12 grid place-content-center">
             <Pagination
-              firstPage={page.url.prev ? '/portfolio' : null}
+              firstPage={page.url.prev ? '/activities' : null}
               previousPage={page.url.prev ? page.url.prev : null}
               nextPage={page.url.next ? page.url.next : null}
-              lastPage={page.url.next ? `/portfolio/${page.lastPage}` : null}
+              lastPage={page.url.next ? `/activities/${page.lastPage}` : null}
               currentPage={`${page.currentPage}`}
               totalPages={`${page.lastPage}`}
-              ariaLabel="Portfolio pagination"
+              ariaLabel="Activities pagination"
             />
           </div>
         )

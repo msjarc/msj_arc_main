@@ -8,30 +8,30 @@ import type { CollectionEntry } from 'astro:content'
 import { slugify } from '@utils/slugify'
 
 // Import images directly for optimization
-import projectImage1 from '@assets/images/projects/project-image-1.png'
-import projectImage2 from '@assets/images/projects/project-image-2.png'
-import projectImage3 from '@assets/images/projects/project-image-3.png'
-import projectImage4 from '@assets/images/projects/project-image-4.png'
-import projectImage5 from '@assets/images/projects/project-image-5.png'
-import projectImage6 from '@assets/images/projects/project-image-6.png'
+import postImage1 from '@assets/images/projects/project-image-1.png'
+import postImage2 from '@assets/images/projects/project-image-2.png'
+import postImage3 from '@assets/images/projects/project-image-3.png'
+import postImage4 from '@assets/images/projects/project-image-4.png'
+import postImage5 from '@assets/images/projects/project-image-5.png'
+import postImage6 from '@assets/images/projects/project-image-6.png'
 
 export const getStaticPaths = (async ({ paginate }) => {
-  const projects = await getCollection('blog')
+  const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   const authors = await getCollection('authors')
-  const allTags = projects.map((project) => project.data.tags).flat()
+  const allTags = posts.map((post) => post.data.tags).flat()
   const uniqueTagLabels = [...new Set(allTags)].sort((a, b) => a.localeCompare(b))
   const uniqueTags = uniqueTagLabels.map((label) => ({
     label,
     slug: slugify(label),
   }))
 
-  const projectImages = [projectImage1, projectImage2, projectImage3, projectImage4, projectImage5, projectImage6]
+  const postImages = [postImage1, postImage2, postImage3, postImage4, postImage5, postImage6]
 
-  const projectsWithImages = projects.map((project, index) => {
+  const postsWithImages = posts.map((post, index) => {
     return {
-      ...project,
-      authorName: authors.find((a) => a.id === project.data.author.id)?.data.title,
-      featuredImage: projectImages[index % projectImages.length],
+      ...post,
+      authorName: authors.find((a) => a.id === post.data.author.id)?.data.title,
+      featuredImage: postImages[index % postImages.length],
     }
   })
 
@@ -39,11 +39,11 @@ export const getStaticPaths = (async ({ paginate }) => {
   const allPaginatedPages = []
 
   for (const tag of uniqueTags) {
-    const filteredProjects = projectsWithImages.filter((project) =>
-      project.data.tags.map((tag: string) => slugify(tag)).includes(tag.slug),
+    const filteredPosts = postsWithImages.filter((post) =>
+      post.data.tags.map((tag: string) => slugify(tag)).includes(tag.slug),
     )
 
-    const paginatedPages = paginate(filteredProjects, {
+    const paginatedPages = paginate(filteredPosts, {
       pageSize: 6,
       params: { tag: tag.slug },
       props: {
@@ -68,11 +68,11 @@ const { page, currentTag, uniqueTags } = Astro.props
 ---
 
 <DefaultLayout
-  title={`Portfolio - ${currentTag.label}`}
+  title={`Blog - ${currentTag.label}`}
   description={`Blog posts filtered by ${currentTag.label} tag.`}
 >
   <PageHeader
-    title={`Portfolio: ${currentTag.label}`}
+    title={`Blog: ${currentTag.label}`}
     subtitle={`Showing ${page.total} post${page.total !== 1 ? 's' : ''} tagged with "${currentTag.label}". <a href="/blog">View all posts</a> or filter by other tags below.`}
     bgType="bordered"
     customBreadcrumbLabels={{
@@ -107,23 +107,23 @@ const { page, currentTag, uniqueTags } = Astro.props
       </p>
       <ul class="mt-3 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {
-          page.data.map((project) => (
+          page.data.map((post) => (
             <li>
               <Card
-                imageComponent={project.featuredImage}
-                url={'/blog/' + project.id}
-                title={project.data.title}
+                imageComponent={post.featuredImage}
+                url={'/blog/' + post.id}
+                title={post.data.title}
                 headingLevel="h2"
-                footer={'Author: ' + project.authorName}
+                footer={'Author: ' + post.authorName}
                 fullHeight={true}
               >
                 <span slot="meta">
-                  {project.data.tags.map((tag: unknown) => {
+                  {post.data.tags.map((tag: unknown) => {
                     const isCurrentTag = tag === currentTag.label
                     return isCurrentTag ? <Badge class="bg-blue-600 text-white">{tag}</Badge> : <Badge>{tag}</Badge>
                   })}
                 </span>
-                {project.data.description}
+                {post.data.description}
               </Card>
             </li>
           ))

@@ -4,81 +4,87 @@ import PageHeader from '@components/PageHeader.astro'
 import { Heading, Notification } from 'accessible-astro-components'
 import { getCollection } from 'astro:content'
 
-// Get all blog posts
-const posts = await getCollection('blog')
+const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+const activities = await getCollection('activities')
+const authors = await getCollection('authors')
 
-// Get all portfolio projects
-const projects = await getCollection('activities')
+const authorName = (authorId: string) => authors.find((author) => author.id === authorId)?.data.title ?? authorId
 
-// Define static pages with their descriptions
 const staticPages = [
   {
     title: 'Home',
     url: '/',
-    description: 'Welcome to our accessible website featuring modern web development and inclusive design principles.',
+    description: 'The one, the only, Mission San Jose High School Amateur Radio Club, W6MSJ!',
   },
   {
-    title: 'Accessible components',
-    url: '/accessible-components',
-    description: 'A comprehensive showcase of accessible UI components and design patterns for modern web development.',
-  },
-  {
-    title: 'Portfolio',
-    url: '/portfolio',
-    description: 'A collection of projects demonstrating accessible design and development practices.',
+    title: 'About Us',
+    url: '/about',
+    description: 'Learn about what we do',
   },
   {
     title: 'Blog',
     url: '/blog',
-    description: 'Articles and insights about web accessibility, development best practices, and inclusive design.',
+    description: 'Rants, ramblings, and other texts of mysterious origin',
+  },
+  {
+    title: 'Activities',
+    url: '/activities',
+    description: 'An overview of some activities within amateur radio',
+  },
+  {
+    title: 'New Ham?',
+    url: '/newham',
+    description: 'Get started with amateur radio and getting your license',
+  },
+  {
+    title: 'Calendars',
+    url: '/calendars',
+    description: 'Calendars for club meetings, events, and other important dates',
+  },
+  {
+    title: 'Local Clubs',
+    url: '/clubs',
+    description: 'Other amateur radio clubs in the area',
+  },
+  {
+    title: 'Local Nets',
+    url: '/nets',
+    description: 'Local nets in the Bay Area',
+  },
+  {
+    title: 'Local Repeaters',
+    url: '/repeaters',
+    description: 'Repeaters in the Bay Area',
+  },
+  {
+    title: 'Presentations & Reference Materials',
+    url: '/materials',
+    description: 'Various club materials, including slideshows and such',
+  },
+  {
+    title: 'Miscellaneous',
+    url: '/misc',
+    description: 'Miscallenous goodies',
   },
   {
     title: 'Contact',
     url: '/contact',
-    description:
-      'Get in touch with us for accessibility consulting, development services, or collaboration opportunities.',
-  },
-  {
-    title: 'Color contrast checker',
-    url: '/color-contrast-checker',
-    description: 'An interactive tool to check color contrast ratios and ensure WCAG compliance for your designs.',
-  },
-  {
-    title: 'Accessibility statement',
-    url: '/accessibility-statement',
-    description: 'Our commitment to accessibility and information about the accessibility features of this website.',
-  },
-  {
-    title: 'Markdown page example',
-    url: '/markdown-page',
-    description: 'A demonstration of Markdown content rendering with accessible formatting and typography.',
-  },
-  {
-    title: 'MDX page example',
-    url: '/mdx-page',
-    description: 'An example of MDX content combining Markdown with interactive React components.',
-  },
-  {
-    title: 'Thank you',
-    url: '/thank-you',
-    description: 'Confirmation page for successful form submissions and user interactions.',
+    description: 'Get in touch with us',
   },
 ]
 ---
 
 <DefaultLayout
   title="Sitemap"
-  description="Complete site map showing all pages, portfolio projects, and sections available on our accessible website."
+  description="Complete site map"
 >
   <PageHeader
     title="Sitemap"
-    subtitle="A comprehensive overview of all pages and content available on our website, organized for easy navigation."
     bgType="gradient"
   />
 
   <section class="my-16">
     <div class="container space-y-12">
-      <!-- Main Pages Section -->
       <div>
         <Heading level="h2" class="mb-6">Main pages</Heading>
         <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -101,29 +107,25 @@ const staticPages = [
         </div>
       </div>
 
-      <!-- Portfolio Projects Section -->
       <div>
-        <Heading level="h2">Portfolio projects</Heading>
-        <p class="mb-6">
-          Explore our collection of {projects.length} accessibility-focused projects showcasing inclusive design and development
-          practices.
-        </p>
+        <Heading level="h2">Activities</Heading>
+        <p class="mb-6">Descriptions and intros to a variety amateur radio activities</p>
         <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {
-            projects.map((project) => (
+            activities.map((activity) => (
               <article>
                 <Heading level="h3" size="h6" class="mb-3">
-                  <a href={`/portfolio/${project.id}`}>{project.data.title}</a>
+                  <a href={`/activities/${activity.id}`}>{activity.data.title}</a>
                 </Heading>
-                <p class="mb-3">{project.data.description}</p>
+                <p class="mb-3">{activity.data.description}</p>
                 <div class="text-xs">
                   <p class="mb-1">
-                    By: <span class="font-medium">{project.data.author}</span>
+                    By: <span class="font-medium">{authorName(activity.data.author.id)}</span>
                   </p>
                   <p>
                     URL:{' '}
                     <code class="rounded bg-neutral-100 px-1 py-0.5 text-xs text-neutral-500 dark:bg-neutral-800 dark:text-neutral-500">
-                      /portfolio/{project.id}
+                      /activities/{activity.id}
                     </code>
                   </p>
                 </div>
@@ -133,36 +135,34 @@ const staticPages = [
         </div>
       </div>
 
-      <!-- Blog Section -->
       <div>
         <Heading level="h2" class="mb-6">Blog</Heading>
-        <article>
-          <Heading level="h3" size="h6" class="mb-3">
-            <a href="/blog"> Blog posts </a>
-          </Heading>
-          <p>
-            Discover articles about web accessibility, development best practices, and inclusive design. Our blog
-            features dynamic content with pagination for easy browsing.
-          </p>
-          <div class="text-xs">
-            <p>Features: Dynamic content from JSONPlaceholder API</p>
-            <p>
-              Base URL: <code
-                class="rounded bg-neutral-100 px-1 py-0.5 text-xs text-neutral-500 dark:bg-neutral-800 dark:text-neutral-500"
-                >/blog</code
-              >
-            </p>
-            <p>
-              Individual posts: <code
-                class="rounded bg-neutral-100 px-1 py-0.5 text-xs text-neutral-500 dark:bg-neutral-800 dark:text-neutral-500"
-                >/blog/[post-title]</code
-              >
-            </p>
-          </div>
-        </article>
+        <p class="mb-6">Take a look at any of our {posts.length} posts. Guaranteed mildly interesting.</p>
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {
+            posts.map((post) => (
+              <article>
+                <Heading level="h3" size="h6" class="mb-3">
+                  <a href={`/blog/${post.id}`}>{post.data.title}</a>
+                </Heading>
+                <p class="mb-3">{post.data.description}</p>
+                <div class="text-xs">
+                  <p class="mb-1">
+                    By: <span class="font-medium">{authorName(post.data.author.id)}</span>
+                  </p>
+                  <p>
+                    URL:{' '}
+                    <code class="rounded bg-neutral-100 px-1 py-0.5 text-xs text-neutral-500 dark:bg-neutral-800 dark:text-neutral-500">
+                      /blog/{post.id}
+                    </code>
+                  </p>
+                </div>
+              </article>
+            ))
+          }
+        </div>
       </div>
 
-      <!-- Technical Information -->
       <Notification type="info" variant="accent">
         <div class="space-content">
           <Heading level="h2" size="h6" class="mb-4">Technical sitemap information</Heading>

@@ -7,9 +7,9 @@ import { getCollection, getEntry, render } from 'astro:content'
 import type { CollectionEntry } from 'astro:content'
 
 export async function getStaticPaths() {
-  const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  const activities = await getCollection('activities')
 
-  const postImages = [
+  const activityImages = [
     { src: '/projects/project-image-1.png' },
     { src: '/projects/project-image-2.png' },
     { src: '/projects/project-image-3.png' },
@@ -18,30 +18,30 @@ export async function getStaticPaths() {
     { src: '/projects/project-image-6.png' },
   ]
 
-  return posts.map((post, index) => {
-    const postWithImage = {
-      ...post,
-      featuredImage: postImages[index % postImages.length].src,
+  return activities.map((activity, index) => {
+    const activityWithImage = {
+      ...activity,
+      featuredImage: activityImages[index % activityImages.length].src,
     }
 
     return {
-      params: { post: post.id },
-      props: { post: postWithImage },
+      params: { activity: activity.id },
+      props: { activity: activityWithImage },
     }
   })
 }
 
 interface Props {
-  post: CollectionEntry<'blog'> & { featuredImage: string }
+  activity: CollectionEntry<'activities'> & { featuredImage: string }
 }
 
-const { post } = Astro.props
-const { Content } = await render(post)
+const { activity } = Astro.props
+const { Content } = await render(activity)
 
-const authorEntry = await getEntry(post.data.author)
+const authorEntry = await getEntry(activity.data.author)
 
 if (!authorEntry) {
-  throw new Error(`Missing author "${post.data.author.id}" for post "${post.id}"`)
+  throw new Error(`Missing author "${activity.data.author.id}" for activity "${activity.id}"`)
 }
 
 const author = {
@@ -51,13 +51,13 @@ const author = {
 }
 ---
 
-<DefaultLayout title={post.data.title} description={post.data.description} url={`/blog/${post.id}`}>
+<DefaultLayout title={activity.data.title} description={activity.data.description} url={`/activities/${activity.id}`}>
   <PageHeader
-    title={post.data.title}
-    subtitle={post.data.description}
+    title={activity.data.title}
+    subtitle={activity.data.description}
     author={author}
     bgType="bordered"
-    featuredImage={post.featuredImage}
+    featuredImage={activity.featuredImage}
   />
   <section class="my-12">
     <div class="narrow space-content container">
@@ -66,8 +66,8 @@ const author = {
   </section>
   <section class="my-12">
     <div class="narrow space-content container">
-      <Heading level="h2">Share this post</Heading>
-      <p>Like this post? Share it with your friends!</p>
+      <Heading level="h2">Share this activity</Heading>
+      <p>Like this activity? Share it with your friends!</p>
       <SocialShares />
     </div>
   </section>

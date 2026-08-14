@@ -1,4 +1,4 @@
-import { defineConfig, envField } from 'astro/config'
+import { defineConfig } from 'astro/config'
 import { fileURLToPath } from 'url'
 import compress from 'astro-compress'
 import icon from 'astro-icon'
@@ -46,16 +46,9 @@ export default defineConfig({
   adapter: cloudflare(),
   output: "static",
   redirects: {
-    "/fax": "/itsjustthefax.webp"
-  },
-  env: {
-    schema: {
-      BLOG_API_URL: envField.string({
-        context: 'server',
-        access: 'secret',
-        optional: true,
-        default: 'https://jsonplaceholder.typicode.com/posts',
-      }),
-    },
+    "/fax": "/itsjustthefax.webp",
+    "/insta": "https://www.instagram.com/msj_arc/",
+    "/instagram": "https://www.instagram.com/msj_arc/",
+    "/discord": "https://discord.gg/AWxKMAzbCm",
   },
 })
