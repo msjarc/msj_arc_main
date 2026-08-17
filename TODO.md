@@ -1,8 +1,10 @@
-- [ ] Update logo / favicon for website
 - [ ] Make about into dropdown
-- [ ] Update github listings
 - [ ] Update footer listings
-- [ ] Add "support us" page
-- [ ] Fix blog 
-  - [ ] Fix optimization that includes images
-- [ ] 
+- [ ] Fix Logo & banner
+- [ ] Move github socials off into about section
+- [ ] Add discord socials into more areas
+- [ ] Add feature to show next meeting / status
+- [ ] Remove template posts
+- [ ] Remove "Accessible Astro Projects" section from search
+- [ ] Real Newham
+- [ ] Cool github badge? <img alt="Static Badge" src="https://img.shields.io/badge/github-msj_arc_main-blue?logo=github&link=https%3A%2F%2Fgithub.com%2Fmsjarc%2Fmsj_arc_main">

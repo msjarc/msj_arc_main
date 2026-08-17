@@ -17,21 +17,19 @@ import {
 } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 import { Modal } from 'accessible-astro-components'
+
+const CONTACT_WORKER_URL = 'https://msjarc.org/api/'
 ---
 
 <DefaultLayout title="Contact">
   <PageHeader title="Contact" subtitle="Have a question? Get in touch with us!" bgType="bordered" />
   <section class="container my-16">
-    <!-- <div>
-      <Heading level="h2">Let's talk</Heading>
-    </div> -->
-    <Notification type="warning" variant="accent" role="status" class="my-10">
-      <!-- <Icon name="lucide:octagon-x" /> -->
-      <p>
-        <strong>Please note: </strong>This contact form is currently not yet functional! Please email us via our contact
-        info instead. Thanks!
-      </p>
-    </Notification>
+    <div id="contact-form-error" hidden tabindex="-1">
+      <Notification type="error" role="alert">
+        <Icon aria-hidden="true" name="lucide:circle-alert" size={24} />
+        <p id="contact-form-error-message">Unable to send your message. Please try again or email us.</p>
+      </Notification>
+    </div>
   </section>
 
   <DiscordModal />
@@ -39,7 +37,7 @@ import { Modal } from 'accessible-astro-components'
   <section class="container mb-24">
     <div class="grid grid-cols-1 gap-32 md:grid-cols-2">
       <div class="space-content">
-        <Form name="contact" action="/thank-you" method="post">
+        <Form name="contact" action={CONTACT_WORKER_URL} method="post">
           <!-- Input field with custom validation message -->
           <Input
             name="firstname"
@@ -88,13 +86,11 @@ import { Modal } from 'accessible-astro-components'
       <div class="space-content">
         <Heading level="h3">Contact us</Heading>
         <p class="text-lg">
-          We would love to speak with you about the club or amateur radio! Please feel free to use any of the contact
-          methods, such as the website form or email.
+          We would love to speak with you about the club or amateur radio! If you have any way you can help support our
+          club or any feedback, please reach out! Please feel free to use any of the contact methods, such as the
+          website form or email.
         </p>
-        <p>
-          If you have any way you can help support our club or any feedback, please reach out! We would love to speak
-          with you.
-        </p>
+        <p>We'll try to get back within 5 business days. 73! W6MSJ</p>
 
         <div class="gap-2xs flex items-center">
           <Icon aria-hidden="true" name="lucide:mail" size={20} class="flex-shrink-0" />
@@ -165,3 +161,24 @@ import { Modal } from 'accessible-astro-components'
     </div>
   </section>
 </DefaultLayout>
+
+<script is:inline>
+  const ERROR_MESSAGES = {
+    invalid: 'Please fill in your name, email, and message.',
+    email: 'Please provide a valid email address.',
+    subject: 'Please select at least one subject for your message.',
+    turnstile: 'Security check failed. Please try again.',
+    send: 'Unable to send your message. Please try again or email us.',
+  }
+
+  const errorCode = new URLSearchParams(window.location.search).get('error')
+  if (errorCode) {
+    const errorRegion = document.getElementById('contact-form-error')
+    const errorMessage = document.getElementById('contact-form-error-message')
+    if (errorRegion && errorMessage) {
+      errorMessage.textContent = ERROR_MESSAGES[errorCode] || ERROR_MESSAGES.send
+      errorRegion.hidden = false
+      errorRegion.focus()
+    }
+  }
+</script>

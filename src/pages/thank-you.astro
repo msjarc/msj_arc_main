@@ -1,24 +1,33 @@
 ---
 import DefaultLayout from '@layouts/DefaultLayout.astro'
 import PageHeader from '@components/PageHeader.astro'
-import { Heading, Link, Notification } from 'accessible-astro-components'
+import { Link, Notification } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 ---
 
 <DefaultLayout title="Thank You">
-  <!-- <PageHeader title="Yay!" subtitle="Your message was successfully sent." bgType="gradient" /> -->
-  <PageHeader title="..." subtitle="This form is currently not functional." bgType="gradient" />
+  <PageHeader
+    title="Yay!"
+    subtitle="Your message was successfully sent. Thank you for contacting us! We'll get back to you soon."
+    bgType="gradient"
+  />
   <section class="container my-16">
     <div class="space-content">
-      <Notification type="error">
-        <Icon aria-hidden="true" name="lucide:circle-alert" size={24} />
-        <p>This form is not functional yet. Please send all messages to our email. Sorry for the inconvenience :/</p>
-        <!-- <p>Thank you for your message! We'll get back to you soon.</p> -->
-      </Notification>
-      <Link href="/contact" isButton type="primary" animateOnHover animation="boop" pulse>
-        <Icon aria-hidden="true" name="lucide:mail" size={24} />
-        Send another message
-      </Link>
+      <!-- <Notification type="success">
+        <Icon aria-hidden="true" name="lucide:circle-check" size={24} />
+        <p></p>
+      </Notification> -->
+      <div class="flex flex-wrap gap-4">
+        <Link href="/" isButton type="primary" animateOnHover animation="boop" pulse>
+          <Icon aria-hidden="true" name="lucide:house" size={24} />
+          Home
+        </Link>
+
+        <Link href="/contact" isButton type="primary" animateOnHover animation="boop" pulse>
+          <Icon aria-hidden="true" name="lucide:mail" size={24} />
+          Send another message
+        </Link>
+      </div>
     </div>
   </section>
 </DefaultLayout>

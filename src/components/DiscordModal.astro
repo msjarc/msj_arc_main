@@ -18,26 +18,22 @@ interface Props {
 const { modalTriggerId = 'discord-modal-trigger' }: Props = Astro.props
 ---
 
-<Modal
-    triggerId={modalTriggerId}
-    title="Join our Discord"
+<Modal triggerId={modalTriggerId} title="Join our Discord">
+  <p>
+    To protect student privacy, we ask that only current or future Mission San Jose High School students join our
+    Discord server.
+  </p>
+
+  <Link
+    href="https://discord.gg/AWxKMAzbCm"
+    isExternal
+    isButton
+    class="button-gradient"
+    ariaLabel="Discord server invite for students"
   >
-    <p>To protect student privacy, we ask that only current or future Mission San Jose High School students join our Discord server. </p>
+    <Icon name="ion:logo-discord" />
+    Discord Invite
+  </Link>
 
-    <Link
-      href="https://discord.gg/AWxKMAzbCm"
-      isExternal
-      isButton
-      type="primary"
-      ariaLabel="Discord server invite for students"
-    >
-      <Icon name="ion:logo-discord" />
-      Discord Invite
-    </Link>
-
-    <Button onclick="closeModal()" variant="outlined">Close</Button>
-
-  </Modal>
-
-
-
+  <Button onclick="closeModal()" variant="outlined">Close</Button>
+</Modal>
