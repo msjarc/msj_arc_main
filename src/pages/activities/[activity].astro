@@ -9,30 +9,14 @@ import type { CollectionEntry } from 'astro:content'
 export async function getStaticPaths() {
   const activities = await getCollection('activities')
 
-  const activityImages = [
-    { src: '/projects/project-image-1.png' },
-    { src: '/projects/project-image-2.png' },
-    { src: '/projects/project-image-3.png' },
-    { src: '/projects/project-image-4.png' },
-    { src: '/projects/project-image-5.png' },
-    { src: '/projects/project-image-6.png' },
-  ]
-
-  return activities.map((activity, index) => {
-    const activityWithImage = {
-      ...activity,
-      featuredImage: activityImages[index % activityImages.length].src,
-    }
-
-    return {
-      params: { activity: activity.id },
-      props: { activity: activityWithImage },
-    }
-  })
+  return activities.map((activity) => ({
+    params: { activity: activity.id },
+    props: { activity },
+  }))
 }
 
 interface Props {
-  activity: CollectionEntry<'activities'> & { featuredImage: string }
+  activity: CollectionEntry<'activities'>
 }
 
 const { activity } = Astro.props
@@ -51,13 +35,20 @@ const author = {
 }
 ---
 
-<DefaultLayout title={activity.data.title} description={activity.data.description} url={`/activities/${activity.id}`}>
+<DefaultLayout
+  title={activity.data.title}
+  description={activity.data.description}
+  url={`/activities/${activity.id}`}
+  image={activity.data.cover}
+>
   <PageHeader
     title={activity.data.title}
     subtitle={activity.data.description}
     author={author}
     bgType="bordered"
-    featuredImage={activity.featuredImage}
+    featuredImage={activity.data.cover}
+    featuredImageAlt={activity.data.coverAlt}
+    coverFocus={activity.data.coverFocus}
   />
   <section class="my-12">
     <div class="narrow space-content container">

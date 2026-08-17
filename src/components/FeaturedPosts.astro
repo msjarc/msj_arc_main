@@ -2,11 +2,7 @@
 import { Card, Heading, Link } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 import { getCollection } from 'astro:content'
-
-// Import images directly for optimization
-import postImage1 from '@assets/images/posts/post-image-1.png'
-import postImage2 from '@assets/images/posts/post-image-2.png'
-import postImage3 from '@assets/images/posts/post-image-3.png'
+import { getCoverProps } from '@utils/coverImage'
 
 /**
  * FeaturedPosts Component
@@ -34,12 +30,10 @@ const { class: className, limit = 3, title = 'Latest posts' } = Astro.props
 
 const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
 const authors = await getCollection('authors')
-const postImages = [postImage1, postImage2, postImage3]
 
-const featuredPosts = posts.slice(0, limit).map((post, index) => ({
+const featuredPosts = posts.slice(0, limit).map((post) => ({
   ...post,
   authorName: authors.find((a) => a.id === post.data.author.id)?.data.title,
-  featuredImage: postImages[index % postImages.length],
 }))
 ---
 
@@ -48,17 +42,24 @@ const featuredPosts = posts.slice(0, limit).map((post, index) => ({
     <Heading level="h2" class="mb-6">{title}</Heading>
     <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
       {
-        featuredPosts.map((post) => (
-          <Card
-            imageComponent={post.featuredImage}
-            url={'/blog/' + post.id}
-            headingLevel="h2"
-            title={post.data.title}
-            footer={'Author: ' + post.authorName}
-          >
-            {post.data.description}
-          </Card>
-        ))
+        featuredPosts.map((post) => {
+          const cover = getCoverProps(post.data)
+          return (
+            <Card
+              imageComponent={cover.src}
+              imageAlt={cover.alt}
+              width={cover.width}
+              height={cover.height}
+              style={cover.style}
+              url={'/blog/' + post.id}
+              headingLevel="h2"
+              title={post.data.title}
+              footer={'Author: ' + post.authorName}
+            >
+              {post.data.description}
+            </Card>
+          )
+        })
       }
     </div>
     <div class="mt-12">

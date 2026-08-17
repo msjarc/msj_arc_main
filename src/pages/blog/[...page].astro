@@ -6,14 +6,7 @@ import { getCollection } from 'astro:content'
 import type { GetStaticPaths, Page } from 'astro'
 import type { CollectionEntry } from 'astro:content'
 import { slugify } from '@utils/slugify'
-
-// Import images directly for optimization
-import postImage1 from '@assets/images/projects/project-image-1.png'
-import postImage2 from '@assets/images/projects/project-image-2.png'
-import postImage3 from '@assets/images/projects/project-image-3.png'
-import postImage4 from '@assets/images/projects/project-image-4.png'
-import postImage5 from '@assets/images/projects/project-image-5.png'
-import postImage6 from '@assets/images/projects/project-image-6.png'
+import { getCoverProps } from '@utils/coverImage'
 
 export const getStaticPaths = (async ({ paginate }) => {
   const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
@@ -25,24 +18,21 @@ export const getStaticPaths = (async ({ paginate }) => {
     slug: slugify(label),
   }))
 
-  const postImages = [postImage1, postImage2, postImage3, postImage4, postImage5, postImage6]
-
-  const postsWithImages = posts.map((post, index) => {
+  const postsWithAuthors = posts.map((post) => {
     return {
       ...post,
       authorName: authors.find((a) => a.id === post.data.author.id)?.data.title,
-      featuredImage: postImages[index % postImages.length],
     }
   })
 
-  return paginate(postsWithImages, {
+  return paginate(postsWithAuthors, {
     pageSize: 6,
     props: { uniqueTags },
   })
 }) satisfies GetStaticPaths
 
 interface Props {
-  page: Page<CollectionEntry<'blog'> & { featuredImage: any; authorName: any }>
+  page: Page<CollectionEntry<'blog'> & { authorName: string | undefined }>
   uniqueTags: { label: string; slug: string }[]
 }
 
@@ -70,25 +60,32 @@ const { page, uniqueTags } = Astro.props
       </p>
       <ul class="mt-3 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {
-          page.data.map((post) => (
-            <li>
-              <Card
-                imageComponent={post.featuredImage}
-                url={'/blog/' + post.id}
-                title={post.data.title}
-                headingLevel="h2"
-                footer={'Author: ' + post.authorName}
-                fullHeight={true}
-              >
-                <span slot="meta">
-                  {post.data.tags.map((tag: unknown) => (
-                    <Badge>{tag}</Badge>
-                  ))}
-                </span>
-                {post.data.description}
-              </Card>
-            </li>
-          ))
+          page.data.map((post) => {
+            const cover = getCoverProps(post.data)
+            return (
+              <li>
+                <Card
+                  imageComponent={cover.src}
+                  imageAlt={cover.alt}
+                  width={cover.width}
+                  height={cover.height}
+                  style={cover.style}
+                  url={'/blog/' + post.id}
+                  title={post.data.title}
+                  headingLevel="h2"
+                  footer={'Author: ' + post.authorName}
+                  fullHeight={true}
+                >
+                  <span slot="meta">
+                    {post.data.tags.map((tag: unknown) => (
+                      <Badge>{tag}</Badge>
+                    ))}
+                  </span>
+                  {post.data.description}
+                </Card>
+              </li>
+            )
+          })
         }
       </ul>
       {

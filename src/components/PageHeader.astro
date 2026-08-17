@@ -1,7 +1,9 @@
 ---
 import { Avatar, Breadcrumbs, BreadcrumbsItem, Heading } from 'accessible-astro-components'
-import { Image } from 'astro:assets'
+import { Image, Picture } from 'astro:assets'
+import type { ImageMetadata } from 'astro'
 import sanitizeHtml from 'sanitize-html'
+import { getCoverPosition, type CoverFocus } from '@utils/coverImage'
 
 /**
  * PageHeader Component
@@ -16,7 +18,15 @@ interface Props {
   /**
    * The featured image of the page
    */
-  featuredImage?: string
+  featuredImage?: ImageMetadata | string
+  /**
+   * Alt text for the featured image
+   */
+  featuredImageAlt?: string
+  /**
+   * Focal point for CSS object-position (0–100)
+   */
+  coverFocus?: CoverFocus
   /**
    * The title of the page
    */
@@ -63,6 +73,8 @@ const {
   bgType,
   showBreadcrumbs = true,
   featuredImage,
+  featuredImageAlt = '',
+  coverFocus,
   author,
   customBreadcrumbLabels,
   joinLastBreadcrumb = false,
@@ -135,14 +147,25 @@ const sanitizedSubtitle: string = subtitle
     <div class="space-content container">
       {
         featuredImage && (
-          <div class="featured-image-container mb-8">
-            <Image
-              src={featuredImage}
-              alt=""
-              width={1200}
-              height={250}
-              class="h-[250px] w-full rounded-lg object-cover"
-            />
+          <div class="featured-image-container mb-8" style={`--cover-position: ${getCoverPosition(coverFocus)}`}>
+            {typeof featuredImage === 'string' ? (
+              <Image
+                src={featuredImage}
+                alt={featuredImageAlt}
+                width={1200}
+                height={250}
+                class="h-[250px] w-full rounded-lg object-cover"
+              />
+            ) : (
+              <Picture
+                src={featuredImage}
+                alt={featuredImageAlt}
+                widths={[640, 960, 1200]}
+                sizes="(min-width: 1280px) 1200px, 100vw"
+                formats={['avif', 'webp']}
+                class="h-[250px] w-full rounded-lg object-cover"
+              />
+            )}
           </div>
         )
       }
@@ -190,5 +213,9 @@ const sanitizedSubtitle: string = subtitle
   .page-header .featured-image-container {
     max-height: 500px;
     overflow: hidden;
+  }
+
+  .page-header .featured-image-container img {
+    object-position: var(--cover-position, 50% 50%);
   }
 </style>

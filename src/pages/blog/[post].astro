@@ -9,30 +9,14 @@ import type { CollectionEntry } from 'astro:content'
 export async function getStaticPaths() {
   const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
 
-  const postImages = [
-    { src: '/projects/project-image-1.png' },
-    { src: '/projects/project-image-2.png' },
-    { src: '/projects/project-image-3.png' },
-    { src: '/projects/project-image-4.png' },
-    { src: '/projects/project-image-5.png' },
-    { src: '/projects/project-image-6.png' },
-  ]
-
-  return posts.map((post, index) => {
-    const postWithImage = {
-      ...post,
-      featuredImage: postImages[index % postImages.length].src,
-    }
-
-    return {
-      params: { post: post.id },
-      props: { post: postWithImage },
-    }
-  })
+  return posts.map((post) => ({
+    params: { post: post.id },
+    props: { post },
+  }))
 }
 
 interface Props {
-  post: CollectionEntry<'blog'> & { featuredImage: string }
+  post: CollectionEntry<'blog'>
 }
 
 const { post } = Astro.props
@@ -51,13 +35,20 @@ const author = {
 }
 ---
 
-<DefaultLayout title={post.data.title} description={post.data.description} url={`/blog/${post.id}`}>
+<DefaultLayout
+  title={post.data.title}
+  description={post.data.description}
+  url={`/blog/${post.id}`}
+  image={post.data.cover}
+>
   <PageHeader
     title={post.data.title}
     subtitle={post.data.description}
     author={author}
     bgType="bordered"
-    featuredImage={post.featuredImage}
+    featuredImage={post.data.cover}
+    featuredImageAlt={post.data.coverAlt}
+    coverFocus={post.data.coverFocus}
   />
   <section class="my-12">
     <div class="narrow space-content container">

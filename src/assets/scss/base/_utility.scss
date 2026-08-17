@@ -232,3 +232,8 @@ $font-map: (
     margin-block-start: 0;
   }
 }
+
+/* Card cover crop: focal point from --cover-position (coverFocus x/y). */
+.card .image img {
+  object-position: var(--cover-position, 50% 50%);
+}

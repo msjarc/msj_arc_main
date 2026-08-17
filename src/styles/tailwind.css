@@ -2,3 +2,9 @@
 
 @source '../../src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}';
 @custom-variant dark (&:where(.darkmode, .darkmode *));
+
+@layer components {
+  .card .image img {
+    object-position: var(--cover-position, 50% 50%);
+  }
+}

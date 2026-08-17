@@ -63,6 +63,22 @@ collections:
       - { label: "Description", name: "description", widget: "string" }
       - { label: "Tags", name: "tags", widget: "list", default: [] }
 
+      - label: Cover Image
+        name: cover
+        widget: image
+        required: false
+        media_folder: ""
+        public_folder: ""
+      - { label: Cover alt text, name: coverAlt, widget: string, required: false }
+      - label: Cover focal point
+        name: coverFocus
+        widget: object
+        required: false
+        hint: "Which part of the photo should stay visible in the card (0-100)."
+        fields:
+          - { label: Horizontal (0 left, 100 right), name: x, widget: number, value_type: int, default: 50, min: 0, max: 100 }
+          - { label: Vertical (0 top, 100 bottom), name: y, widget: number, value_type: int, default: 50, min: 0, max: 100 }
+
       - { label: "Body", name: "body", widget: "markdown" }
 
   # ── Static Pages (file-based, each defined individually) ──
