@@ -2,6 +2,7 @@
 import DefaultLayout from '@layouts/DefaultLayout.astro'
 import Hero from '@components/Hero.astro'
 import Feature from '@components/Feature.astro'
+import NextMeeting from '@components/NextMeeting.astro'
 import FeaturedPosts from '@components/FeaturedPosts.astro'
 import ContentMedia from '@components/ContentMedia.astro'
 import { Link } from 'accessible-astro-components'
@@ -63,7 +64,9 @@ import { Tabs, TabsList, TabsTab, TabsPanel } from 'accessible-astro-components'
     </p>
     <p class="text-2xl">Note: we don't hold meetings in E2B anymore, as Ms. Kim switched classrooms.</p>
 
-    <Link isButton type="info" href="/meeting-schedule"><Icon name="ion:calendar-outline" />Meeting Schedule</Link>
+    <NextMeeting />
+
+    <Link isButton class="button-gradient" href="/calendars"><Icon name="ion:calendar-outline" />Meeting Schedule</Link>
   </ContentMedia>
 
   <FeaturedPosts />

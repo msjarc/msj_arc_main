@@ -56,6 +56,7 @@
     "@tailwindcss/vite": "^4.1.18",
     "accessible-astro-components": "^5.1.2",
     "accessible-astro-launcher": "^2.0.0",
-    "astro-seo": "^1.1.0"
+    "astro-seo": "^1.1.0",
+    "ical-expander": "^3.2.0"
   }
 }

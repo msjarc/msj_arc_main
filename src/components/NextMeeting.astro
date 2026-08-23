@@ -1,0 +1,77 @@
+---
+import { Icon } from 'astro-icon/components'
+import { formatEventDate, formatEventTime, getNextEvent } from '@utils/calendar'
+
+/**
+ * Next Meeting Component
+ *
+ * @description Shows the next event from the club's Google Calendar, read from
+ * the public ICS feed at build time.
+ */
+const event = await getNextEvent()
+---
+
+<div class="next-meeting">
+  <p class="next-meeting__label">
+    <Icon aria-hidden="true" name="lucide:calendar-clock" />
+    <span>Next up</span>
+  </p>
+  {
+    event ? (
+      <>
+        <p class="next-meeting__title">{event.title}</p>
+        <p class="next-meeting__when">
+          <time datetime={event.start.toISOString()}>{formatEventDate(event)}</time>
+          <span aria-hidden="true"> &middot; </span>
+          {formatEventTime(event)}
+        </p>
+        {event.location && !event.location.startsWith('http') && <p class="next-meeting__where">{event.location}</p>}
+      </>
+    ) : (
+      <>
+        <p class="next-meeting__title">No meetings on the calendar right now.</p>
+        <p class="next-meeting__when">Check back when the school year starts.</p>
+      </>
+    )
+  }
+</div>
+
+<style lang="scss">
+  .next-meeting {
+    border: 3px solid var(--color-neutral-700);
+    border-radius: var(--radius-l);
+    background-color: var(--color-neutral-100);
+    padding: var(--space-m);
+  }
+
+  .next-meeting__label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-block-end: var(--space-2xs);
+    color: var(--link-color);
+    font-weight: 700;
+    font-size: var(--font-size-0);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .next-meeting__title {
+    font-weight: 700;
+    font-size: var(--font-size-2);
+  }
+
+  .next-meeting__when,
+  .next-meeting__where {
+    font-size: var(--font-size-1);
+  }
+
+  :global(.next-meeting [data-icon]) {
+    inline-size: 1.5rem;
+    block-size: auto;
+  }
+
+  :global(.darkmode) .next-meeting {
+    background-color: var(--color-neutral-900);
+  }
+</style>

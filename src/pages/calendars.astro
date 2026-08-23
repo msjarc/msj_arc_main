@@ -1,7 +1,13 @@
 ---
 import DefaultLayout from '@layouts/DefaultLayout.astro'
 import PageHeader from '@components/PageHeader.astro'
+import { CALENDAR_ICS_URL } from '@utils/calendar'
 import { Heading, Link } from 'accessible-astro-components'
+
+const embedUrl =
+  'https://calendar.google.com/calendar/embed?src=msjamateurradio%40gmail.com&ctz=America%2FLos_Angeles&mode=MONTH&showTitle=0&showPrint=0&showCalendars=0&showTz=0'
+
+const googleSubscribeUrl = `https://calendar.google.com/calendar/render?cid=${encodeURIComponent(CALENDAR_ICS_URL)}`
 ---
 
 <DefaultLayout title="Calendars">
@@ -11,15 +17,22 @@ import { Heading, Link } from 'accessible-astro-components'
     bgType="bordered"
   />
 
-  <section class="container my-16 space-content">
-    <Heading level="h2">Club meetings</Heading>
+  <section class="space-content container my-16">
+    <Heading level="h2">Club calendar</Heading>
     <p class="text-lg">
-      MSJ ARC meets during the school year at Mission San Jose High School. Meeting days, times, and room are announced
-      to members and will be posted here. A live club calendar is on the way.
+      MSJ ARC meets every other Monday during lunch at Mission San Jose High School. Meetings, events, and any changes
+      are posted to the calendar below. All times are Pacific.
     </p>
+
+    <div class="calendar-embed">
+      <iframe src={embedUrl} title="MSJ ARC club calendar" loading="lazy" frameborder="0" scrolling="no"></iframe>
+    </div>
+
+    <p>Subscribe and the club calendar shows up in your own:</p>
+    <Link isButton isExternal class="button-gradient" href={googleSubscribeUrl}>Add to Google Calendar</Link>
   </section>
 
-  <section class="container my-16 space-content">
+  <section class="space-content container my-16">
     <Heading level="h2">Amateur radio calendars</Heading>
     <p>Useful calendars for events, contests, and on-the-air activities beyond our club:</p>
     <ul class="space-content">
@@ -31,9 +44,39 @@ import { Heading, Link } from 'accessible-astro-components'
         listings
       </li>
       <li>
-        <Link isExternal href="https://www.arrl.org/hamfests-and-conventions-calendar">ARRL Hamfests &amp; Conventions</Link>
+        <Link isExternal href="https://www.arrl.org/hamfests-and-conventions-calendar"
+          >ARRL Hamfests &amp; Conventions</Link
+        >
         — swap meets and gatherings
       </li>
     </ul>
   </section>
 </DefaultLayout>
+
+<style>
+  .calendar-embed {
+    border: 3px solid var(--color-neutral-700);
+    border-radius: var(--radius-l);
+    background-color: var(--background-color);
+    block-size: 40rem;
+    max-block-size: 80vh;
+    overflow: hidden;
+  }
+
+  .calendar-embed iframe {
+    display: block;
+    border: 0;
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  /**
+   * Google's embed is cross-origin, so its own stylesheet is out of reach and it
+   * always paints itself light. Inverting the whole frame is the only lever we
+   * have. Stopping short of a full invert keeps white from becoming pure black,
+   * and the hue-rotate puts event colours back near where they started.
+   */
+  :global(.darkmode) .calendar-embed iframe {
+    filter: invert(0.92) hue-rotate(180deg);
+  }
+</style>
