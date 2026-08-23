@@ -1,0 +1,566 @@
+---
+import { Heading } from 'accessible-astro-components'
+import { classifyIndex, fetchSolarData, formatUpdated, SOLAR_PROXY_URL, type SolarData } from '@utils/solar'
+
+/**
+ * BandConditions Component
+ *
+ * @description Solar and HF/VHF propagation conditions from N0NBH's feed, laid out as a
+ * compact banner in the site's own styling. Labels are taken verbatim from N0NBH's own
+ * banner so operators read the same names they're used to. The feed is fetched at build
+ * time so the panel renders without JavaScript; the browser then refreshes it through the
+ * same-origin `/api/solar` proxy.
+ *
+ * The banner shows four things this cannot: EME Deg, the MS and MUF 24-hour bar graphs,
+ * VHF US Boulder and Solar Flare Prb. None of them are published in solarxml.php — the
+ * feed carries 27 tags and none of those are among them — so they are left out rather
+ * than invented.
+ */
+
+/** SDO/AIA 304 Å — the same image N0NBH embeds, taken straight from the source. */
+const SUN_IMAGE = 'https://sdo.gsfc.nasa.gov/assets/img/latest/latest_512_0304.jpg'
+
+/**
+ * Column one, in the banner's order and using its labels. Flows two pairs per row, so
+ * `SFI`/`SN`, `A`/`K` and `Bz`/`SW` share a line the way the banner has them.
+ */
+const INDICES = [
+  { key: 'solarflux', label: 'SFI' },
+  { key: 'sunspots', label: 'SN' },
+  { key: 'aindex', label: 'A' },
+  { key: 'kindex', label: 'K', source: true },
+  { key: 'xray', label: 'X-Ray' },
+  { key: 'heliumline', label: '304A', suffix: '@ SEM' },
+  { key: 'protonflux', label: 'Ptn Flx' },
+  { key: 'electronflux', label: 'Elc Flx' },
+  { key: 'aurora', label: 'Aurora', normalized: true },
+  { key: 'latdegree', label: 'Aur Lat', suffix: '°', tight: true },
+  { key: 'magneticfield', label: 'Bz' },
+  { key: 'solarwind', label: 'SW' },
+] as const
+
+const VHF = [
+  { name: 'vhf-aurora', location: 'northern_hemi', label: 'Aurora' },
+  { name: 'E-Skip', location: 'europe_6m', label: '6m EsEU' },
+  { name: 'E-Skip', location: 'europe_4m', label: '4m EsEU' },
+  { name: 'E-Skip', location: 'europe', label: '2m EsEU' },
+  { name: 'E-Skip', location: 'north_america', label: '2m EsNA' },
+]
+
+const BANDS = ['80m-40m', '30m-20m', '17m-15m', '12m-10m']
+
+const FIELD = [
+  { key: 'geomagfield', label: 'Geomag Field' },
+  { key: 'signalnoise', label: 'Sig Noise Lvl' },
+] as const
+
+let data: SolarData | null = null
+
+try {
+  data = await fetchSolarData()
+} catch (error) {
+  // Don't fail the whole build because a third-party feed hiccuped. The panel renders
+  // empty with a visible notice and the browser fills it in from the proxy.
+  console.warn(
+    `[BandConditions] build-time fetch of the N0NBH feed failed: ${error instanceof Error ? error.message : String(error)}\n` +
+      `[BandConditions] the panel will render empty and load from ${SOLAR_PROXY_URL} in the browser`,
+  )
+}
+
+const cellFor = (name: string, time: string) => data?.bands.find((b) => b.name === name && b.time === time)
+const vhfFor = (name: string, location: string) => data?.vhf.find((v) => v.name === name && v.location === location)
+
+/**
+ * The banner labels the K index by its source. The feed sends `No Report` when only the
+ * planetary figure is available, which is when the banner reads `/Plntry`.
+ */
+const kSource = (kindexnt: string) => `/${/no report/i.test(kindexnt) ? 'Plntry' : kindexnt.trim()}`
+---
+
+<section class="band-conditions container my-16">
+  <div class="panel" data-solar-panel>
+    <header class="panel-header">
+      <Heading level="h2" size="h6" class="panel-title">Band Conditions</Heading>
+      <p class="meta"><a href="https://www.hamqsl.com/solar.html" rel="external">N0NBH</a></p>
+    </header>
+
+    {
+      !data && (
+        <p class="notice" data-solar-notice>
+          Live data was unavailable when this page was built. Loading it from the server&hellip;
+        </p>
+      )
+    }
+
+    <p class="notice" data-solar-stale hidden>These readings could not be refreshed and may be out of date.</p>
+
+    <div class="columns">
+      <div class="column">
+        <Heading level="h3" size="h6" class="column-title">Solar-Terrestrial Data</Heading>
+        <p class="stamp">
+          <time data-solar-time datetime={data?.updated ?? undefined}
+            >{data ? formatUpdated(data.updated, data.updatedRaw) : '—'}</time
+          ><span class="age" data-solar-age></span>
+        </p>
+        <dl class="indices">
+          {
+            INDICES.map((item) => (
+              <>
+                <dt>{item.label}</dt>
+                <dd>
+                  <span
+                    class="status"
+                    data-solar-value={item.key}
+                    data-condition={data ? classifyIndex(item.key, data[item.key]) : 'unknown'}
+                  >
+                    {data?.[item.key] || '—'}
+                  </span>
+                  {'suffix' in item && <span class:list={['suffix', 'tight' in item && 'tight']}>{item.suffix}</span>}
+                  {'normalized' in item && (
+                    <span class="suffix">
+                      /n=<span data-solar-value="normalization">{data?.normalization || '—'}</span>
+                    </span>
+                  )}
+                  {'source' in item && <span class="suffix" data-solar-ksource>{data ? kSource(data.kindexnt) : '—'}</span>}
+                </dd>
+              </>
+            ))
+          }
+        </dl>
+      </div>
+
+      <div class="column">
+        <Heading level="h3" size="h6" class="column-title">VHF Conditions</Heading>
+        <table class="grid">
+          <thead>
+            <tr>
+              <th scope="col">Item</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              VHF.map((item) => {
+                const entry = vhfFor(item.name, item.location)
+
+                return (
+                  <tr>
+                    <th scope="row">{item.label}</th>
+                    <td>
+                      <span
+                        class="status"
+                        data-solar-vhf={`${item.name}|${item.location}`}
+                        data-open={entry ? String(entry.open) : 'unknown'}
+                      >
+                        {entry?.value ?? '—'}
+                      </span>
+                    </td>
+                  </tr>
+                )
+              })
+            }
+            <tr>
+              <th scope="row">MUF</th>
+              <td>
+                <span class="status" data-solar-value="muf" data-condition={data ? classifyIndex('muf', data.muf) : 'unknown'}>
+                  {data?.muf || '—'}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="column">
+        <Heading level="h3" size="h6" class="column-title">HF Conditions</Heading>
+        <table class="grid">
+          <thead>
+            <tr>
+              <th scope="col">Band</th>
+              <th scope="col">Day</th>
+              <th scope="col">Night</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              BANDS.map((band) => (
+                <tr>
+                  <th scope="row">{band}</th>
+                  {['day', 'night'].map((time) => (
+                    <td>
+                      <span
+                        class="status"
+                        data-solar-band={`${band}|${time}`}
+                        data-condition={cellFor(band, time)?.condition ?? 'unknown'}
+                      >
+                        {cellFor(band, time)?.value ?? '—'}
+                      </span>
+                    </td>
+                  ))}
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+
+        <dl class="pairs">
+          {
+            FIELD.map((item) => (
+              <>
+                <dt>{item.label}</dt>
+                <dd>
+                  <span
+                    class="status"
+                    data-solar-value={item.key}
+                    data-condition={data ? classifyIndex(item.key, data[item.key]) : 'unknown'}
+                  >
+                    {data?.[item.key] || '—'}
+                  </span>
+                </dd>
+              </>
+            ))
+          }
+        </dl>
+      </div>
+
+      <figure class="sun">
+        <span class="sun-frame">
+          <img src={SUN_IMAGE} alt="The Sun right now, imaged at 304 ångström by NASA's SDO satellite" loading="lazy" />
+        </span>
+        <figcaption>Current Solar Image</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { classifyIndex, fetchSolarData, formatUpdated, relativeAge, SOLAR_PROXY_URL, type SolarData } from '@utils/solar'
+
+  /** Anything older than this is called out as possibly out of date. */
+  const STALE_AFTER_MS = 3 * 60 * 60 * 1000
+
+  const render = (panel: HTMLElement, data: SolarData) => {
+    panel.querySelectorAll<HTMLElement>('[data-solar-value]').forEach((element) => {
+      const key = element.dataset.solarValue as keyof SolarData
+      const value = data[key]
+      if (typeof value !== 'string' || value === '') return
+
+      element.textContent = value
+      // Only the elements that carry a colour get reclassified; plain suffixes don't.
+      if (element.dataset.condition) element.dataset.condition = classifyIndex(key, value)
+    })
+
+    const kSource = panel.querySelector<HTMLElement>('[data-solar-ksource]')
+    if (kSource) kSource.textContent = `/${/no report/i.test(data.kindexnt) ? 'Plntry' : data.kindexnt.trim()}`
+
+    data.bands.forEach((band) => {
+      const cell = panel.querySelector<HTMLElement>(`[data-solar-band="${band.name}|${band.time}"]`)
+      if (!cell) return
+      cell.textContent = band.value
+      cell.dataset.condition = band.condition
+    })
+
+    data.vhf.forEach((item) => {
+      const element = panel.querySelector<HTMLElement>(`[data-solar-vhf="${item.name}|${item.location}"]`)
+      if (!element) return
+      element.textContent = item.value
+      element.dataset.open = String(item.open)
+    })
+
+    const time = panel.querySelector<HTMLTimeElement>('[data-solar-time]')
+    if (time) {
+      time.dateTime = data.updated ?? ''
+      time.textContent = formatUpdated(data.updated, data.updatedRaw)
+    }
+
+    panel.querySelector<HTMLElement>('[data-solar-notice]')?.remove()
+    markAge(panel, data.updated)
+  }
+
+  /** Append a relative age and flag readings the browser could not bring up to date. */
+  const markAge = (panel: HTMLElement, updated: string | null) => {
+    const age = panel.querySelector<HTMLElement>('[data-solar-age]')
+    const stale = panel.querySelector<HTMLElement>('[data-solar-stale]')
+    if (!updated) return
+
+    const elapsed = Date.now() - new Date(updated).getTime()
+    if (age) age.textContent = ` (${relativeAge(updated)})`
+    if (stale) stale.hidden = elapsed < STALE_AFTER_MS
+  }
+
+  const refresh = async () => {
+    const panel = document.querySelector<HTMLElement>('[data-solar-panel]')
+    if (!panel) return
+
+    // Show the age of the baked-in data straight away, in case the refresh fails.
+    markAge(panel, panel.querySelector<HTMLTimeElement>('[data-solar-time]')?.dateTime || null)
+
+    render(panel, await fetchSolarData(SOLAR_PROXY_URL))
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    refresh().catch((error) => console.error('[BandConditions] refresh failed:', error))
+  })
+</script>
+
+<style lang="scss">
+  @use '../assets/scss/base/breakpoint' as *;
+
+  .panel {
+    // Condition colours, tuned to clear 4.5:1 against the panel background in both schemes.
+    --good: light-dark(oklch(43% 0.13 150), oklch(84% 0.17 150));
+    --fair: light-dark(oklch(46% 0.12 70), oklch(85% 0.15 85));
+    --poor: light-dark(oklch(47% 0.18 25), oklch(78% 0.15 25));
+    --unknown: light-dark(var(--color-neutral-700), var(--color-neutral-500));
+
+    box-shadow: var(--elevation-1);
+    border: 2px solid var(--color-neutral-700);
+    border-radius: var(--radius-l);
+    padding: var(--space-xs) var(--space-s);
+    font-variant-numeric: tabular-nums;
+    background-color: light-dark(var(--color-neutral-100), var(--color-neutral-900));
+  }
+
+  .panel-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-s);
+    justify-content: space-between;
+    align-items: baseline;
+    margin-block-end: var(--space-2xs);
+  }
+
+  .panel-title {
+    margin: 0;
+  }
+
+  .meta {
+    display: flex;
+    gap: 0.75ch;
+    align-items: baseline;
+    font-size: var(--font-size--1);
+  }
+
+  .age {
+    opacity: 0.75;
+  }
+
+  .notice {
+    margin-block-end: var(--space-2xs);
+    border-inline-start: 3px solid var(--poor);
+    padding-inline-start: var(--space-2xs);
+    font-size: var(--font-size--1);
+    color: var(--poor);
+  }
+
+  .columns {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-xs) var(--space-m);
+  }
+
+  .column-title {
+    margin-block-end: var(--space-4xs);
+    font-size: var(--font-size--2);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.65;
+  }
+
+  // The timestamp sits where the other columns put their header row, so all three line up.
+  .stamp {
+    font-size: var(--font-size--1);
+    line-height: 1.55;
+    white-space: nowrap;
+    opacity: 0.65;
+  }
+
+  // Two label/value pairs per row, matching how the banner packs this column. Tracks hug
+  // their content and the slack is shared between them, rather than pooling in one gap.
+  .indices {
+    display: grid;
+    grid-template-columns: auto max-content auto max-content;
+    justify-content: space-between;
+    column-gap: var(--space-2xs);
+    margin: 0;
+    font-size: var(--font-size--1);
+    line-height: 1.55;
+  }
+
+  .indices dt {
+    white-space: nowrap;
+    opacity: 0.75;
+  }
+
+  // Flex rather than inline, so the whitespace between the value and its suffix collapses
+  // and a tight suffix like the degree sign can sit flush against the number.
+  .indices dd {
+    display: flex;
+    gap: 0.45ch;
+    justify-content: flex-end;
+    align-items: baseline;
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  .suffix {
+    font-size: var(--font-size--2);
+    opacity: 0.7;
+  }
+
+  .indices dd .tight {
+    margin-inline-start: -0.45ch;
+  }
+
+  .grid {
+    border-collapse: collapse;
+    inline-size: 100%;
+    font-size: var(--font-size--1);
+    line-height: 1.55;
+  }
+
+  .grid th,
+  .grid td {
+    padding: 0;
+    white-space: nowrap;
+  }
+
+  // The label column absorbs the slack so the values line up hard against the right edge,
+  // and every column after the first keeps a gutter so nothing runs together.
+  .grid tbody th:first-child,
+  .grid thead th:first-child {
+    inline-size: 100%;
+  }
+
+  .grid td,
+  .grid th + th {
+    padding-inline-start: var(--space-s);
+  }
+
+  .grid thead th {
+    font-weight: 400;
+    text-align: end;
+    opacity: 0.65;
+  }
+
+  .grid thead th:first-child,
+  .grid tbody th {
+    font-weight: 400;
+    text-align: start;
+    opacity: 0.75;
+  }
+
+  .grid td {
+    text-align: end;
+  }
+
+  // Geomag Field and Sig Noise Lvl are label/value lines, not band rows. Keeping them out
+  // of the table means no colspan, so the Day and Night columns size purely off their own
+  // content and the header lines up with the values under it.
+  .pairs {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: var(--space-s);
+    margin: 0;
+    border-block-start: 1px solid var(--border-color-subtle);
+    padding-block-start: var(--space-3xs);
+    margin-block-start: var(--space-4xs);
+    font-size: var(--font-size--1);
+    line-height: 1.55;
+  }
+
+  .pairs dt {
+    white-space: nowrap;
+    opacity: 0.75;
+  }
+
+  .pairs dd {
+    margin: 0;
+    white-space: nowrap;
+    text-align: end;
+  }
+
+  .status {
+    font-weight: 700;
+    color: var(--unknown);
+  }
+
+  .status[data-condition='good'],
+  .status[data-open='true'] {
+    color: var(--good);
+  }
+
+  .status[data-condition='fair'] {
+    color: var(--fair);
+  }
+
+  .status[data-condition='poor'],
+  .status[data-open='false'] {
+    color: var(--poor);
+  }
+
+  .sun {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4xs);
+    align-items: center;
+    margin: 0;
+  }
+
+  // The image is taken out of flow so it contributes nothing to the row height. The frame
+  // is what gets measured, which keeps the sun from growing the card: it fills whatever
+  // height the data columns settle on and shrinks to fit when the card is shorter.
+  .sun-frame {
+    position: relative;
+    inline-size: 100%;
+    max-inline-size: 12rem;
+    aspect-ratio: 1;
+  }
+
+  .sun img {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-m);
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: contain;
+  }
+
+  .sun figcaption {
+    font-size: var(--font-size--2);
+    text-align: center;
+    opacity: 0.65;
+  }
+
+  @include breakpoint('s') {
+    .columns {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @include breakpoint('l') {
+    .columns {
+      grid-template-columns: 1.25fr 1fr 1.1fr 11.5rem;
+      align-items: start;
+    }
+
+    // Hairline rules between columns, like the banner this replaces.
+    .columns > * + * {
+      border-inline-start: 1px solid var(--border-color-subtle);
+      padding-inline-start: var(--space-m);
+    }
+
+    // Stretch to the tallest column and let the frame take the height the caption leaves,
+    // rather than sizing off the image and dragging the card taller.
+    .sun {
+      align-self: stretch;
+    }
+
+    .sun-frame {
+      flex: 1 1 auto;
+      min-block-size: 0;
+      max-inline-size: none;
+      aspect-ratio: auto;
+    }
+  }
+</style>

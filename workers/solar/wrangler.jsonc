@@ -1,0 +1,22 @@
+{
+  "name": "msjarc-solar",
+  "main": "./src/index.js",
+  "compatibility_date": "2026-02-22",
+
+  // Mounted on msjarc.org so the homepage panel can fetch it same-origin. This is a longer,
+  // more specific pattern than the contact worker's `msjarc.org/api/*`, and Cloudflare routes
+  // by longest match, so this worker wins for /api/solar and the contact worker keeps the rest.
+  // If you'd rather keep the two route spaces fully separate, change the pattern here and
+  // SOLAR_PROXY_URL in src/utils/solar.ts to something like /solar-data.
+  "routes": [
+    {
+      "pattern": "msjarc.org/api/solar",
+      "zone_name": "msjarc.org"
+    }
+  ],
+
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  }
+}

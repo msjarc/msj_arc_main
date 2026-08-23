@@ -3,10 +3,11 @@ import DefaultLayout from '@layouts/DefaultLayout.astro'
 import Hero from '@components/Hero.astro'
 import Feature from '@components/Feature.astro'
 import FeaturedPosts from '@components/FeaturedPosts.astro'
+import BandConditions from '@components/BandConditions.astro'
 import ContentMedia from '@components/ContentMedia.astro'
 import { Link } from 'accessible-astro-components'
 import CallToAction from '@components/CallToAction.astro'
-import { Heading, Media } from 'accessible-astro-components'
+import { Heading } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 import { Tabs, TabsList, TabsTab, TabsPanel } from 'accessible-astro-components'
 ---
@@ -68,25 +69,7 @@ import { Tabs, TabsList, TabsTab, TabsPanel } from 'accessible-astro-components'
 
   <FeaturedPosts />
 
-  <section class="my-64">
-    <div class="media-wrapper container">
-      <picture>
-        <source srcset="https://www.hamqsl.com/solar101vhfpic.php" media="(orientation: landscape)" />
-        <source srcset="https://www.hamqsl.com/solarn0nbh.php" media="(orientation: portrait)" />
-
-        <img
-          src="https://www.hamqsl.com/solar101vhfpic.php"
-          alt="Solar and amateur radio band data from https://www.hamqsl.com"
-          loading="lazy"
-        />
-      </picture>
-
-      <!-- <Media
-        src="https://www.hamqsl.com/solar101vhfpic.php"
-        alt="Solar and amateur radio band data from https://www.hamqsl.com"
-      /> -->
-    </div>
-  </section>
+  <BandConditions />
 
   <CallToAction />
 </DefaultLayout>
@@ -122,19 +105,5 @@ import { Tabs, TabsList, TabsTab, TabsPanel } from 'accessible-astro-components'
     .quick-link-card:where(:hover, :focus-visible) {
       translate: 0 -4px;
     }
-  }
-
-  :where(.media-wrapper) {
-    position: relative;
-    border-radius: 0.5rem;
-    inline-size: 100%;
-    overflow: hidden;
-  }
-
-  :where(.media-wrapper img) {
-    border-radius: inherit;
-    inline-size: 100%;
-    block-size: auto;
-    object-fit: cover;
   }
 </style>
