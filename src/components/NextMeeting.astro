@@ -1,40 +1,92 @@
 ---
 import { Icon } from 'astro-icon/components'
-import { formatEventDate, formatEventTime, getNextEvent } from '@utils/calendar'
+import { getUpcomingCards } from '@utils/calendar'
+import { NO_EVENT_DETAIL, NO_EVENT_TITLE } from '@utils/next-meeting'
 
 /**
  * Next Meeting Component
  *
- * @description Shows the next event from the club's Google Calendar, read from
- * the public ICS feed at build time.
+ * @description Shows the next event from the club's Google Calendar. The build
+ * reads the public ICS feed and embeds the whole upcoming year below; the script
+ * then picks whichever entry is still ahead of the visitor's clock. A meeting
+ * simply ending therefore never makes this card wrong. Only an edit to the
+ * calendar needs a rebuild, which is rare enough to do by hand.
+ *
+ * Without a script the card falls back to whatever was next at build time,
+ * which is what it showed before.
  */
-const event = await getNextEvent()
+const cards = await getUpcomingCards()
+const first = cards[0] ?? null
+
+// Escaping the angle bracket stops an event title that contains a closing
+// script tag from ending this one early. It is a normal JSON escape, so
+// JSON.parse reads it straight back.
+const embedded = JSON.stringify(cards).replaceAll('<', '\\u003c')
 ---
 
 <div class="next-meeting">
+  <script type="application/json" data-next-meeting-events set:html={embedded} />
   <p class="next-meeting__label">
     <Icon aria-hidden="true" name="lucide:calendar-clock" />
     <span>Next up</span>
   </p>
-  {
-    event ? (
-      <>
-        <p class="next-meeting__title">{event.title}</p>
-        <p class="next-meeting__when">
-          <time datetime={event.start.toISOString()}>{formatEventDate(event)}</time>
+  <p class="next-meeting__title" data-next-meeting-title>{first ? first.title : NO_EVENT_TITLE}</p>
+  <p class="next-meeting__when" data-next-meeting-when>
+    {
+      first ? (
+        <>
+          <time datetime={first.datetime}>{first.date}</time>
           <span aria-hidden="true"> &middot; </span>
-          {formatEventTime(event)}
-        </p>
-        {event.location && !event.location.startsWith('http') && <p class="next-meeting__where">{event.location}</p>}
-      </>
-    ) : (
-      <>
-        <p class="next-meeting__title">No meetings on the calendar right now.</p>
-        <p class="next-meeting__when">Check back when the school year starts.</p>
-      </>
-    )
-  }
+          {first.time}
+        </>
+      ) : (
+        NO_EVENT_DETAIL
+      )
+    }
+  </p>
+  <p class="next-meeting__where" data-next-meeting-where hidden={!first?.location}>{first?.location}</p>
 </div>
+
+<script>
+  // Imported from next-meeting.ts, not calendar.ts: the latter pulls in the ICS
+  // parser, which has no business in the browser.
+  import { NO_EVENT_DETAIL, NO_EVENT_TITLE, type NextMeetingCard } from '@utils/next-meeting'
+
+  const root = document.querySelector('.next-meeting')
+  const embedded = root?.querySelector('[data-next-meeting-events]')
+
+  if (root && embedded) {
+    const titleEl = root.querySelector('[data-next-meeting-title]')!
+    const whenEl = root.querySelector('[data-next-meeting-when]')!
+    const whereEl = root.querySelector('[data-next-meeting-where]') as HTMLElement
+
+    const cards: NextMeetingCard[] = JSON.parse(embedded.textContent || '[]')
+
+    // An event that has started but not finished is still the one to show, which
+    // is why this compares against the end rather than the start.
+    const now = Date.now()
+    const card = cards.find((candidate) => new Date(candidate.endsAt).getTime() > now)
+
+    if (!card) {
+      titleEl.textContent = NO_EVENT_TITLE
+      whenEl.replaceChildren(document.createTextNode(NO_EVENT_DETAIL))
+      whereEl.hidden = true
+    } else {
+      const date = document.createElement('time')
+      date.dateTime = card.datetime
+      date.textContent = card.date
+
+      const separator = document.createElement('span')
+      separator.setAttribute('aria-hidden', 'true')
+      separator.textContent = ' · '
+
+      titleEl.textContent = card.title
+      whenEl.replaceChildren(date, separator, document.createTextNode(card.time))
+      whereEl.textContent = card.location ?? ''
+      whereEl.hidden = !card.location
+    }
+  }
+</script>
 
 <style lang="scss">
   .next-meeting {

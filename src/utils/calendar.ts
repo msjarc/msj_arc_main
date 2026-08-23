@@ -1,4 +1,5 @@
 import IcalExpander from 'ical-expander'
+import type { NextMeetingCard } from './next-meeting'
 
 /**
  * Public ICS feed for the club's Google Calendar.
@@ -129,4 +130,29 @@ export function formatEventTime(event: CalendarEvent): string {
     .find((part) => part.type === 'timeZoneName')?.value
 
   return `${time.format(event.start)} to ${time.format(event.end)}${zone ? ` ${zone}` : ''}`
+}
+
+/** One event's display strings, rendered here so the browser never formats a date. */
+function toCardData(event: CalendarEvent): NextMeetingCard {
+  return {
+    title: event.title,
+    datetime: event.start.toISOString(),
+    endsAt: event.end.toISOString(),
+    date: formatEventDate(event),
+    time: formatEventTime(event),
+    // Google stores a video-call URL here for online meetings, not an address.
+    location: event.location && !event.location.startsWith('http') ? event.location : null,
+  }
+}
+
+/**
+ * The next MONTHS_AHEAD of events, soonest first, ready to embed in a page.
+ *
+ * The card ships the whole list rather than just the first entry so that a
+ * meeting ending does not make the page wrong. The build fixes what is on the
+ * calendar; the browser picks which entry is still ahead of its own clock.
+ * Only an edit to the calendar itself needs a rebuild.
+ */
+export async function getUpcomingCards(): Promise<NextMeetingCard[]> {
+  return (await getUpcomingEvents()).map(toCardData)
 }
