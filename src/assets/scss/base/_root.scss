@@ -153,6 +153,27 @@
   --kbd-color-background: light-dark(var(--color-gray-1000), var(--color-gray-200));
 }
 
+// accessible-astro-launcher ships its own parallel palette derived from
+// --launcher-theme-light/#fff and --launcher-theme-dark/#090b0f, which puts the
+// Ctrl+K trigger fill at 100% lightness in light mode and 20% in dark - the pure
+// white and near-black this theme moved away from. Repoint them at our own ramp
+// so the trigger sits flat on the page instead of floating on it.
+//
+// :root:root, not :root - the package declares these on :root too and its
+// stylesheet lands after ours, so equal specificity would lose on source order.
+:root:root {
+  --launcher-action-bar-color: var(--background-color);
+  --launcher-main-body-color: var(--background-color);
+  --launcher-text-color: var(--foreground-color);
+  --launcher-subtle-text-color: light-dark(var(--color-neutral-600), var(--color-neutral-500));
+  --launcher-outer-border-color: light-dark(var(--color-neutral-400), var(--color-neutral-700));
+  --launcher-inner-border-color: light-dark(var(--color-neutral-300), var(--color-neutral-700));
+  --launcher-interaction-color: light-dark(var(--color-neutral-300), var(--color-neutral-700));
+  --launcher-border-interaction-color: light-dark(var(--color-neutral-600), var(--color-neutral-400));
+  --launcher-kbd-background-color: light-dark(var(--color-neutral-300), var(--color-neutral-700));
+  --launcher-kbd-text-color: var(--foreground-color);
+}
+
 // dark color scheme overrides
 .darkmode {
   color-scheme: dark;
