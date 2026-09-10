@@ -81,6 +81,61 @@ collections:
 
       - { label: "Body", name: "body", widget: "markdown" }
 
+  - name: "activities"
+    label: "Activities"
+    folder: "src/content/activities"
+    media_folder: "{{media_folder}}/activities"
+    public_folder: "{{public_folder}}/activities"
+    create: true
+    extension: "mdx"
+    format: "frontmatter"
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - name: "author"
+        label: "Author"
+        widget: "relation"
+        collection: "authors"
+        search_fields: ["title"]
+        value_field: "{{slug}}"
+        display_fields: ["title"]
+        multiple: false
+      - { label: "Description", name: "description", widget: "string" }
+      - { label: "Tags", name: "tags", widget: "list", default: [] }
+      - label: Cover Image
+        name: cover
+        widget: image
+        required: false
+        media_folder: ""
+        public_folder: ""
+      - { label: Cover alt text, name: coverAlt, widget: string, required: false }
+      - label: Cover focal point
+        name: coverFocus
+        widget: object
+        required: false
+        hint: "Which part of the photo should stay visible in the card (0-100)."
+        fields:
+          - { label: Horizontal (0 left, 100 right), name: x, widget: number, value_type: int, default: 50, min: 0, max: 100 }
+          - { label: Vertical (0 top, 100 bottom), name: y, widget: number, value_type: int, default: 50, min: 0, max: 100 }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "newham"
+    label: "New Ham Guide"
+    label_singular: "Guide page"
+    folder: "src/content/newham"
+    create: true
+    extension: "mdx"
+    format: "frontmatter"
+    slug: "{{slug}}"
+    summary: "{{order}} — {{title}}"
+    sortable_fields: [order, title]
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Order", name: "order", widget: "number", value_type: "int", min: 1 }
+      - { label: "Icon", name: "icon", widget: "string", default: "lucide:radio", hint: "astro-icon name, e.g. lucide:radio" }
+      - { label: "Body", name: "body", widget: "markdown" }
+
   # ── Static Pages (file-based, each defined individually) ──
   - name: "pages"
     label: "Pages"
@@ -115,4 +170,106 @@ collections:
               - { label: "Title", name: "title", widget: "string" }
               - { label: "Subtitle", name: "subtitle", widget: "string" }
               - { label: "Background Type", name: "bgType", widget: "select", options: ["bordered", "default"], default: "bordered" }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+      - label: "Calendars"
+        name: "calendars"
+        file: "src/pages/calendars.mdx"
+        fields:
+          - { label: "Layout", name: "layout", widget: "hidden", default: "@layouts/MarkdownLayout.astro" }
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Description", name: "description", widget: "string", required: false }
+          - { label: "Narrow", name: "narrow", widget: "boolean", default: false }
+          - label: "Page Header"
+            name: "pageHeader"
+            widget: "object"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Subtitle", name: "subtitle", widget: "string" }
+              - { label: "Background Type", name: "bgType", widget: "select", options: ["bordered", "gradient", "primary", "secondary", "neutral"], default: "bordered" }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+      - label: "Local Clubs"
+        name: "clubs"
+        file: "src/pages/clubs.mdx"
+        fields:
+          - { label: "Layout", name: "layout", widget: "hidden", default: "@layouts/MarkdownLayout.astro" }
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Description", name: "description", widget: "string", required: false }
+          - { label: "Narrow", name: "narrow", widget: "boolean", default: false }
+          - label: "Page Header"
+            name: "pageHeader"
+            widget: "object"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Subtitle", name: "subtitle", widget: "string" }
+              - { label: "Background Type", name: "bgType", widget: "select", options: ["bordered", "gradient", "primary", "secondary", "neutral"], default: "bordered" }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+      - label: "Local Nets"
+        name: "nets"
+        file: "src/pages/nets.mdx"
+        fields:
+          - { label: "Layout", name: "layout", widget: "hidden", default: "@layouts/MarkdownLayout.astro" }
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Description", name: "description", widget: "string", required: false }
+          - { label: "Narrow", name: "narrow", widget: "boolean", default: false }
+          - label: "Page Header"
+            name: "pageHeader"
+            widget: "object"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Subtitle", name: "subtitle", widget: "string" }
+              - { label: "Background Type", name: "bgType", widget: "select", options: ["bordered", "gradient", "primary", "secondary", "neutral"], default: "bordered" }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+      - label: "Local Repeaters"
+        name: "repeaters"
+        file: "src/pages/repeaters.mdx"
+        fields:
+          - { label: "Layout", name: "layout", widget: "hidden", default: "@layouts/MarkdownLayout.astro" }
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Description", name: "description", widget: "string", required: false }
+          - { label: "Narrow", name: "narrow", widget: "boolean", default: false }
+          - label: "Page Header"
+            name: "pageHeader"
+            widget: "object"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Subtitle", name: "subtitle", widget: "string" }
+              - { label: "Background Type", name: "bgType", widget: "select", options: ["bordered", "gradient", "primary", "secondary", "neutral"], default: "bordered" }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+      - label: "Presentations & Reference Materials"
+        name: "materials"
+        file: "src/pages/materials.mdx"
+        fields:
+          - { label: "Layout", name: "layout", widget: "hidden", default: "@layouts/MarkdownLayout.astro" }
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Description", name: "description", widget: "string", required: false }
+          - { label: "Narrow", name: "narrow", widget: "boolean", default: false }
+          - label: "Page Header"
+            name: "pageHeader"
+            widget: "object"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Subtitle", name: "subtitle", widget: "string" }
+              - { label: "Background Type", name: "bgType", widget: "select", options: ["bordered", "gradient", "primary", "secondary", "neutral"], default: "bordered" }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+      - label: "Miscellaneous"
+        name: "misc"
+        file: "src/pages/misc.mdx"
+        fields:
+          - { label: "Layout", name: "layout", widget: "hidden", default: "@layouts/MarkdownLayout.astro" }
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Description", name: "description", widget: "string", required: false }
+          - { label: "Narrow", name: "narrow", widget: "boolean", default: false }
+          - label: "Page Header"
+            name: "pageHeader"
+            widget: "object"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Subtitle", name: "subtitle", widget: "string" }
+              - { label: "Background Type", name: "bgType", widget: "select", options: ["bordered", "gradient", "primary", "secondary", "neutral"], default: "bordered" }
           - { label: "Body", name: "body", widget: "markdown" }

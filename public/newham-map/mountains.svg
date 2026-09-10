@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100" fill="none" aria-hidden="true">
+  <title>Placeholder: mountains</title>
+  <path d="M8 88 L58 22 L108 88" stroke="#5c3d24" stroke-width="1.75" opacity="0.6" stroke-linejoin="round"/>
+  <path d="M72 88 L128 18 L192 88" stroke="#5c3d24" stroke-width="1.75" opacity="0.6" stroke-linejoin="round"/>
+  <path d="M48 36 L58 22 L70 38" stroke="#5c3d24" stroke-width="1.25" opacity="0.45"/>
+  <path d="M116 34 L128 18 L142 36" stroke="#5c3d24" stroke-width="1.25" opacity="0.45"/>
+</svg>

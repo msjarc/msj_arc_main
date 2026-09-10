@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 160" fill="none" aria-hidden="true">
+  <title>Placeholder: radio-tower</title>
+  <path d="M40 12 L40 132" stroke="#5c3d24" stroke-width="1.75" opacity="0.65"/>
+  <path d="M28 148 L40 132 L52 148" stroke="#5c3d24" stroke-width="1.75" opacity="0.65"/>
+  <path d="M22 56 L58 56 M26 76 L54 76 M30 96 L50 96 M34 116 L46 116" stroke="#5c3d24" stroke-width="1.5" opacity="0.55"/>
+  <path d="M40 20 L22 44 M40 20 L58 44" stroke="#5c3d24" stroke-width="1.5" opacity="0.55"/>
+  <path d="M52 28 C64 36, 64 52, 52 60 M58 24 C76 36, 76 56, 58 68" stroke="#5c3d24" stroke-width="1.5" opacity="0.5" stroke-linecap="round"/>
+</svg>

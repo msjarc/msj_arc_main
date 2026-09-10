@@ -51,5 +51,15 @@ const activities = defineCollection({
     }),
 })
 
+const newham = defineCollection({
+  loader: glob({ base: './src/content/newham', pattern: '**/*.{md,mdx}' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    order: z.number().int().positive(),
+    icon: z.string().default('lucide:radio'),
+  }),
+})
+
 // 4. Export a single `collections` object to register your collection(s)
-export const collections = { authors, blog, activities }
+export const collections = { authors, blog, activities, newham }

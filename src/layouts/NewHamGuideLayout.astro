@@ -1,0 +1,39 @@
+---
+import DefaultLayout from '@layouts/DefaultLayout.astro'
+import PageHeader from '@components/PageHeader.astro'
+import NewHamStepNav from '@components/NewHamStepNav.astro'
+import NewHamPager from '@components/NewHamPager.astro'
+import { getNewHamBreadcrumbLabels, getNewHamStepContext, getNewHamSteps } from '@utils/newHamSteps'
+
+/**
+ * NewHamGuideLayout
+ *
+ * @description Shared chrome for the four New Ham guide pages
+ */
+interface Props {
+  slug: string
+}
+
+const { slug } = Astro.props
+const steps = await getNewHamSteps()
+const { current, stepNumber, total, prev, next } = getNewHamStepContext(steps, slug)
+const breadcrumbLabels = getNewHamBreadcrumbLabels(steps)
+---
+
+<DefaultLayout title={current.title} description={current.description}>
+  <PageHeader
+    title={current.title}
+    subtitle={`Step ${stepNumber} of ${total} in the New Ham guide.`}
+    bgType="gradient"
+    customBreadcrumbLabels={breadcrumbLabels}
+  />
+  <NewHamStepNav currentSlug={slug} />
+  {
+    Astro.slots.has('default') && (
+      <section class="container my-16 space-content">
+        <slot />
+      </section>
+    )
+  }
+  <NewHamPager prev={prev} next={next} />
+</DefaultLayout>

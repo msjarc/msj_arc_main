@@ -1,0 +1,47 @@
+---
+import DefaultLayout from '@layouts/DefaultLayout.astro'
+import NewHamRoadmap from '@components/NewHamRoadmap.astro'
+import { Accordion, AccordionItem, Breadcrumbs, BreadcrumbsItem, Heading } from 'accessible-astro-components'
+import { newHamHubLabel } from '@utils/newHamSteps'
+---
+
+<DefaultLayout
+  title="New Ham?"
+  description="New to amateur radio? Start here — what ham radio is, why to try it, how to get licensed, and what to do once you have your call sign."
+>
+  <div class="container my-3">
+    <Breadcrumbs>
+      <BreadcrumbsItem href="/" label="Home" />
+      <BreadcrumbsItem label={newHamHubLabel} currentPage />
+    </Breadcrumbs>
+  </div>
+
+  <NewHamRoadmap />
+
+  <section class="container my-16 space-content">
+    <Heading level="h2">Common questions</Heading>
+    <Accordion>
+      <AccordionItem name="newham" title="How much does it cost?" open>
+        <p>
+          Exam sessions typically charge a small fee (often around $15). The FCC also charges a $35 application fee for a
+          new license. Study materials can be completely free.
+        </p>
+      </AccordionItem>
+      <AccordionItem name="newham" title="Do I need to know Morse code?">
+        <p>No. Morse code has not been required for any U.S. amateur license since 2007. You can still learn it for fun!</p>
+      </AccordionItem>
+      <AccordionItem name="newham" title="How old do I need to be?">
+        <p>
+          There is no minimum age. Students of all ages can and do earn their licenses — including many members of our
+          club.
+        </p>
+      </AccordionItem>
+      <AccordionItem name="newham" title="What radio should I buy first?">
+        <p>
+          Many new hams start with an inexpensive handheld (HT) radio for local VHF/UHF use. Talk to us before buying —
+          we are happy to give recommendations based on what you want to do.
+        </p>
+      </AccordionItem>
+    </Accordion>
+  </section>
+</DefaultLayout>

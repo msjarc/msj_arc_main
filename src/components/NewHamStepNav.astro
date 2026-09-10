@@ -1,0 +1,40 @@
+---
+import { Link } from 'accessible-astro-components'
+import { getNewHamSteps } from '@utils/newHamSteps'
+
+/**
+ * NewHamStepNav
+ *
+ * @description Sequential step list for the New Ham guide
+ */
+interface Props {
+  currentSlug: string
+}
+
+const { currentSlug } = Astro.props
+const newHamSteps = await getNewHamSteps()
+---
+
+<nav class="container my-16" aria-label="New Ham guide">
+  <ol class="space-content text-lg">
+    {
+      newHamSteps.map((step, index) => {
+        const isCurrent = step.slug === currentSlug
+
+        return (
+          <li>
+            {isCurrent ? (
+              <strong aria-current="page">
+                {index + 1}. {step.title}
+              </strong>
+            ) : (
+              <Link href={step.href}>
+                {index + 1}. {step.title}
+              </Link>
+            )}
+          </li>
+        )
+      })
+    }
+  </ol>
+</nav>

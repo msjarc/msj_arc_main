@@ -1,0 +1,25 @@
+---
+import NewHamGuideLayout from '@layouts/NewHamGuideLayout.astro'
+import { getCollection, render } from 'astro:content'
+import type { CollectionEntry } from 'astro:content'
+
+export async function getStaticPaths() {
+  const pages = await getCollection('newham')
+
+  return pages.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }))
+}
+
+interface Props {
+  entry: CollectionEntry<'newham'>
+}
+
+const { entry } = Astro.props
+const { Content } = await render(entry)
+---
+
+<NewHamGuideLayout slug={entry.id}>
+  <Content />
+</NewHamGuideLayout>

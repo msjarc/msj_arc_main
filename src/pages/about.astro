@@ -2,60 +2,117 @@
 import PageHeader from '@components/PageHeader.astro'
 import DefaultLayout from '@layouts/DefaultLayout.astro'
 import Feature from '@components/Feature.astro'
+import Counter from '@components/Counter.astro'
 import { Avatar, AvatarGroup, Heading, Link, Media } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
+import ContentMedia from '@components/ContentMedia.astro'
 ---
 
 <DefaultLayout title="About Us">
-  <!-- <PageHeader title="Yay!" subtitle="Your message was successfully sent." bgType="gradient" /> -->
   <PageHeader
     title="About Us"
     subtitle="Proudly Fremont's largest (and only) high school amateur radio club"
     bgType="gradient"
   />
   <section class="container my-16">
-    <div class="space-content">
-      <!-- <Link href="/contact" isButton type="primary" animateOnHover animation="boop" pulse>
+    <div class="space-content container">
+      <p class="text-2xl">
+        We're Mission San Jose High School Amateur Radio Club, club callsign W6MSJ, located in Fremont, California,
+        maidenhead CM97an. We are a student-run club that was started in 2024.
+      </p>
+    </div>
+
+    <div class="my-8">
+      <figure class="mx-auto max-w-2xl">
+        <Media
+          class="rounded-lg"
+          src="/school_front.JPG"
+          alt="A photo of the front of Mission San Jose High School"
+          ratio="3:2"
+        />
+        <figcaption class="mt-2 text-center text-sm text-neutral-600 dark:text-neutral-400">
+          A photo of the front of MSJHS
+        </figcaption>
+      </figure>
+    </div>
+
+    <!-- <Link href="/contact" isButton type="primary" animateOnHover animation="boop" pulse>
         <Icon aria-hidden="true" name="lucide:mail" size={24} />
         Send another message
       </Link> -->
+    <div class="space-content container">
+      <p class="text-2xl">
+        Our primary purpose is to introduce students to amateur radio, assist them with getting licensed, and run
+        interesting activities as a club. We want to show students the breadth of the hobby, so we try to do a little
+        bit of everything, from meshtastic to satellite to hopefully some HF in the near future.
+      </p>
+    </div>
+  </section>
+
+  <section class="container">
+    <ContentMedia imgSrc="/msjhs_map_arc_annotated.jpg" spacing="my-32">
+      <Heading level="h2">Meetings</Heading>
+      <p class="text-2xl">
+        We hold meetings every other Monday in E1A during lunch (Ms. Kim's room, previously Mr. Sale's room).
+      </p>
+      <p class="text-2xl">Note: we don't hold meetings in E2B anymore, as Ms. Kim switched classrooms.</p>
+
+      <Link isButton type="info" href="/meeting-schedule"><Icon name="ion:calendar-outline" />Meeting Schedule</Link>
+    </ContentMedia>
+  </section>
+
+  <section class="container my-16" aria-label="Club statistics">
+    <div class="space-content">
+      <Heading level="h2">Licensing</Heading>
+
+      <div class="container grid grid-cols-1 gap-12 sm:grid-cols-2">
+        <Counter count="9" title="Students licensed" />
+        <Counter count="23" title="Total members" />
+      </div>
+
+      <p class="text-2xl">
+        We currently do not hold license tests on campus, although we would like to in the future. Our members either
+        sought their licenses independently or were licensed during events like Pacificon.
+      </p>
     </div>
   </section>
 
   <section class="my-16">
     <div class="space-content container">
       <Heading level="h2">Leadership</Heading>
-      <p class="text-2xl">
-        We're a community of developers who are passionate about making the web more accessible. We're always looking
-        for new ways to improve the accessibility of the web.
-      </p>
+      <p class="text-2xl">These are our officers for the 2026-2027 school year.</p>
       <AvatarGroup display="grid" gridItemsSize="300px" gridGap="2rem">
         <Avatar img="/uploads/authors/cat_square1.jpg" title="Allen H. KN6UZU" subtitle="Co-President" />
         <Avatar img="/uploads/authors/cat_square5.jpg" title="Jack W. N6CH" subtitle="Co-President" />
         <Avatar img="/uploads/authors/cat_square2.jpg" title="Bradley C. SWL" subtitle="Treasurer" />
         <Avatar img="/uploads/authors/cat_square3.jpg" title="Vincent H. KO6LXI" subtitle="Secretary" />
         <Avatar img="/uploads/authors/cat_square4.jpg" title="Ms. Yulee Kim SWL" subtitle="Staff Advisor" />
-        <!-- <Avatar initials="LW" title="Lisa Wong" subtitle="Product Owner" />
-        <Avatar initials="DM" title="David Martinez" subtitle="UX Researcher" />
-        <Avatar initials="EB" title="Emma Brown" subtitle="Accessibility Specialist" />
-        <Avatar initials="TC" title="Thomas Chen" subtitle="Frontend Developer" /> -->
       </AvatarGroup>
     </div>
   </section>
 
-  <section class="my-64">
+  <section class="my-32">
     <div class="space-content container">
       <Heading level="h2">Acknowledgements</Heading>
-      <p>test</p>
+      <p class="text-2xl">
+        We would like to thank the following organizations for their contributions and assistance to our club. Without
+        your support, this club would not be possible.
+      </p>
+
+      <section class="grid grid-cols-2 place-items-center gap-24">
+        <Media class="lg" src="/sbara_logo.png" alt="South Bay Amateur Radio Association Logo" />
+
+        <Media class="lg" src="/paara_logo.svg" alt="Palo Alto Amateur Radio Association Logo" />
+      </section>
     </div>
   </section>
 
-  <section class="container my-16 space-content">
+  <!-- <section class="space-content container my-16">
     <Heading level="h2">Who we are</Heading>
     <p class="text-2xl">
-      We are a student-run amateur radio club at Mission San Jose High School in Fremont, California. Our members explore
-      radio communication, electronics, and public service while working toward and using their amateur radio (ham)
-      licenses under our club call sign, <strong>W6MSJ</strong>.
+      We are a student-run amateur radio club at Mission San Jose High School in Fremont, California. Our members
+      explore radio communication, electronics, and public service while working toward and using their amateur radio
+      (ham) licenses under our club call sign, <strong>W6MSJ</strong>.
     </p>
     <p>
       Amateur radio is a hobby and a service that brings people together through wireless communication — from chatting
@@ -64,7 +121,7 @@ import { Icon } from 'astro-icon/components'
     </p>
   </section>
 
-  <section class="container my-16 space-content">
+  <section class="space-content container my-16">
     <Heading level="h2">What we do</Heading>
     <div class="mt-8 grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
       <Feature icon="lucide:graduation-cap" title="Get licensed">
@@ -92,14 +149,14 @@ import { Icon } from 'astro-icon/components'
     </div>
   </section>
 
-  <section class="container my-16 space-content">
+  <section class="space-content container my-16">
     <Heading level="h2">Meetings</Heading>
     <p class="text-lg">
       MSJ ARC meets during the school year at Mission San Jose High School. Meetings are open to all students, whether
       you are already licensed or just curious. Meeting days, times, and room are announced to members and posted on the
       <a href="/calendars">calendars page</a>.
     </p>
-  </section>
+  </section> -->
 
   <section class="container my-16">
     <Heading level="h4">Picture Credits</Heading>

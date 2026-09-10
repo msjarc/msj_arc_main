@@ -1,0 +1,44 @@
+---
+import { Link } from 'accessible-astro-components'
+import { Icon } from 'astro-icon/components'
+import type { NewHamStep } from '@utils/newHamSteps'
+
+/**
+ * NewHamPager
+ *
+ * @description Previous / next links for the New Ham guide
+ */
+interface Props {
+  prev: NewHamStep | null
+  next: NewHamStep | null
+}
+
+const { prev, next } = Astro.props
+---
+
+<nav class="container my-16" aria-label="New Ham guide pagination">
+  <div class="flex flex-wrap gap-4">
+    {
+      prev && (
+        <Link href={prev.href} isButton type="secondary" class="button-gradient" animateOnHover animationType="boop">
+          <Icon aria-hidden="true" name="lucide:arrow-left" size="1.5rem" />
+          Previous: {prev.title}
+        </Link>
+      )
+    }
+
+    <Link href="/newham" isButton type="secondary" class="button-gradient" animateOnHover animationType="boop">
+      <Icon aria-hidden="true" name="lucide:list" size="1.5rem" />
+      All Pages
+    </Link>
+
+    {
+      next && (
+        <Link href={next.href} isButton type="secondary" class="button-gradient" animateOnHover animationType="boop">
+          Next: {next.title}
+          <Icon aria-hidden="true" name="lucide:arrow-right" size="1.5rem" />
+        </Link>
+      )
+    }
+  </div>
+</nav>

@@ -64,7 +64,7 @@ const { page, currentTag, uniqueTags } = Astro.props
   <PageHeader
     title={`Activities: ${currentTag.label}`}
     subtitle={`Showing ${page.total} activit${page.total !== 1 ? 'ies' : 'y'} tagged with "${currentTag.label}". <a href="/activities">View all activities</a> or filter by other tags below.`}
-    bgType="bordered"
+    bgType="gradient"
     customBreadcrumbLabels={{
       [currentTag.slug]: currentTag.label,
     }}

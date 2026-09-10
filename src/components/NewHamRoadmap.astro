@@ -1,0 +1,465 @@
+---
+import { Heading } from 'accessible-astro-components'
+import { Icon } from 'astro-icon/components'
+import { getNewHamSteps } from '@utils/newHamSteps'
+
+/**
+ * NewHamRoadmap
+ *
+ * @description Treasure-map stage for the New Ham hub: title, decorative
+ *   illustration slots, a winding path, and HTML step cards on a deckled
+ *   parchment sheet that is slightly wider than the site content column.
+ *
+ * Drop replacement artwork into `public/newham-map/` using these filenames:
+ *   parchment.svg, compass.svg, radio-tower.svg, sea-creature.svg, mountains.svg
+ * Edge silhouette: parchment-mask.svg (path from Parchment-altered-2.svg, no filters)
+ */
+interface Props {
+  title?: string
+  subtitle?: string
+  intro?: string
+}
+
+const {
+  title = 'New to Amateur Radio?',
+  subtitle = "The below pages contain everything you'll need to know to get started with the hobby.",
+  intro = 'Follow the guide in order or skip ahead and peruse at your leisure.',
+}: Props = Astro.props
+
+const newHamSteps = await getNewHamSteps()
+---
+
+<div class="map-stage">
+  <section class="treasure-map" aria-labelledby="newham-map-title">
+    <div class="map-texture" aria-hidden="true"></div>
+
+    <div class="map-inner">
+      <div class="map-decor" aria-hidden="true">
+        <img class="map-slot map-slot-compass" src="/newham-map/compass.svg" alt="" width="160" height="160" />
+        <!-- <img class="map-slot map-slot-mountains" src="/newham-map/mountains.svg" alt="" width="240" height="120" /> -->
+        <img class="map-slot map-slot-radio-tower" src="/newham-map/radio-tower.svg" alt="" width="80" height="160" />
+        <img class="map-slot map-slot-waterfall" src="/newham-map/waterfall.svg" alt="" width="400" height="600" />
+        <img
+          class="map-slot map-slot-sea-creature"
+          src="/newham-map/sea-creature.svg"
+          alt=""
+          width="260"
+          height="120"
+        />
+      </div>
+
+      <header class="map-cartouche">
+        <Heading level="h1" id="newham-map-title">{title}</Heading>
+        <p class="map-subtitle">{subtitle}</p>
+        <p>{intro}</p>
+      </header>
+
+      <div class="map-route-heading">
+        <Heading level="h4">Start here!</Heading>
+      </div>
+
+      <p class="map-route-lead">(click the card to open the page)</p>
+
+      <div class="map-trail">
+        <svg class="map-path map-path-mobile" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <path
+            d="M50 6 C18 18, 82 30, 50 38 C18 50, 82 62, 50 70 C18 82, 82 90, 50 96"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.1"
+            stroke-dasharray="3 4"
+            stroke-linecap="round"
+            pathLength="100"></path>
+        </svg>
+        <svg class="map-path map-path-desktop" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <path
+            d="M24 22 C42 8, 58 8, 76 22 C92 40, 8 58, 24 78 C42 92, 58 92, 76 78"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="0.9"
+            stroke-dasharray="2.5 3.5"
+            stroke-linecap="round"
+            pathLength="100"></path>
+        </svg>
+
+        <ol class="map-stops">
+          {
+            newHamSteps.map((step, index) => (
+              <li class={`map-stop map-stop-${index + 1}`}>
+                <a href={step.href} class="map-stop-link">
+                  <span class="map-stop-seal" aria-hidden="true">
+                    {index + 1}
+                  </span>
+                  <Icon aria-hidden="true" name={step.icon} />
+                  <div class="map-stop-copy">
+                    <Heading level="h3" size="h6">
+                      <span class="sr-only">Step {index + 1}: </span>
+                      {step.title}
+                    </Heading>
+                    <p>{step.description}</p>
+                  </div>
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </div>
+  </section>
+</div>
+
+<style lang="scss">
+  @use '../assets/scss/base/breakpoint' as *;
+
+  .map-stage {
+    // Clip the hanging side-jags flush with the viewport; allow the drop-shadow
+    // to paint above/below. From `m` the full deckled sheet is in view.
+    --map-side-bleed: 18%;
+    clip-path: inset(-1.5rem 0);
+    filter: drop-shadow(0 10px 18px rgb(40 28 14 / 0.18)) drop-shadow(0 2px 4px rgb(40 28 14 / 0.12));
+    margin-inline: auto;
+    margin-block: var(--space-s) var(--space-2xl);
+    padding-inline: 0;
+    width: 100%;
+  }
+
+  .treasure-map {
+    --map-paper: #f3e4c1;
+    --map-paper-deep: #e4d0a4;
+    --map-ink: #3a2a18;
+    --map-ink-soft: #5c3d24;
+    --map-path: #6b4a2a;
+    --map-seal: #8b2e2e;
+    --map-seal-ink: #f3e4c1;
+    --map-card: #fbf3dc;
+    --map-frame: color-mix(in oklab, var(--map-ink) 38%, transparent);
+    --map-writing: 56rem;
+    // Vertical jags scale with HEIGHT; rem floors keep copy off the deckle.
+    --map-jag-y-start: 10.5rem;
+    --map-jag-y-end: 11.5rem;
+
+    position: relative;
+    mask-image: url('/newham-map/Parchment-altered-2.svg');
+    -webkit-mask-image: url('/newham-map/Parchment-altered-2.svg');
+    mask-mode: alpha;
+    mask-position: center;
+    -webkit-mask-position: center;
+    mask-size: 100% 100%;
+    -webkit-mask-size: 100% 100%;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    margin-inline: calc(-1 * var(--map-side-bleed));
+    box-shadow: inset 0 0 56px rgb(90 60 30 / 0.16);
+    background-color: var(--map-paper);
+    isolation: isolate;
+    padding-inline: calc(var(--map-side-bleed) + 0.75rem);
+    padding-block: var(--map-jag-y-start) var(--map-jag-y-end);
+    // Hang the sheet past the viewport so side jags clip away; visible inset is 0.75rem.
+    width: calc(100% + 2 * var(--map-side-bleed));
+    color: var(--map-ink);
+  }
+
+  .map-texture {
+    position: absolute;
+    opacity: 0.85;
+    z-index: 0;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse 70% 45% at 12% 18%, rgb(160 110 50 / 0.1), transparent 55%),
+      radial-gradient(ellipse 55% 40% at 88% 82%, rgb(120 80 40 / 0.12), transparent 50%);
+    // url('/newham-map/paper_texture.jpg');
+    background-size:
+      auto,
+      auto,
+      256px 256px;
+    pointer-events: none;
+  }
+
+  .map-decor {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .map-slot {
+    display: none;
+    position: absolute;
+    block-size: auto;
+  }
+
+  .map-slot-compass {
+    display: block;
+    inset-block-start: 0;
+    inset-inline-end: 0;
+    inline-size: 2.75rem;
+  }
+
+  .map-inner {
+    position: relative;
+    z-index: 3;
+    margin-inline: auto;
+    inline-size: 100%;
+    max-inline-size: var(--map-writing);
+  }
+
+  .map-inner::after {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    inset: -2rem -2rem;
+    box-shadow:
+      inset 0 0 0 6px color-mix(in oklab, var(--map-paper) 88%, transparent),
+      inset 0 0 0 7.5px var(--map-frame);
+    border: 1.5px solid var(--map-frame);
+    border-radius: 14px 9px 16px 8px / 9px 15px 7px 13px;
+    pointer-events: none;
+    content: '';
+  }
+
+  .map-cartouche,
+  .map-route-heading,
+  .map-route-lead,
+  .map-trail {
+    position: relative;
+    z-index: 2;
+  }
+
+  .map-cartouche {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    margin-block-end: var(--space-xl);
+    box-shadow: 4px 5px 0 color-mix(in oklab, var(--map-ink) 12%, transparent);
+    border: 2px solid var(--map-ink-soft);
+    border-radius: 1.25rem 1.5rem 1.35rem 1.15rem;
+    background-color: color-mix(in oklab, var(--map-card) 88%, var(--map-paper-deep));
+    padding: var(--space-s);
+    max-inline-size: 42rem;
+  }
+
+  .map-cartouche :global(h1) {
+    margin: 0;
+    color: var(--map-ink);
+  }
+
+  .map-cartouche p {
+    margin: 0;
+  }
+
+  .map-subtitle {
+    font-size: var(--font-size-2);
+    line-height: 1.35;
+  }
+
+  .map-route-heading {
+    margin-block-end: var(--space-2xs);
+  }
+
+  .map-route-heading :global(.heading) {
+    margin: 0;
+  }
+
+  .map-route-lead {
+    // margin-block-end: var(--space-1);
+    font-size: var(--font-size-1);
+  }
+
+  .map-trail {
+    position: relative;
+    padding-inline-start: 0.65rem;
+    padding-block-start: 0.85rem;
+  }
+
+  .map-path {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    overflow: visible;
+    pointer-events: none;
+    color: var(--map-path);
+  }
+
+  .map-path path {
+    vector-effect: non-scaling-stroke;
+    stroke-width: 2;
+  }
+
+  .map-path-desktop {
+    display: none;
+  }
+
+  .map-stops {
+    display: grid;
+    position: relative;
+    grid-template-columns: 1fr;
+    gap: var(--space-l);
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .treasure-map .map-stop-link {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    gap: var(--space-s);
+    box-shadow: 5px 6px 0 color-mix(in oklab, var(--map-ink) 14%, transparent);
+    border: 2px solid var(--map-ink-soft);
+    border-radius: 1.15rem 1.4rem 1.1rem 1.3rem;
+    background-color: var(--map-card);
+    padding: var(--space-m);
+    color: var(--map-ink);
+    text-decoration: none;
+    text-decoration-color: transparent;
+  }
+
+  .treasure-map .map-stop-link:where(:hover, :focus-visible) {
+    color: var(--map-ink);
+    text-decoration: none;
+  }
+
+  .map-stop-seal {
+    display: grid;
+    position: absolute;
+    place-items: center;
+    inset-block-start: -0.7rem;
+    inset-inline-start: -0.55rem;
+    box-shadow: 0 1px 0 rgb(0 0 0 / 0.2);
+    border: 2px solid color-mix(in oklab, var(--map-seal) 70%, var(--map-ink));
+    border-radius: 50%;
+    background-color: var(--map-seal);
+    inline-size: 2.4rem;
+    block-size: 2.4rem;
+    color: var(--map-seal-ink);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .map-stop-link :global([data-icon]) {
+    inline-size: 2.75rem;
+    block-size: auto;
+    color: var(--map-ink-soft);
+  }
+
+  .map-stop-copy :global(.heading) {
+    margin-block-end: var(--space-3xs);
+    color: var(--map-ink);
+  }
+
+  .map-stop-copy p {
+    margin: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .map-stop-link {
+      transition:
+        translate var(--animation-speed-fast) var(--cubic-bezier),
+        box-shadow var(--animation-speed-fast) var(--cubic-bezier);
+    }
+
+    .map-stop-link:where(:hover, :focus-visible) {
+      translate: 0 -4px;
+      box-shadow: 6px 10px 0 color-mix(in oklab, var(--map-ink) 16%, transparent);
+    }
+  }
+
+  @include breakpoint(m) {
+    .map-stage {
+      --map-side-bleed: 0%;
+      clip-path: none;
+      width: min(calc(100% - 2rem), calc(1200px + 6rem));
+    }
+
+    .treasure-map {
+      --map-jag-x: max(2.25rem, 8%);
+      --map-jag-y-start: 7.5rem;
+      --map-jag-y-end: 8.5rem;
+      margin-inline: 0;
+      padding-inline: var(--map-jag-x);
+      width: auto;
+    }
+
+    .map-inner::after {
+      display: block;
+    }
+
+    .map-cartouche {
+      border-radius: 255px 18px 225px 18px / 18px 225px 18px 255px;
+      padding: var(--space-m) var(--space-l);
+    }
+
+    .treasure-map .map-stop-link {
+      border-radius: 18px 40px 16px 36px / 36px 16px 40px 18px;
+    }
+
+    .map-slot-compass {
+      inset-block-start: 0.25rem;
+      inset-inline-end: 0.25rem;
+      inline-size: clamp(4.25rem, 8vw, 6.25rem);
+    }
+
+    .map-slot-mountains {
+      display: block;
+      inset-block-start: 32%;
+      inset-inline-start: min(40rem, 68%);
+      inline-size: clamp(6.5rem, 12vw, 10rem);
+    }
+
+    .map-slot-radio-tower {
+      display: block;
+      inset-block-start: 58%;
+      inset-inline-start: 0;
+      inline-size: clamp(3rem, 6vw, 4.75rem);
+    }
+
+    .map-slot-sea-creature {
+      display: block;
+      inset-block-end: 4%;
+      inset-inline-end: auto;
+      inset-inline-start: 6%;
+      inline-size: clamp(7rem, 14vw, 11rem);
+    }
+
+    .map-slot-waterfall {
+      display: block;
+      inset-block-end: 55%;
+      inset-inline-end: auto;
+      inset-inline-start: 75%;
+      inline-size: clamp(7rem, 14vw, 11rem);
+    }
+
+    .map-path-mobile {
+      display: none;
+    }
+
+    .map-path-desktop {
+      display: block;
+    }
+
+    .map-stops {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl) var(--space-l);
+    }
+
+    .map-stop-2,
+    .map-stop-4 {
+      margin-block-start: var(--space-4xl);
+    }
+  }
+
+  @include breakpoint(l) {
+    .treasure-map {
+      --map-jag-x: max(2.5rem, 6%);
+      --map-jag-y-start: max(6.5rem, 9vw);
+      --map-jag-y-end: max(7.5rem, 11vw);
+    }
+
+    .map-slot-radio-tower {
+      inset-inline-start: -2.5rem;
+    }
+  }
+</style>

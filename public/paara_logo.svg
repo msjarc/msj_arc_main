@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-miterlimit:5;">
+    <rect id="Artboard1" x="0" y="0" width="1024" height="1024" style="fill:none;"/>
+    <g id="Artboard11" serif:id="Artboard1">
+        <g id="KN6WSI">
+            <path id="Thunderbolt-Back" serif:id="Thunderbolt Back" d="M851.193,276.419L988.704,276.419L462.164,616.472L461.926,542.631L23.969,800L505.873,435.893L505.77,522.46L851.193,276.419Z" style="fill:rgb(210,35,42);stroke:black;stroke-width:9.38px;"/>
+            <g id="Background-Black" serif:id="Background Black" transform="matrix(1.25,0,0,1.25,-129.5,-187.5)">
+                <circle cx="490" cy="550" r="240"/>
+            </g>
+            <g id="Background-White" serif:id="Background White" transform="matrix(1.19792,0,0,1.19792,-103.979,-158.854)">
+                <circle cx="490" cy="550" r="240" style="fill:white;"/>
+            </g>
+            <g id="Foreground-Black" serif:id="Foreground Black" transform="matrix(0.895833,0,0,0.895833,44.0417,7.29167)">
+                <circle cx="490" cy="550" r="240"/>
+            </g>
+            <g id="Foreground-Trace" serif:id="Foreground Trace" transform="matrix(1.04792,0,0,1.04792,-30.4792,-76.3542)">
+                <path d="M645.707,367.42C697.28,411.454 730,476.936 730,550C730,555.617 729.807,561.189 729.426,566.71" style="fill:none;stroke:black;stroke-width:5.96px;stroke-linejoin:round;stroke-miterlimit:1.5;"/>
+            </g>
+            <g id="Foreground-Trace1" serif:id="Foreground Trace" transform="matrix(-1.04792,0,0,1.04792,996.647,-76.3542)">
+                <path d="M645.707,367.42C697.28,411.454 730,476.936 730,550C730,555.617 729.807,561.189 729.426,566.71" style="fill:none;stroke:black;stroke-width:5.96px;stroke-linejoin:round;stroke-miterlimit:1.5;"/>
+            </g>
+            <g id="Text-Path-Lower" serif:id="Text Path Lower" transform="matrix(0.777396,0.629012,-0.629012,0.777396,444.323,-270.944)">
+                <g transform="matrix(0.778291,0.627904,-0.627904,0.778291,558.273,-39.8159)">
+                    <text x="335.518px" y="770.636px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:50px;">a</text>
+                </g>
+                <g transform="matrix(0.872578,0.488476,-0.488476,0.872578,434.396,-76.6908)">
+                    <text x="364.196px" y="794.286px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:50px;">m</text>
+                </g>
+                <g transform="matrix(0.941437,0.337188,-0.337188,0.941437,300.087,-90.1878)">
+                    <text x="409.682px" y="818.816px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:50px;">a</text>
+                </g>
+                <g transform="matrix(0.973438,0.228953,-0.228953,0.973438,202.013,-79.7468)">
+                    <text x="444.692px" y="830.744px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:50px;">t</text>
+                </g>
+                <g transform="matrix(0.992047,0.125864,-0.125864,0.992047,108.903,-51.9177)">
+                    <text x="465.301px" y="835.843px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:50px;">e</text>
+                </g>
+                <g transform="matrix(0.99999,-0.00436053,0.00436053,0.99999,-3.65841,2.18576)">
+                    <text x="499.428px" y="840.07px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:50px;">u</text>
+                </g>
+                <g transform="matrix(0.992584,-0.12156,0.12156,0.992584,-98.0918,71.2434)">
+                    <text x="534.857px" y="839.571px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:50px;">r</text>
+                </g>
+                <g transform="matrix(0.958306,-0.285745,0.285745,0.958306,-213.799,200.034)">
+                    <text x="578.551px" y="832.635px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:50px;">r</text>
+                </g>
+                <g transform="matrix(0.919556,-0.392959,0.392959,0.919556,-275.861,303.465)">
+                    <text x="603.265px" y="825.506px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:50px;">a</text>
+                </g>
+                <g transform="matrix(0.855679,-0.517508,0.517508,0.855679,-327.596,446.799)">
+                    <text x="637.267px" y="810.747px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:50px;">d</text>
+                </g>
+                <g transform="matrix(0.797376,-0.603483,0.603483,0.797376,-341.88,563.794)">
+                    <text x="668.645px" y="791.014px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:50px;">i</text>
+                </g>
+                <g transform="matrix(0.731918,-0.681392,0.681392,0.731918,-349.084,674.512)">
+                    <text x="682.673px" y="780.895px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:50px;">o</text>
+                </g>
+                <g transform="matrix(0.575374,-0.81789,0.81789,0.575374,-299.582,905.299)">
+                    <text x="722.077px" y="741.169px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:50px;">a</text>
+                </g>
+                <g transform="matrix(0.470205,-0.882557,0.882557,0.470205,-233.443,1032.24)">
+                    <text x="743.057px" y="710.561px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:50px;">s</text>
+                </g>
+                <g transform="matrix(0.375982,-0.926627,0.926627,0.375982,-164.226,1128.66)">
+                    <text x="755.884px" y="686.264px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:50px;">s</text>
+                </g>
+                <g transform="matrix(0.259951,-0.965622,0.965622,0.259951,-70.9924,1229.1)">
+                    <text x="766.372px" y="660.865px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:50px;">o</text>
+                </g>
+                <g transform="matrix(0.141874,-0.989885,0.989885,0.141874,46.8425,1304.07)">
+                    <text x="775.569px" y="625.015px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:50px;">c</text>
+                </g>
+                <g transform="matrix(0.0601816,-0.998187,0.998187,0.0601816,134.507,1340.36)">
+                    <text x="779.057px" y="598.75px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:50px;">i</text>
+                </g>
+                <g transform="matrix(-0.0392225,-0.999231,0.999231,-0.0392225,230.04,1384.15)">
+                    <text x="780.462px" y="581.481px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:50px;">a</text>
+                </g>
+                <g transform="matrix(-0.150442,-0.988619,0.988619,-0.150442,357.239,1396.01)">
+                    <text x="778.442px" y="544.51px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:50px;">t</text>
+                </g>
+                <g transform="matrix(-0.222101,-0.975024,0.975024,-0.222101,436.905,1395.36)">
+                    <text x="775.081px" y="523.395px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:50px;">i</text>
+                </g>
+                <g transform="matrix(-0.321521,-0.946902,0.946902,-0.321521,540.19,1399.91)">
+                    <text x="771.628px" y="506.423px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:50px;">o</text>
+                </g>
+                <g transform="matrix(-0.447957,-0.894055,0.894055,-0.447957,678.293,1361.64)">
+                    <text x="759.527px" y="471.413px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:50px;">n</text>
+                </g>
+            </g>
+            <g id="Text-Path-Upper" serif:id="Text Path Upper" transform="matrix(-0.707107,-0.707107,0.707107,-0.707107,440.574,1224.78)">
+                <g transform="matrix(-0.272321,0.962206,-0.962206,-0.272321,1469.34,59.996)">
+                    <text x="711.982px" y="585.598px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:58.333px;">p</text>
+                </g>
+                <g transform="matrix(-0.432932,0.901426,-0.901426,-0.432932,1567.63,263.86)">
+                    <text x="700.823px" y="625.012px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:58.333px;">a</text>
+                </g>
+                <g transform="matrix(-0.544921,0.838487,-0.838487,-0.544921,1608.97,449.742)">
+                    <text x="682.438px" y="661.495px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:58.333px;">l</text>
+                </g>
+                <g transform="matrix(-0.645732,0.763564,-0.763564,-0.645732,1624.89,599.922)">
+                    <text x="673.274px" y="676.909px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:58.333px;">o</text>
+                </g>
+                <g transform="matrix(-0.818751,0.574148,-0.574148,-0.818751,1563.84,949.46)">
+                    <text x="632.055px" y="721.568px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:58.333px;">a</text>
+                </g>
+                <g transform="matrix(-0.885393,0.464844,-0.464844,-0.885393,1473.88,1125.33)">
+                    <text x="598.215px" y="744.36px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:58.333px;">l</text>
+                </g>
+                <g transform="matrix(-0.922686,0.385552,-0.385552,-0.922686,1410.15,1222.71)">
+                    <text x="582.48px" y="752.743px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:58.333px;">t</text>
+                </g>
+                <g transform="matrix(-0.966427,0.256942,-0.256942,-0.966427,1301.01,1353.95)">
+                    <text x="562.046px" y="761.974px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:58.333px;">o</text>
+                </g>
+            </g>
+            <clipPath id="_clip1">
+                <circle id="Thunderbolt-Center" serif:id="Thunderbolt Center" cx="483" cy="500" r="215"/>
+            </clipPath>
+            <g clip-path="url(#_clip1)">
+                <path d="M851.193,276.419L988.704,276.419L462.164,616.472L461.926,542.631L23.969,800L505.873,435.893L505.77,522.46L851.193,276.419Z" style="fill:rgb(210,35,42);stroke:black;stroke-width:9.38px;"/>
+            </g>
+            <clipPath id="_clip2">
+                <rect id="Thunderbolt-Front" serif:id="Thunderbolt Front" x="506.337" y="256" width="501.663" height="448"/>
+            </clipPath>
+            <g clip-path="url(#_clip2)">
+                <path d="M851.193,276.419L988.704,276.419L462.164,616.472L461.926,542.631L23.969,800L505.873,435.893L505.77,522.46L851.193,276.419Z" style="fill:rgb(210,35,42);stroke:black;stroke-width:9.38px;"/>
+            </g>
+            <g transform="matrix(1,0,0,1,34.2576,29)">
+                <g transform="matrix(0.589375,-0.80786,0.80786,0.589375,-204.154,430.737)">
+                    <text x="321.636px" y="416.194px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:83.333px;fill:white;">P</text>
+                </g>
+                <g transform="matrix(0.863387,-0.504542,0.504542,0.863387,-139.217,228.273)">
+                    <text x="351.923px" y="371.217px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:83.333px;fill:white;">A</text>
+                </g>
+                <g transform="matrix(0.999497,-0.0317005,0.0317005,0.999497,-10.4806,13.1981)">
+                    <text x="410.993px" y="337.128px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:83.333px;fill:white;">A</text>
+                </g>
+                <g transform="matrix(0.896763,0.442511,-0.442511,0.896763,197.864,-177.348)">
+                    <text x="479.021px" y="335.386px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:83.333px;fill:white;">R</text>
+                </g>
+                <g transform="matrix(0.622662,0.782491,-0.782491,0.622662,483.749,-281.378)">
+                    <text x="533.623px" y="360.89px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:83.333px;fill:white;">A</text>
+                </g>
+            </g>
+            <g transform="matrix(1,0,0,1,37,-21.5365)">
+                <g transform="matrix(0.833956,0.551831,-0.551831,0.833956,433.905,-69.5371)">
+                    <text x="332.502px" y="686.251px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:41.667px;fill:white;">s</text>
+                </g>
+                <g transform="matrix(0.881843,0.471542,-0.471542,0.881843,370.714,-83.0213)">
+                    <text x="351.019px" y="698.217px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:41.667px;fill:white;">i</text>
+                </g>
+                <g transform="matrix(0.928918,0.370287,-0.370287,0.928918,286.839,-84.26)">
+                    <text x="362.885px" y="704.978px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:41.667px;fill:white;">n</text>
+                </g>
+                <g transform="matrix(0.96965,0.244496,-0.244496,0.96965,186.707,-73.5339)">
+                    <text x="389.546px" y="715.285px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:41.667px;fill:white;">c</text>
+                </g>
+                <g transform="matrix(0.993148,0.11686,-0.11686,0.993148,87.0257,-42.9975)">
+                    <text x="410.192px" y="720.65px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:41.667px;fill:white;">e</text>
+                </g>
+                <g transform="matrix(0.994709,-0.102736,0.102736,0.994709,-71.9682,50.3644)">
+                    <text x="452.949px" y="723.843px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:41.667px;fill:white;">1</text>
+                </g>
+                <g transform="matrix(0.968399,-0.249406,0.249406,0.968399,-164.681,142.443)">
+                    <text x="479.762px" y="721.078px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:41.667px;fill:white;">9</text>
+                </g>
+                <g transform="matrix(0.918954,-0.394366,0.394366,0.918954,-240.274,258.211)">
+                    <text x="508.079px" y="713.682px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:41.667px;fill:white;">3</text>
+                </g>
+                <g transform="matrix(0.84478,-0.535113,0.535113,0.84478,-293,394.942)">
+                    <text x="534.272px" y="702.524px" style="font-family:'Futura-Bold', 'Futura', sans-serif;font-weight:700;font-size:41.667px;fill:white;">7</text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

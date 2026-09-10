@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 100" fill="none" aria-hidden="true">
+  <title>Placeholder: sea-creature</title>
+  <path
+    d="M16 62 C36 38, 52 86, 78 58 C96 38, 108 86, 132 56 C148 42, 160 72, 178 58 L204 48"
+    stroke="#5c3d24"
+    stroke-width="1.75"
+    opacity="0.6"
+    stroke-linecap="round"
+  />
+  <path d="M178 58 C186 50, 198 42, 210 38" stroke="#5c3d24" stroke-width="1.5" opacity="0.5" stroke-linecap="round"/>
+  <circle cx="198" cy="42" r="2.5" fill="#5c3d24" opacity="0.55"/>
+  <path d="M70 50 L78 28 L86 50 M118 48 L126 26 L134 50" stroke="#5c3d24" stroke-width="1.5" opacity="0.5"/>
+</svg>

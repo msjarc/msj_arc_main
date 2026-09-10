@@ -22,3 +22,21 @@ const pageHeader = frontmatter.pageHeader
     </div>
   </div>
 </DefaultLayout>
+
+<style lang="scss">
+  .space-content :global(table) {
+    inline-size: 100%;
+    border-collapse: collapse;
+  }
+
+  .space-content :global(th),
+  .space-content :global(td) {
+    padding: var(--space-2xs) var(--space-xs);
+    border-bottom: 1px solid var(--border-color-subtle);
+    text-align: start;
+  }
+
+  .space-content :global(th) {
+    font-weight: 700;
+  }
+</style>

@@ -16,12 +16,17 @@ interface Props {
    * @default false
    */
   reverseImg?: boolean
+  /**
+   * Custom top bottom margins for the component
+   * @default my-64
+   */
+  spacing: string
 }
 
-const { imgSrc, reverseImg = false }: Props = Astro.props
+const { imgSrc, reverseImg = false, spacing = 'my-64' }: Props = Astro.props
 ---
 
-<section class="my-64">
+<section class={spacing}>
   <div class="container">
     <div class="grid grid-cols-1 gap-24 md:grid-cols-2">
       {!reverseImg ? <Media class="rounded-lg" src={imgSrc} /> : ''}
