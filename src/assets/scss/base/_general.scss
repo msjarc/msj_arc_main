@@ -75,6 +75,15 @@ button.button {
   color: var(--foreground-color);
 }
 
+// Accent info banners (header, sitemap) share the library's info tokens with
+// the filled "info" button, but they have no border. The default fills sit at
+// nearly the same lightness as the page, so bump only the accent variant.
+.notification.variant-accent.type-info {
+  --color-info-border: light-dark(hsl(200 72% 36%), hsl(234 90% 78%));
+  --color-info-bg: light-dark(hsl(199 70% 80%), hsl(234 48% 40%));
+  --color-info-text: light-dark(hsl(200 88% 18%), #fff);
+}
+
 *:focus,
 *:focus-visible {
   @include outline;

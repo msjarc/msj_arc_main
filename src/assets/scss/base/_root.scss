@@ -25,9 +25,9 @@
   --color-outline-200: oklch(from var(--brand-outline) 50% c h);
 
   // pallet neutral
-  // Softened: neither end is pure white or near-black any more. 100 is the raised
-  // surface, 200 the light page ground, 300 doubles as the light border and the
-  // dark body text, 900 the dark page ground.
+  // Softened grounds: 100 is a raised surface, 200 the light page, 950 the dark
+  // page. Body text sits at the ends of the ramp (near-white on dark, charcoal
+  // on light) so the page can stay off pure white / near-black.
   --color-neutral-100: oklch(from var(--brand-neutral) 99% c h);
   --color-neutral-200: oklch(from var(--brand-neutral) 95% c h);
   --color-neutral-300: oklch(from var(--brand-neutral) 88% c h);
@@ -37,16 +37,18 @@
   --color-neutral-700: oklch(from var(--brand-neutral) 42% c h);
   --color-neutral-800: oklch(from var(--brand-neutral) 36% c h);
   --color-neutral-900: oklch(from var(--brand-neutral) 26% c h);
+  --color-neutral-950: oklch(from var(--brand-neutral) 20% c h);
 
   // color scheme
-  --foreground-color: light-dark(var(--color-neutral-800), var(--color-neutral-300));
-  --background-color: light-dark(var(--color-neutral-200), var(--color-neutral-900));
-  --icon-color: light-dark(var(--color-neutral-800), var(--color-neutral-300));
-  --link-color: light-dark(var(--color-primary-500), var(--color-secondary-100));
-  --link-hover-color: light-dark(var(--color-primary-600), var(--color-secondary-200));
+  --foreground-color: light-dark(var(--color-neutral-900), var(--color-neutral-100));
+  --background-color: light-dark(var(--color-neutral-200), var(--color-neutral-950));
+  --icon-color: light-dark(var(--color-neutral-900), var(--color-neutral-100));
+  --link-color: light-dark(var(--color-secondary-500), var(--color-secondary-300));
+  --link-hover-color: light-dark(var(--color-secondary-600), var(--color-secondary-200));
   --border-color: light-dark(var(--color-neutral-900), var(--color-neutral-100));
   --border-color-subtle: light-dark(var(--color-neutral-300), var(--color-neutral-800));
-  --text-decoration-color: light-dark(var(--color-neutral-700), var(--color-neutral-300));
+  --border-color-muted: light-dark(var(--color-neutral-500), var(--color-neutral-600));
+  --text-decoration-color: light-dark(var(--color-neutral-700), var(--color-neutral-100));
   --text-decoration-color-hover: light-dark(var(--color-neutral-100), var(--color-neutral-200));
   --outline-color: light-dark(var(--color-outline-200), var(--color-outline-100));
 
