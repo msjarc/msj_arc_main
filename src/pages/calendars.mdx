@@ -9,14 +9,22 @@ pageHeader:
   bgType: bordered
 ---
 
-## Club meetings
+import ClubCalendar from '@components/ClubCalendar.astro'
+import { Link } from 'accessible-astro-components'
 
-MSJ ARC meets during the school year at Mission San Jose High School. Meeting days, times, and room are announced to members and will be posted here. A live club calendar is on the way.
+## Club calendar
+
+<p class="text-lg">
+  MSJ ARC meets every other Monday during lunch at Mission San Jose High School. Meetings, events, and any changes are
+  posted to the calendar below. All times are Pacific.
+</p>
+
+<ClubCalendar />
 
 ## Amateur radio calendars
 
 Useful calendars for events, contests, and on-the-air activities beyond our club:
 
-- [ARRL Contest Calendar](https://www.arrl.org/contest-calendar) — major operating events
-- [WA7BNM Contest Calendar](https://www.contestcalendar.com/weeklycont.php) — weekly contest listings
-- [ARRL Hamfests & Conventions](https://www.arrl.org/hamfests-and-conventions-calendar) — swap meets and gatherings
+- <Link isExternal href="https://www.arrl.org/contest-calendar">ARRL Contest Calendar</Link> — major operating events
+- <Link isExternal href="https://www.contestcalendar.com/weeklycont.php">WA7BNM Contest Calendar</Link> — weekly contest listings
+- <Link isExternal href="https://www.arrl.org/hamfests-and-conventions-calendar">ARRL Hamfests & Conventions</Link> — swap meets and gatherings

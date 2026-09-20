@@ -3,7 +3,7 @@
 - [ ] Fix Logo & banner
 - [ ] Move github socials off into about section
 - [ ] Add discord socials into more areas
-- [ ] Add feature to show next meeting / status
+- [x] Add feature to show next meeting / status
 - [ ] Remove template posts
 - [ ] Remove "Accessible Astro Projects" section from search
 - [ ] Real Newham

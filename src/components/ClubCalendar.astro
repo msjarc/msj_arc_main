@@ -1,0 +1,50 @@
+---
+import { CALENDAR_ICS_URL } from '@utils/calendar'
+import { Link } from 'accessible-astro-components'
+
+/**
+ * Club Calendar
+ *
+ * @description Google Calendar month embed plus a subscribe button. The feed is
+ * public; we only hide chrome that would duplicate this page's heading.
+ */
+const embedUrl =
+  'https://calendar.google.com/calendar/embed?src=msjamateurradio%40gmail.com&ctz=America%2FLos_Angeles&mode=MONTH&showTitle=0&showPrint=0&showCalendars=0&showTz=0'
+
+const googleSubscribeUrl = `https://calendar.google.com/calendar/render?cid=${encodeURIComponent(CALENDAR_ICS_URL)}`
+---
+
+<div class="calendar-embed">
+  <iframe src={embedUrl} title="MSJ ARC club calendar" loading="lazy" frameborder="0" scrolling="no"></iframe>
+</div>
+
+<p>Subscribe and the club calendar shows up in your own:</p>
+<Link isButton isExternal class="button-gradient" href={googleSubscribeUrl}>Add to Google Calendar</Link>
+
+<style>
+  .calendar-embed {
+    border: 3px solid var(--color-neutral-700);
+    border-radius: var(--radius-l);
+    background-color: var(--background-color);
+    block-size: 40rem;
+    max-block-size: 80vh;
+    overflow: hidden;
+  }
+
+  .calendar-embed iframe {
+    display: block;
+    border: 0;
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  /**
+   * Google's embed is cross-origin, so its own stylesheet is out of reach and it
+   * always paints itself light. Inverting the whole frame is the only lever we
+   * have. Stopping short of a full invert keeps white from becoming pure black,
+   * and the hue-rotate puts event colours back near where they started.
+   */
+  :global(.darkmode) .calendar-embed iframe {
+    filter: invert(0.92) hue-rotate(180deg);
+  }
+</style>
