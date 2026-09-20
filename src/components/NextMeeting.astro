@@ -30,35 +30,66 @@ const embedded = JSON.stringify(cards).replaceAll('<', '\\u003c')
     <Icon aria-hidden="true" name="lucide:calendar-clock" />
     <span>Next up</span>
   </p>
-  <p class="next-meeting__title" data-next-meeting-title>{first ? first.title : NO_EVENT_TITLE}</p>
-  <p class="next-meeting__when" data-next-meeting-when>
-    {
-      first ? (
-        <>
-          <time datetime={first.datetime}>{first.date}</time>
-          <span aria-hidden="true"> &middot; </span>
-          {first.time}
-        </>
-      ) : (
-        NO_EVENT_DETAIL
-      )
-    }
-  </p>
-  <p class="next-meeting__where" data-next-meeting-where hidden={!first?.location}>{first?.location}</p>
+
+  <div class="next-meeting__body" data-next-meeting-body hidden={!first}>
+    <time class="next-meeting__badge" data-next-meeting-badge datetime={first?.datetime ?? ''}>
+      <span class="sr-only" data-next-meeting-date>{first?.date}</span>
+      <span class="next-meeting__badge-visual" aria-hidden="true">
+        <span class="next-meeting__badge-weekday" data-next-meeting-weekday>{first?.weekday}</span>
+        <span class="next-meeting__badge-day" data-next-meeting-day>{first?.day}</span>
+        <span class="next-meeting__badge-month" data-next-meeting-month>{first?.month}</span>
+      </span>
+    </time>
+
+    <div class="next-meeting__details">
+      <p class="next-meeting__title" data-next-meeting-title>{first?.title}</p>
+      <ul class="next-meeting__meta">
+        <li>
+          <Icon aria-hidden="true" name="lucide:clock" />
+          <span data-next-meeting-time>{first?.time}</span>
+        </li>
+        <li data-next-meeting-where hidden={!first?.location}>
+          <Icon aria-hidden="true" name="lucide:map-pin" />
+          <span data-next-meeting-where-text>{first?.location}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div
+    class="next-meeting__description"
+    data-next-meeting-description
+    hidden={!first?.description}
+    set:html={first?.description ?? ''}
+  />
+
+  <div class="next-meeting__empty" data-next-meeting-empty hidden={!!first}>
+    <p class="next-meeting__title">{NO_EVENT_TITLE}</p>
+    <p class="next-meeting__empty-detail">{NO_EVENT_DETAIL}</p>
+  </div>
 </div>
 
 <script>
   // Imported from next-meeting.ts, not calendar.ts: the latter pulls in the ICS
   // parser, which has no business in the browser.
-  import { NO_EVENT_DETAIL, NO_EVENT_TITLE, type NextMeetingCard } from '@utils/next-meeting'
+  import type { NextMeetingCard } from '@utils/next-meeting'
 
   const root = document.querySelector('.next-meeting')
   const embedded = root?.querySelector('[data-next-meeting-events]')
 
   if (root && embedded) {
+    const bodyEl = root.querySelector('[data-next-meeting-body]') as HTMLElement
+    const emptyEl = root.querySelector('[data-next-meeting-empty]') as HTMLElement
+    const badgeEl = root.querySelector('[data-next-meeting-badge]') as HTMLTimeElement
+    const dateEl = root.querySelector('[data-next-meeting-date]')!
+    const weekdayEl = root.querySelector('[data-next-meeting-weekday]')!
+    const dayEl = root.querySelector('[data-next-meeting-day]')!
+    const monthEl = root.querySelector('[data-next-meeting-month]')!
     const titleEl = root.querySelector('[data-next-meeting-title]')!
-    const whenEl = root.querySelector('[data-next-meeting-when]')!
+    const timeEl = root.querySelector('[data-next-meeting-time]')!
     const whereEl = root.querySelector('[data-next-meeting-where]') as HTMLElement
+    const whereTextEl = root.querySelector('[data-next-meeting-where-text]')!
+    const descriptionEl = root.querySelector('[data-next-meeting-description]') as HTMLElement
 
     const cards: NextMeetingCard[] = JSON.parse(embedded.textContent || '[]')
 
@@ -68,39 +99,45 @@ const embedded = JSON.stringify(cards).replaceAll('<', '\\u003c')
     const card = cards.find((candidate) => new Date(candidate.endsAt).getTime() > now)
 
     if (!card) {
-      titleEl.textContent = NO_EVENT_TITLE
-      whenEl.replaceChildren(document.createTextNode(NO_EVENT_DETAIL))
-      whereEl.hidden = true
+      bodyEl.hidden = true
+      descriptionEl.hidden = true
+      emptyEl.hidden = false
     } else {
-      const date = document.createElement('time')
-      date.dateTime = card.datetime
-      date.textContent = card.date
-
-      const separator = document.createElement('span')
-      separator.setAttribute('aria-hidden', 'true')
-      separator.textContent = ' · '
-
+      emptyEl.hidden = true
+      bodyEl.hidden = false
+      badgeEl.dateTime = card.datetime
+      dateEl.textContent = card.date
+      weekdayEl.textContent = card.weekday
+      dayEl.textContent = card.day
+      monthEl.textContent = card.month
       titleEl.textContent = card.title
-      whenEl.replaceChildren(date, separator, document.createTextNode(card.time))
-      whereEl.textContent = card.location ?? ''
+      timeEl.textContent = card.time
+      whereTextEl.textContent = card.location ?? ''
       whereEl.hidden = !card.location
+      descriptionEl.innerHTML = card.description ?? ''
+      descriptionEl.hidden = !card.description
     }
   }
 </script>
 
 <style lang="scss">
   .next-meeting {
+    margin-block: var(--space-xs);
     border: 3px solid var(--color-neutral-700);
     border-radius: var(--radius-l);
     background-color: var(--color-neutral-100);
     padding: var(--space-m);
   }
 
+  .next-meeting p {
+    margin: var(--space-3xs);
+  }
+
   .next-meeting__label {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    margin-block-end: var(--space-2xs);
+    margin-block-end: var(--space-m);
     color: var(--link-color);
     font-weight: 700;
     font-size: var(--font-size-0);
@@ -108,22 +145,132 @@ const embedded = JSON.stringify(cards).replaceAll('<', '\\u003c')
     text-transform: uppercase;
   }
 
+  .next-meeting__body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-s);
+  }
+
+  .next-meeting__badge {
+    display: block;
+    flex-shrink: 0;
+    border: 2px solid var(--color-neutral-700);
+    border-radius: var(--radius-m);
+    background-color: light-dark(var(--color-neutral-100), var(--color-neutral-800));
+    min-inline-size: 4.5rem;
+    overflow: hidden;
+    line-height: 1;
+    text-align: center;
+  }
+
+  .next-meeting__badge-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .next-meeting__badge-weekday {
+    align-self: stretch;
+    background-color: light-dark(var(--color-neutral-800), var(--color-neutral-200));
+    padding: var(--space-3xs) var(--space-2xs);
+    color: light-dark(var(--color-neutral-100), var(--color-neutral-900));
+    font-weight: 700;
+    font-size: var(--font-size--2);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .next-meeting__badge-day {
+    padding-block-start: var(--space-2xs);
+    font-weight: 700;
+    font-size: var(--font-size-3);
+  }
+
+  .next-meeting__badge-month {
+    padding-block: var(--space-3xs) var(--space-2xs);
+    font-weight: 700;
+    font-size: var(--font-size--1);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .next-meeting__details {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    min-inline-size: 0;
+  }
+
   .next-meeting__title {
     font-weight: 700;
     font-size: var(--font-size-2);
+    line-height: 1.2;
+    text-wrap: pretty;
   }
 
-  .next-meeting__when,
-  .next-meeting__where {
-    font-size: var(--font-size-1);
+  .next-meeting__meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    margin: 0;
+    padding: 0;
+    font-size: var(--font-size-0);
+    list-style: none;
   }
 
-  :global(.next-meeting [data-icon]) {
+  .next-meeting__meta li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+  }
+
+  .next-meeting__empty-detail {
+    margin-block-start: var(--space-2xs);
+    font-size: var(--font-size-0);
+  }
+
+  .next-meeting__description {
+    margin-block-start: var(--space-s);
+    border-block-start: 1px solid var(--border-color-subtle);
+    padding-block-start: var(--space-s);
+    color: light-dark(var(--color-neutral-700), var(--color-neutral-300));
+    font-size: var(--font-size-0);
+    overflow-wrap: anywhere;
+  }
+
+  .next-meeting__description :global(p) {
+    margin: 0;
+  }
+
+  .next-meeting__description :global(p + p) {
+    margin-block-start: var(--space-2xs);
+  }
+
+  :global(.next-meeting__label [data-icon]) {
     inline-size: 1.5rem;
+    block-size: auto;
+  }
+
+  :global(.next-meeting__meta [data-icon]) {
+    flex-shrink: 0;
+    inline-size: 1.15rem;
     block-size: auto;
   }
 
   :global(.darkmode) .next-meeting {
     background-color: var(--color-neutral-900);
+  }
+
+  :global(.darkmode) .next-meeting__badge {
+    border-color: var(--color-neutral-100);
+  }
+
+  .next-meeting__body[hidden],
+  .next-meeting__description[hidden],
+  .next-meeting__empty[hidden],
+  .next-meeting__meta li[hidden] {
+    display: none;
   }
 </style>

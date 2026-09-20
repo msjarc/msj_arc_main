@@ -1,4 +1,5 @@
 import IcalExpander from 'ical-expander'
+import sanitizeHtml from 'sanitize-html'
 import type { NextMeetingCard } from './next-meeting'
 
 /**
@@ -23,6 +24,7 @@ export interface CalendarEvent {
   end: Date
   allDay: boolean
   location?: string
+  description?: string
 }
 
 /** The subset of an ICAL.Time we rely on. */
@@ -43,7 +45,14 @@ function toDate(time: IcalTime): Date {
   return time.isDate ? new Date(Date.UTC(time.year, time.month - 1, time.day)) : time.toJSDate()
 }
 
-function toEvent(uid: string, title: string, start: IcalTime, end: IcalTime, location?: string): CalendarEvent {
+function toEvent(
+  uid: string,
+  title: string,
+  start: IcalTime,
+  end: IcalTime,
+  location?: string,
+  description?: string,
+): CalendarEvent {
   const startDate = toDate(start)
 
   return {
@@ -53,6 +62,7 @@ function toEvent(uid: string, title: string, start: IcalTime, end: IcalTime, loc
     end: toDate(end),
     allDay: start.isDate,
     location: location || undefined,
+    description: description?.trim() || undefined,
   }
 }
 
@@ -75,7 +85,9 @@ async function loadEvents(): Promise<CalendarEvent[]> {
   const { events, occurrences } = expander.between(from, to)
 
   return [
-    ...events.map((event) => toEvent(event.uid, event.summary, event.startDate, event.endDate, event.location)),
+    ...events.map((event) =>
+      toEvent(event.uid, event.summary, event.startDate, event.endDate, event.location, event.description),
+    ),
     ...occurrences.map((occurrence) =>
       toEvent(
         occurrence.item.uid,
@@ -83,6 +95,7 @@ async function loadEvents(): Promise<CalendarEvent[]> {
         occurrence.startDate,
         occurrence.endDate,
         occurrence.item.location,
+        occurrence.item.description,
       ),
     ),
   ].sort((a, b) => a.start.getTime() - b.start.getTime())
@@ -132,6 +145,61 @@ export function formatEventTime(event: CalendarEvent): string {
   return `${time.format(event.start)} to ${time.format(event.end)}${zone ? ` ${zone}` : ''}`
 }
 
+function eventTimeZone(event: CalendarEvent): string {
+  return event.allDay ? 'UTC' : CALENDAR_TIME_ZONE
+}
+
+function formatEventBadge(event: CalendarEvent): Pick<NextMeetingCard, 'weekday' | 'day' | 'month'> {
+  const timeZone = eventTimeZone(event)
+
+  return {
+    weekday: new Intl.DateTimeFormat('en-US', { weekday: 'short', timeZone }).format(event.start),
+    day: new Intl.DateTimeFormat('en-US', { day: 'numeric', timeZone }).format(event.start),
+    month: new Intl.DateTimeFormat('en-US', { month: 'short', timeZone }).format(event.start),
+  }
+}
+
+const DESCRIPTION_SANITIZE: sanitizeHtml.IOptions = {
+  allowedTags: ['a', 'b', 'br', 'em', 'i', 'li', 'ol', 'p', 'strong', 'ul'],
+  allowedAttributes: {
+    a: ['href', 'rel', 'target'],
+  },
+  transformTags: {
+    a: (_tagName, attribs) => ({
+      tagName: 'a',
+      attribs: {
+        href: attribs.href ?? '',
+        rel: 'noopener noreferrer',
+        target: '_blank',
+      },
+    }),
+  },
+}
+
+const URL_IN_TEXT = /https?:\/\/[^\s<]+/gi
+
+function linkifyPlainText(escaped: string): string {
+  return escaped.replace(URL_IN_TEXT, (url) => {
+    const trailing = url.match(/[.,;:)]+$/)?.[0] ?? ''
+    const href = trailing ? url.slice(0, -trailing.length) : url
+    if (!href) return url
+    return `<a href="${href}" rel="noopener noreferrer" target="_blank">${href}</a>${trailing}`
+  })
+}
+
+/** Google Calendar DESCRIPTION as safe HTML, or null when the event has none. */
+function formatEventDescription(raw?: string): string | null {
+  const text = raw?.replace(/\r\n/g, '\n').trim()
+  if (!text) return null
+
+  const looksLikeHtml = /<\/?[a-z][\s\S]*>/i.test(text)
+  const html = looksLikeHtml
+    ? sanitizeHtml(text, DESCRIPTION_SANITIZE)
+    : linkifyPlainText(sanitizeHtml(text, { allowedTags: [], allowedAttributes: {} })).replace(/\n/g, '<br>')
+
+  return html.trim() || null
+}
+
 /** One event's display strings, rendered here so the browser never formats a date. */
 function toCardData(event: CalendarEvent): NextMeetingCard {
   return {
@@ -139,9 +207,11 @@ function toCardData(event: CalendarEvent): NextMeetingCard {
     datetime: event.start.toISOString(),
     endsAt: event.end.toISOString(),
     date: formatEventDate(event),
+    ...formatEventBadge(event),
     time: formatEventTime(event),
     // Google stores a video-call URL here for online meetings, not an address.
     location: event.location && !event.location.startsWith('http') ? event.location : null,
+    description: formatEventDescription(event.description),
   }
 }
 

@@ -24,7 +24,13 @@ export interface NextMeetingCard {
   datetime: string
   /** When this stops being the next meeting. */
   endsAt: string
+  /** Full date, for screen readers. */
   date: string
+  weekday: string
+  day: string
+  month: string
   time: string
   location: string | null
+  /** Sanitized HTML from the Google Calendar description, or null. */
+  description: string | null
 }
