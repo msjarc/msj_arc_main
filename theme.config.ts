@@ -14,10 +14,10 @@ export default defineThemeConfig({
     image: previewImage, // Can also be a string e.g. '/social-preview-image.png',
   },
   colors: {
-    primary: '#0a4b39',
-    secondary: '#319905',
-    neutral: '#b9bec4',
-    outline: '#ff4500',
+    primary: '#014023',
+    secondary: '#80a558',
+    neutral: '#606060',
+    outline: '#9e441d',
   },
   navigation: {
     darkmode: true,
