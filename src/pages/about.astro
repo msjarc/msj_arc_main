@@ -52,7 +52,7 @@ import NextMeeting from '@components/NextMeeting.astro'
 
   <section class="container">
     <ContentMedia imgSrc="/msjhs_map_arc_annotated.jpg" spacing="my-32">
-      <Heading level="h2">Meetings</Heading>
+      <Heading level="h2" id="meetings">Meetings</Heading>
       <p class="text-2xl">
         We hold meetings every other Monday in E1A during lunch (Ms. Kim's room, previously Mr. Sale's room).
       </p>
@@ -197,3 +197,9 @@ import NextMeeting from '@components/NextMeeting.astro'
     </p>
   </section>
 </DefaultLayout>
+
+<style>
+  #meetings {
+    scroll-margin-block-start: var(--space-m);
+  }
+</style>

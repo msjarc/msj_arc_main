@@ -1,7 +1,8 @@
 ---
+import { Heading } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 import { getUpcomingCards } from '@utils/calendar'
-import { NO_EVENT_DETAIL, NO_EVENT_TITLE } from '@utils/next-meeting'
+import { formatCompactSummary, NO_EVENT_DETAIL, NO_EVENT_TITLE } from '@utils/next-meeting'
 
 /**
  * Next Meeting Component
@@ -14,7 +15,16 @@ import { NO_EVENT_DETAIL, NO_EVENT_TITLE } from '@utils/next-meeting'
  *
  * Without a script the card falls back to whatever was next at build time,
  * which is what it showed before.
+ *
+ * `compact` is the homepage quick-link version: Feature chrome, a heading, and
+ * a one-line date summary. The date badge and extra meta stay on the About card
+ * so this one does not stretch the rest of the grid.
  */
+interface Props {
+  compact?: boolean
+}
+
+const { compact = false } = Astro.props
 const cards = await getUpcomingCards()
 const first = cards[0] ?? null
 
@@ -24,55 +34,77 @@ const first = cards[0] ?? null
 const embedded = JSON.stringify(cards).replaceAll('<', '\\u003c')
 ---
 
-<div class="next-meeting">
+<div class:list={['next-meeting', { 'next-meeting--compact': compact }]}>
   <script type="application/json" data-next-meeting-events set:html={embedded} />
-  <p class="next-meeting__label">
-    <Icon aria-hidden="true" name="lucide:calendar-clock" />
-    <span>Next up</span>
-  </p>
 
-  <div class="next-meeting__body" data-next-meeting-body hidden={!first}>
-    <time class="next-meeting__badge" data-next-meeting-badge datetime={first?.datetime ?? ''}>
-      <span class="sr-only" data-next-meeting-date>{first?.date}</span>
-      <span class="next-meeting__badge-visual" aria-hidden="true">
-        <span class="next-meeting__badge-weekday" data-next-meeting-weekday>{first?.weekday}</span>
-        <span class="next-meeting__badge-day" data-next-meeting-day>{first?.day}</span>
-        <span class="next-meeting__badge-month" data-next-meeting-month>{first?.month}</span>
-      </span>
-    </time>
+  {
+    compact ? (
+      <>
+        <Icon aria-hidden="true" name="lucide:calendar-clock" />
+        <div class="next-meeting__content">
+          <Heading level="h3" size="h6" class="mb-2">
+            Next Meeting
+          </Heading>
+          <p data-next-meeting-body data-next-meeting-summary hidden={!first}>
+            {first ? formatCompactSummary(first) : ''}
+          </p>
+          <p data-next-meeting-empty hidden={!!first}>
+            {NO_EVENT_TITLE}
+          </p>
+        </div>
+      </>
+    ) : (
+      <>
+        <p class="next-meeting__label">
+          <Icon aria-hidden="true" name="lucide:calendar-clock" />
+          <span>Next up</span>
+        </p>
 
-    <div class="next-meeting__details">
-      <p class="next-meeting__title" data-next-meeting-title>{first?.title}</p>
-      <ul class="next-meeting__meta">
-        <li>
-          <Icon aria-hidden="true" name="lucide:clock" />
-          <span data-next-meeting-time>{first?.time}</span>
-        </li>
-        <li data-next-meeting-where hidden={!first?.location}>
-          <Icon aria-hidden="true" name="lucide:map-pin" />
-          <span data-next-meeting-where-text>{first?.location}</span>
-        </li>
-      </ul>
-    </div>
-  </div>
+        <div class="next-meeting__body" data-next-meeting-body hidden={!first}>
+          <time class="next-meeting__badge" data-next-meeting-badge datetime={first?.datetime ?? ''}>
+            <span class="sr-only" data-next-meeting-date>{first?.date}</span>
+            <span class="next-meeting__badge-visual" aria-hidden="true">
+              <span class="next-meeting__badge-weekday" data-next-meeting-weekday>{first?.weekday}</span>
+              <span class="next-meeting__badge-day" data-next-meeting-day>{first?.day}</span>
+              <span class="next-meeting__badge-month" data-next-meeting-month>{first?.month}</span>
+            </span>
+          </time>
 
-  <div
-    class="next-meeting__description"
-    data-next-meeting-description
-    hidden={!first?.description}
-    set:html={first?.description ?? ''}
-  />
+          <div class="next-meeting__details">
+            <p class="next-meeting__title" data-next-meeting-title>{first?.title}</p>
+            <ul class="next-meeting__meta">
+              <li>
+                <Icon aria-hidden="true" name="lucide:clock" />
+                <span data-next-meeting-time>{first?.time}</span>
+              </li>
+              <li data-next-meeting-where hidden={!first?.location}>
+                <Icon aria-hidden="true" name="lucide:map-pin" />
+                <span data-next-meeting-where-text>{first?.location}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
 
-  <div class="next-meeting__empty" data-next-meeting-empty hidden={!!first}>
-    <p class="next-meeting__title">{NO_EVENT_TITLE}</p>
-    <p class="next-meeting__empty-detail">{NO_EVENT_DETAIL}</p>
-  </div>
+        <div
+          class="next-meeting__description"
+          data-next-meeting-description
+          hidden={!first?.description}
+          set:html={first?.description ?? ''}
+        />
+
+        <div class="next-meeting__empty" data-next-meeting-empty hidden={!!first}>
+          <p class="next-meeting__title">{NO_EVENT_TITLE}</p>
+          <p class="next-meeting__empty-detail">{NO_EVENT_DETAIL}</p>
+        </div>
+      </>
+    )
+  }
 </div>
 
 <script>
   // Imported from next-meeting.ts, not calendar.ts: the latter pulls in the ICS
   // parser, which has no business in the browser.
-  import type { NextMeetingCard } from '@utils/next-meeting'
+  import { formatCompactSummary, type NextMeetingCard } from '@utils/next-meeting'
 
   const root = document.querySelector('.next-meeting')
   const embedded = root?.querySelector('[data-next-meeting-events]')
@@ -80,16 +112,17 @@ const embedded = JSON.stringify(cards).replaceAll('<', '\\u003c')
   if (root && embedded) {
     const bodyEl = root.querySelector('[data-next-meeting-body]') as HTMLElement
     const emptyEl = root.querySelector('[data-next-meeting-empty]') as HTMLElement
-    const badgeEl = root.querySelector('[data-next-meeting-badge]') as HTMLTimeElement
-    const dateEl = root.querySelector('[data-next-meeting-date]')!
-    const weekdayEl = root.querySelector('[data-next-meeting-weekday]')!
-    const dayEl = root.querySelector('[data-next-meeting-day]')!
-    const monthEl = root.querySelector('[data-next-meeting-month]')!
-    const titleEl = root.querySelector('[data-next-meeting-title]')!
-    const timeEl = root.querySelector('[data-next-meeting-time]')!
-    const whereEl = root.querySelector('[data-next-meeting-where]') as HTMLElement
-    const whereTextEl = root.querySelector('[data-next-meeting-where-text]')!
-    const descriptionEl = root.querySelector('[data-next-meeting-description]') as HTMLElement
+    const summaryEl = root.querySelector('[data-next-meeting-summary]') as HTMLElement | null
+    const badgeEl = root.querySelector('[data-next-meeting-badge]') as HTMLTimeElement | null
+    const dateEl = root.querySelector('[data-next-meeting-date]')
+    const weekdayEl = root.querySelector('[data-next-meeting-weekday]')
+    const dayEl = root.querySelector('[data-next-meeting-day]')
+    const monthEl = root.querySelector('[data-next-meeting-month]')
+    const titleEl = root.querySelector('[data-next-meeting-title]')
+    const timeEl = root.querySelector('[data-next-meeting-time]')
+    const whereEl = root.querySelector('[data-next-meeting-where]') as HTMLElement | null
+    const whereTextEl = root.querySelector('[data-next-meeting-where-text]')
+    const descriptionEl = root.querySelector('[data-next-meeting-description]') as HTMLElement | null
 
     const cards: NextMeetingCard[] = JSON.parse(embedded.textContent || '[]')
 
@@ -100,27 +133,36 @@ const embedded = JSON.stringify(cards).replaceAll('<', '\\u003c')
 
     if (!card) {
       bodyEl.hidden = true
-      descriptionEl.hidden = true
+      if (descriptionEl) descriptionEl.hidden = true
       emptyEl.hidden = false
     } else {
       emptyEl.hidden = true
       bodyEl.hidden = false
-      badgeEl.dateTime = card.datetime
-      dateEl.textContent = card.date
-      weekdayEl.textContent = card.weekday
-      dayEl.textContent = card.day
-      monthEl.textContent = card.month
-      titleEl.textContent = card.title
-      timeEl.textContent = card.time
-      whereTextEl.textContent = card.location ?? ''
-      whereEl.hidden = !card.location
-      descriptionEl.innerHTML = card.description ?? ''
-      descriptionEl.hidden = !card.description
+
+      if (summaryEl) {
+        summaryEl.textContent = formatCompactSummary(card)
+      } else if (badgeEl && dateEl && weekdayEl && dayEl && monthEl && titleEl && timeEl && whereEl && whereTextEl) {
+        badgeEl.dateTime = card.datetime
+        dateEl.textContent = card.date
+        weekdayEl.textContent = card.weekday
+        dayEl.textContent = card.day
+        monthEl.textContent = card.month
+        titleEl.textContent = card.title
+        timeEl.textContent = card.time
+        whereTextEl.textContent = card.location ?? ''
+        whereEl.hidden = !card.location
+        if (descriptionEl) {
+          descriptionEl.innerHTML = card.description ?? ''
+          descriptionEl.hidden = !card.description
+        }
+      }
     }
   }
 </script>
 
 <style lang="scss">
+  @use '../assets/scss/base/breakpoint' as *;
+
   .next-meeting {
     margin-block: var(--space-xs);
     border: 3px solid var(--color-neutral-700);
@@ -259,12 +301,68 @@ const embedded = JSON.stringify(cards).replaceAll('<', '\\u003c')
     block-size: auto;
   }
 
-  :global(.darkmode) .next-meeting {
+  :global(.darkmode) .next-meeting:not(.next-meeting--compact) {
     background-color: var(--color-neutral-900);
   }
 
   :global(.darkmode) .next-meeting__badge {
     border-color: var(--color-neutral-100);
+  }
+
+  /* Match the Feature card chrome used by the other homepage quick links. */
+  .next-meeting--compact {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-block: 0;
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    padding: var(--space-l);
+    inline-size: calc(100% - var(--space-l));
+    block-size: 100%;
+
+    > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    @include breakpoint(xl) {
+      inline-size: 100%;
+    }
+
+    &::before,
+    &::after {
+      position: absolute;
+      content: '';
+    }
+
+    &::before {
+      z-index: 1;
+      inset: 0;
+      box-shadow: 0 0 0 6px var(--background-color);
+      border: 3px solid var(--color-neutral-700);
+      border-radius: var(--radius-l);
+      background-color: var(--background-color);
+    }
+
+    &::after {
+      z-index: 0;
+      inset: var(--space-m) -0.85rem -0.85rem 1rem;
+      border-radius: var(--radius-l);
+      background-color: var(--link-color);
+    }
+  }
+
+  .next-meeting--compact p {
+    margin: 0;
+  }
+
+  :global(.next-meeting--compact > [data-icon]) {
+    inline-size: 4rem;
+    block-size: auto;
+    color: var(--link-color);
   }
 
   .next-meeting__body[hidden],

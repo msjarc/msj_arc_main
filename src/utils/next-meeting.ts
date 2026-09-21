@@ -34,3 +34,9 @@ export interface NextMeetingCard {
   /** Sanitized HTML from the Google Calendar description, or null. */
   description: string | null
 }
+
+/** One-line recap for the homepage Feature-style card. */
+export function formatCompactSummary(card: NextMeetingCard): string {
+  const date = `${card.weekday}, ${card.month} ${card.day}`
+  return [date, card.time, card.location].filter(Boolean).join(' · ')
+}

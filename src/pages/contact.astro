@@ -2,7 +2,6 @@
 import DefaultLayout from '@layouts/DefaultLayout.astro'
 import PageHeader from '@components/PageHeader.astro'
 import Turnstile from '@components/Turnstile.astro'
-import DiscordModal from '@components/DiscordModal.astro'
 import {
   Form,
   Input,
@@ -16,7 +15,6 @@ import {
   Notification,
 } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
-import { Modal } from 'accessible-astro-components'
 
 const CONTACT_WORKER_URL = 'https://msjarc.org/api/'
 ---
@@ -31,8 +29,6 @@ const CONTACT_WORKER_URL = 'https://msjarc.org/api/'
       </Notification>
     </div>
   </section>
-
-  <DiscordModal />
 
   <section class="container mb-24">
     <div class="grid grid-cols-1 gap-32 md:grid-cols-2">
@@ -90,7 +86,7 @@ const CONTACT_WORKER_URL = 'https://msjarc.org/api/'
           club or any feedback, please reach out! Please feel free to use any of the contact methods, such as the
           website form or email.
         </p>
-        <p>We'll try to get back within 5 business days. 73! W6MSJ</p>
+        <p>We'll try to get back as soon as we can. 73! W6MSJ</p>
 
         <div class="gap-2xs flex items-center">
           <Icon aria-hidden="true" name="lucide:mail" size={20} class="flex-shrink-0" />
@@ -126,7 +122,7 @@ const CONTACT_WORKER_URL = 'https://msjarc.org/api/'
 
         <ul class="flex flex-wrap gap-2">
           <li>
-            <Button id="discord-modal-trigger" hideIcon animateOnHover animationType="boop">
+            <Button data-discord-modal hideIcon animateOnHover animationType="boop" aria-haspopup="dialog">
               <Icon aria-hidden="true" name="ion:logo-discord" size={32} />
               <span class="sr-only">Join our Discord server, opens confirmation modal</span>
             </Button>
@@ -148,6 +144,19 @@ const CONTACT_WORKER_URL = 'https://msjarc.org/api/'
             <Link href="https://qrz.com/db/w6msj" isButton isExternal hideIcon animateOnHover animationType="boop">
               <Icon aria-hidden="true" name="ion:globe-outline" size={32} />
               <span class="sr-only">Go to our QRZ page, opens in a new tab</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="https://msjarc.atabook.org/"
+              isButton
+              isExternal
+              hideIcon
+              animateOnHover
+              animationType="boop"
+            >
+              <Icon aria-hidden="true" name="lucide:book-open" size={32} />
+              <span class="sr-only">Sign our guestbook, opens in a new tab</span>
             </Link>
           </li>
           <!-- <li>

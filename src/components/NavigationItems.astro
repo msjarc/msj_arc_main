@@ -48,6 +48,12 @@ import { Icon } from 'astro-icon/components'
       </li>
     ))
   }
+  <li class="menu-item type-icon animate-rotate">
+    <button type="button" class="discord-toggle" data-discord-modal aria-haspopup="dialog">
+      <Icon aria-hidden="true" name="ion:logo-discord" size="32" />
+      <span class="sr-only">Join our Discord server, opens confirmation modal</span>
+    </button>
+  </li>
   {
     themeConfig.navigation.darkmode && (
       <li class="menu-item type-icon animate-rotate">

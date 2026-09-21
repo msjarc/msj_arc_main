@@ -5,18 +5,21 @@ import { Icon } from 'astro-icon/components'
 /**
  * Discord Modal Component
  *
- * @description Premade modal to confirm users are students before showing discord invite
+ * @description Premade modal to confirm users are students before showing discord invite.
+ * Place once in the site header. Any element with `data-discord-modal` will open it.
  */
 
 interface Props {
   /**
-   * The source URL for the image
+   * ID of the hidden button the modal library binds to
    */
   modalTriggerId?: string
 }
 
 const { modalTriggerId = 'discord-modal-trigger' }: Props = Astro.props
 ---
+
+<button type="button" id={modalTriggerId} hidden>Join Discord</button>
 
 <Modal triggerId={modalTriggerId} title="Join our Discord">
   <p>
@@ -37,3 +40,13 @@ const { modalTriggerId = 'discord-modal-trigger' }: Props = Astro.props
 
   <Button onclick="closeModal()" variant="outlined">Close</Button>
 </Modal>
+
+<script>
+  document.addEventListener('click', (event: Event) => {
+    const target = event.target as HTMLElement | null
+    if (!target?.closest('[data-discord-modal]')) return
+
+    event.preventDefault()
+    document.getElementById('discord-modal-trigger')?.click()
+  })
+</script>

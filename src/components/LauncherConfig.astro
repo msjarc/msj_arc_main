@@ -165,19 +165,27 @@ const launcherAccessibleAstroProjects = [
       </LauncherNav>
     )
   }
-  {
-    launcherSocialItems.length > 0 && (
-      <LauncherNav label="Socials">
-        {launcherSocialItems.map((item) => (
-          <LauncherLink
-            label={item.label}
-            href={item.href}
-            {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-          >
-            <Icon slot="icon" aria-hidden="true" name={item.icon} size="16" />
-          </LauncherLink>
-        ))}
-      </LauncherNav>
-    )
-  }
+  <LauncherNav label="Socials">
+    <LauncherLink
+      label="Discord"
+      href="/contact"
+      typeLabel="Join"
+      keywords={['discord', 'chat', 'invite', 'community', 'server']}
+      data-discord-modal="true"
+      aria-haspopup="dialog"
+    >
+      <Icon slot="icon" aria-hidden="true" name="ion:logo-discord" size="16" />
+    </LauncherLink>
+    {
+      launcherSocialItems.map((item) => (
+        <LauncherLink
+          label={item.label}
+          href={item.href}
+          {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        >
+          <Icon slot="icon" aria-hidden="true" name={item.icon} size="16" />
+        </LauncherLink>
+      ))
+    }
+  </LauncherNav>
 </Launcher>

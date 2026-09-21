@@ -27,8 +27,9 @@ import { Tabs, TabsList, TabsTab, TabsPanel } from 'accessible-astro-components'
         </a>
       </li>
       <li>
-        <a href="/calendars" class="quick-link-card">
-          <Feature icon="lucide:calendar-days" title="Calendars"> Club meetings, events, and important dates. </Feature>
+        <a href="/about#meetings" class="quick-link-card">
+          <NextMeeting compact />
+          <span class="sr-only">Meeting details on the About page.</span>
         </a>
       </li>
       <li>
@@ -48,12 +49,24 @@ import { Tabs, TabsList, TabsTab, TabsPanel } from 'accessible-astro-components'
           <Feature icon="lucide:mail" title="Contact"> Have a question? Get in touch with us. </Feature>
         </a>
       </li>
+      <li>
+        <a
+          href="https://msjarc.atabook.org/"
+          class="quick-link-card"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Feature icon="lucide:book-open" title="Guestbook">
+            Leave a note and say hello. <span class="sr-only">Opens in a new tab.</span>
+          </Feature>
+        </a>
+      </li>
     </ul>
   </section>
 
   <FeaturedPosts />
 
-  <section class="my-64">
+  <section class="my-32">
     <div class="media-wrapper container">
       <picture>
         <source srcset="https://www.hamqsl.com/solar101vhfpic.php" media="(orientation: landscape)" />
@@ -95,7 +108,8 @@ import { Tabs, TabsList, TabsTab, TabsPanel } from 'accessible-astro-components'
     text-decoration: none;
   }
 
-  .quick-link-card :global(.feature) {
+  .quick-link-card :global(.feature),
+  .quick-link-card :global(.next-meeting) {
     block-size: 100%;
   }
 

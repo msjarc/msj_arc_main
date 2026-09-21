@@ -1,6 +1,7 @@
 ---
 import Navigation from '@components/Navigation.astro'
 import LauncherConfig from '@components/LauncherConfig.astro'
+import DiscordModal from '@components/DiscordModal.astro'
 import { HighContrast, Notification, ReducedMotion, SkipLink } from 'accessible-astro-components'
 
 /**
@@ -21,6 +22,7 @@ import { HighContrast, Notification, ReducedMotion, SkipLink } from 'accessible-
   <Navigation />
   {/* To remove the launcher, delete this component and remove the LauncherTrigger from `Navigation.astro`. */}
   <LauncherConfig />
+  <DiscordModal />
   <div class="mx-8 lg:mx-0">
     <Notification type="info" variant="accent" role="status" class="container my-2">
       <p><strong>Website under construction</strong> - Updates are coming VERY soon, we promise ;)</p>

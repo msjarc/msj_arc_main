@@ -1,7 +1,7 @@
 ---
 import Logo from './Logo.astro'
 import themeConfig from '@theme-config'
-import { Heading, Link } from 'accessible-astro-components'
+import { Heading, Link, Button } from 'accessible-astro-components'
 import { Icon } from 'astro-icon/components'
 
 /**
@@ -51,24 +51,41 @@ const currentYear = new Date().getFullYear()
           <li>MSJ ARC, 41717 Palm Avenue, Fremont, CA 94539</li>
         </ul>
         <ul class="flex flex-wrap gap-3">
+          <li>
+            <Button data-discord-modal hideIcon animateOnHover animationType="boop" aria-haspopup="dialog">
+              <Icon aria-hidden="true" name="ion:logo-discord" size={28} />
+              <span class="sr-only">Join our Discord server, opens confirmation modal</span>
+            </Button>
+          </li>
           {
-            themeConfig.socials?.map((social) => (
-              <li>
-                <Link href={social.href} isButton isExternal hideIcon animateOnHover animationType="boop">
-                  <Icon aria-hidden="true" name={social.icon} size={28} />
-                  <span class="sr-only">{social.label}</span>
-                </Link>
-              </li>
-            ))
+            themeConfig.socials
+              ?.filter((social) => social.label !== 'GitHub')
+              .map((social) => (
+                <li>
+                  <Link href={social.href} isButton isExternal hideIcon animateOnHover animationType="boop">
+                    <Icon aria-hidden="true" name={social.icon} size={28} />
+                    <span class="sr-only">{social.label}</span>
+                  </Link>
+                </li>
+              ))
           }
         </ul>
       </div>
       <div class="flex flex-col gap-4">
         <Logo loading="lazy" />
         <p class="leading-[1.75]">
-          Mission San Jose High School Amateur Radio Club - MSJ ARC; call sign <strong>W6MSJ</strong>. Sharing the joy
-          of the hobby with our school and the local community.
+          Welcome to Mission San Jose High School Amateur Radio Club W6MSJ's website! Feel free to drop by and say hi!
         </p>
+        <Link
+          href="https://msjarc.atabook.org/"
+          isButton
+          isExternal
+          animateOnHover
+          animationType="boop"
+        >
+          <Icon aria-hidden="true" name="lucide:book-open" size="1.25rem" />
+          Sign our guestbook
+        </Link>
       </div>
     </div>
   </section>

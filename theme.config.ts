@@ -85,22 +85,9 @@ export default defineThemeConfig({
         label: 'Contact',
         href: '/contact',
       },
-      {
-        type: 'link',
-        label: 'Go to our GitHub page, opens in new tab',
-        href: 'https://github.com/msjarc/msj_arc_main',
-        icon: 'lucide:github',
-        external: true,
-        excludeFromLauncher: true,
-      },
     ],
   },
   socials: [
-    {
-      label: 'GitHub',
-      href: 'https://github.com/msjarc',
-      icon: 'lucide:github',
-    },
     {
       label: 'Instagram',
       href: 'https://instagram.com/msj_arc',
