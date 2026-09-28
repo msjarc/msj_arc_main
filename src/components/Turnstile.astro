@@ -9,21 +9,73 @@ interface Props {
 const { siteKey } = Astro.props
 ---
 
-<div id="turnstile-verification">
-  <input
-    type="hidden"
-    name="Security Check"
-    required
-    data-validation="Security Captcha needs to be completed"
-    data-validation-fn="validateTurnstile"
-    value="placeholder"
-  />
-</div>
-
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async></script>
+<div id="turnstile-verification"></div>
+<input
+  type="text"
+  name="Security Check"
+  required
+  class="sr-only"
+  tabindex="-1"
+  aria-hidden="true"
+  autocomplete="off"
+  data-validation="Security Captcha needs to be completed"
+  data-validation-fn="validateTurnstile"
+  value="placeholder"
+/>
 
 <script define:vars={{ siteKey }}>
   let turnstileReady = false
+  let renderedWidget = null
+
+  function renderTurnstile() {
+    const widget = document.querySelector('#turnstile-verification')
+    if (!widget || !window.turnstile || renderedWidget === widget) {
+      return
+    }
+
+    try {
+      window.turnstile.render('#turnstile-verification', {
+        sitekey: siteKey,
+        size: 'flexible',
+        retry: 'auto',
+        theme: 'auto',
+        callback: function () {},
+        'expired-callback': function () {},
+        'error-callback': function (errorCode) {
+          console.log('Challenge Error:', errorCode)
+        },
+        'timeout-callback': function () {
+          console.log('Challenge timed out')
+        },
+      })
+      renderedWidget = widget
+      turnstileReady = true
+      console.log('injection complete!')
+    } catch (error) {
+      console.error('Unable to render the Turnstile challenge:', error)
+    }
+  }
+
+  // Cloudflare calls this after its async API script has initialized.
+  window.onTurnstileLoad = renderTurnstile
+
+  function loadTurnstile() {
+    if (window.turnstile) {
+      renderTurnstile()
+      return
+    }
+
+    // The script can still be loading during an Astro page transition.
+    if (document.querySelector('script[data-turnstile-api]')) {
+      return
+    }
+
+    const script = document.createElement('script')
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad'
+    script.async = true
+    script.dataset.turnstileApi = 'true'
+    document.head.appendChild(script)
+  }
 
   const syncTurnstileTheme = () => {
     const widget = document.querySelector('#turnstile-verification')
@@ -49,54 +101,20 @@ const { siteKey } = Astro.props
     }
   }
 
-  function renderTurnstile() {
-    // window.turnstileComplete = false
-    if (turnstileReady) {
-      console.log('race blocked')
-      return
-    }
-
-    turnstileReady = true
-
-    turnstile.render('#turnstile-verification', {
-      sitekey: siteKey,
-      size: 'flexible',
-      retry: 'auto',
-      //   response-field-name: ''
-
-      theme: 'auto',
-      callback: function () {
-        // window.turnstileComplete = true
-      },
-      'expired-callback': function () {
-        // window.turnstileComplete = false
-      },
-      'error-callback': function (errorCode) {
-        // window.turnstileComplete = false
-        console.log('Challenge Error:', errorCode)
-      },
-      'timeout-callback': function (errorCode) {
-        // window.turnstileComplete = false
-        console.log('Challenge timed out')
-      },
-    })
-
-    // turnstileReady = true
-
-    console.log('injection complete!')
-  }
-
-  document.addEventListener('DOMContentLoaded', renderTurnstile)
+  document.addEventListener('DOMContentLoaded', loadTurnstile)
 
   // For Astro View Transitions
-  document.addEventListener('astro:page-load', renderTurnstile)
+  document.addEventListener('astro:page-load', loadTurnstile)
 
   document.addEventListener('darkmode:change', (e) => {
-    renderTurnstile()
+    loadTurnstile()
     setTimeout(syncTurnstileTheme, 50)
   })
 
   document.addEventListener('astro:before-swap', () => {
     turnstileReady = false
+    renderedWidget = null
   })
+
+  loadTurnstile()
 </script>
