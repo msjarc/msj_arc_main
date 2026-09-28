@@ -49,6 +49,7 @@ This is the **flagship starter theme** of the Accessible Astro ecosystem:
    ```
 
    Server starts at `http://localhost:4321`
+   Please note: do not start a development server before checking if one is already running at `http://localhost:4321`. Only if it doesn't already exist should you run your own instance.
 
 3. **Build production site**:
 

@@ -6,6 +6,7 @@ import mdx from '@astrojs/mdx'
 import sitemap from '@astrojs/sitemap'
 import tailwindcss from '@tailwindcss/vite'
 import { enhanceConfigForWorkspace } from './scripts/workspace-config.js'
+import { shouldIndexPage } from './src/utils/searchIndexing.js'
 import cloudflare from '@astrojs/cloudflare';
 
 
@@ -41,9 +42,24 @@ const viteConfig = {
 export default defineConfig({
   compressHTML: true,
   site: 'https://msjarc.org',
-  integrations: [compress(), icon(), mdx(), sitemap()],
+  session: false,
+  integrations: [
+    compress(),
+    icon(),
+    mdx(),
+    sitemap({
+      filter: (page) => shouldIndexPage(new URL(page).pathname),
+      // Files served directly from public/ are not discovered as Astro routes.
+      customPages: ['https://msjarc.org/security_acknowledgements.html'],
+    }),
+  ],
   vite: enhanceConfigForWorkspace(viteConfig),
-  adapter: cloudflare(),
+  adapter: cloudflare({
+    // Static pages are prerendered with Node (content collections, sanitize-html).
+    prerenderEnvironment: 'node',
+    // Optimize images at build time. This site does not use the Cloudflare Images binding.
+    imageService: 'compile',
+  }),
   output: "static",
   redirects: {
     "/fax": "/itsjustthefax.webp",

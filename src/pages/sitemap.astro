@@ -1,14 +1,23 @@
 ---
 import DefaultLayout from '@layouts/DefaultLayout.astro'
 import PageHeader from '@components/PageHeader.astro'
-import { Heading, Notification } from 'accessible-astro-components'
+import { Heading } from 'accessible-astro-components'
 import { getCollection } from 'astro:content'
 import { getNewHamSteps } from '@utils/newHamSteps'
+import { execFileSync } from 'node:child_process'
 
 const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-const activities = await getCollection('activities')
+const activities = (await getCollection('activities')).sort((a, b) => a.data.title.localeCompare(b.data.title))
 const authors = await getCollection('authors')
 const newhamSteps = await getNewHamSteps()
+const buildTime = new Date()
+const commitId = (() => {
+  try {
+    return execFileSync('git', ['rev-parse', '--short=12', 'HEAD'], { encoding: 'utf8' }).trim()
+  } catch {
+    return 'Unavailable'
+  }
+})()
 
 const authorName = (authorId: string) => authors.find((author) => author.id === authorId)?.data.title ?? authorId
 
@@ -16,33 +25,23 @@ const staticPages = [
   {
     title: 'Home',
     url: '/',
-    description: 'The one, the only, Mission San Jose High School Amateur Radio Club, W6MSJ!',
+    description: 'Mission San Jose High School Amateur Radio Club, W6MSJ',
   },
   {
     title: 'About Us',
     url: '/about',
-    description: 'Learn about what we do',
+    description: 'Meet the club, its officers, and find meeting details',
   },
   {
     title: 'Blog',
     url: '/blog',
-    description: 'Rants, ramblings, and other texts of mysterious origin',
+    description: 'Posts and updates from the club',
   },
-  {
-    title: 'Activities',
-    url: '/activities',
-    description: 'An overview of some activities within amateur radio',
-  },
-  {
-    title: 'New Ham?',
-    url: '/newham',
-    description: 'Get started with amateur radio and getting your license',
-  },
-  ...newhamSteps.map((step) => ({
-    title: step.title,
-    url: step.href,
-    description: step.description,
-  })),
+  // {
+  //   title: 'Activities',
+  //   url: '/activities',
+  //   description: 'Browse the activity and project archive.',
+  // },
   {
     title: 'Calendars',
     url: '/calendars',
@@ -66,57 +65,93 @@ const staticPages = [
   {
     title: 'Presentations & Reference Materials',
     url: '/materials',
-    description: 'Various club materials, including slideshows and such',
+    description: "Our club's presentation materials",
   },
   {
     title: 'Miscellaneous',
     url: '/misc',
-    description: 'Miscallenous goodies',
+    description: 'Useful amateur radio tools and links',
   },
   {
     title: 'Contact',
     url: '/contact',
     description: 'Get in touch with us',
   },
+  {
+    title: 'Security acknowledgements',
+    url: '/security_acknowledgements.html',
+    description: 'Recognition for people who report vulnerabilities to us',
+  },
 ]
 ---
 
 <DefaultLayout
   title="Sitemap"
-  description="Complete site map"
+  description="Find club information, amateur radio resources, guide pages, activities, and blog posts."
 >
-  <PageHeader
-    title="Sitemap"
-    bgType="gradient"
-  />
+  <PageHeader title="Sitemap" bgType="gradient" />
 
   <section class="my-16">
     <div class="container space-y-12">
       <div>
-        <Heading level="h2" class="mb-6">Main pages</Heading>
+        <Heading level="h2" class="mb-6">
+          Main pages
+        </Heading>
         <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {
-            staticPages.map((page) => (
-              <article>
-                <Heading level="h3" size="h6" class="mb-3">
-                  <a href={page.url}>{page.title}</a>
-                </Heading>
-                <p class="mb-3">{page.description}</p>
-                <p class="text-xs">
-                  URL:{' '}
-                  <code class="rounded bg-neutral-100 px-1 py-0.5 text-xs text-neutral-500 dark:bg-neutral-800 dark:text-neutral-500">
-                    {page.url}
-                  </code>
-                </p>
-              </article>
-            ))
-          }
+          {staticPages.map((page) => (
+            <article>
+              <Heading level="h3" size="h6" class="mb-3">
+                <a href={page.url}>{page.title}</a>
+              </Heading>
+              <p class="mb-3">{page.description}</p>
+              <p class="text-xs">
+                URL:{' '}
+                <code class="rounded bg-neutral-100 px-1 py-0.5 text-xs text-neutral-500 dark:bg-neutral-800 dark:text-neutral-500">
+                  {page.url}
+                </code>
+              </p>
+            </article>
+          ))}
         </div>
       </div>
 
       <div>
+        <Heading level="h2" class="mb-6">
+          New Ham guide
+        </Heading>
+        <p class="mb-6">A layman's introduction to amateur radio.</p>
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {[
+            {
+              title: 'New Ham?',
+              url: '/newham',
+              description: 'Get started with amateur radio and getting your license.',
+            },
+            ...newhamSteps.map((step) => ({
+              title: step.title,
+              url: step.href,
+              description: step.description,
+            })),
+          ].map((page) => (
+            <article>
+              <Heading level="h3" size="h6" class="mb-3">
+                <a href={page.url}>{page.title}</a>
+              </Heading>
+              <p class="mb-3">{page.description}</p>
+              <p class="text-xs">
+                URL:{' '}
+                <code class="rounded bg-neutral-100 px-1 py-0.5 text-xs text-neutral-500 dark:bg-neutral-800 dark:text-neutral-500">
+                  {page.url}
+                </code>
+              </p>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <!-- <div>
         <Heading level="h2">Activities</Heading>
-        <p class="mb-6">Descriptions and intros to a variety amateur radio activities</p>
+        <p class="mb-6">Browse all entries in the activity and project archive.</p>
         <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {
             activities.map((activity) => (
@@ -140,54 +175,68 @@ const staticPages = [
             ))
           }
         </div>
+      </div> -->
+
+      <div>
+        <Heading level="h2" class="mb-6">
+          Blog
+        </Heading>
+        <p class="mb-6">Browse all {posts.length} blog posts, newest first.</p>
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post) => (
+            <article>
+              <Heading level="h3" size="h6" class="mb-3">
+                <a href={`/blog/${post.id}`}>{post.data.title}</a>
+              </Heading>
+              <p class="mb-3">{post.data.description}</p>
+              <div class="text-xs">
+                <p class="mb-1">
+                  By: <span class="font-medium">{authorName(post.data.author.id)}</span>
+                </p>
+                <p>
+                  URL:{' '}
+                  <code class="rounded bg-neutral-100 px-1 py-0.5 text-xs text-neutral-500 dark:bg-neutral-800 dark:text-neutral-500">
+                    /blog/{post.id}
+                  </code>
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
 
       <div>
-        <Heading level="h2" class="mb-6">Blog</Heading>
-        <p class="mb-6">Take a look at any of our {posts.length} posts. Guaranteed mildly interesting.</p>
-        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {
-            posts.map((post) => (
-              <article>
-                <Heading level="h3" size="h6" class="mb-3">
-                  <a href={`/blog/${post.id}`}>{post.data.title}</a>
-                </Heading>
-                <p class="mb-3">{post.data.description}</p>
-                <div class="text-xs">
-                  <p class="mb-1">
-                    By: <span class="font-medium">{authorName(post.data.author.id)}</span>
-                  </p>
-                  <p>
-                    URL:{' '}
-                    <code class="rounded bg-neutral-100 px-1 py-0.5 text-xs text-neutral-500 dark:bg-neutral-800 dark:text-neutral-500">
-                      /blog/{post.id}
-                    </code>
-                  </p>
-                </div>
-              </article>
-            ))
-          }
-        </div>
+        <Heading level="h2" class="mb-4">
+          Build details
+        </Heading>
+        <dl class="grid gap-2 sm:grid-cols-2">
+          <div>
+            <dt class="font-semibold">Built commit</dt>
+            <dd>
+              {commitId === 'Unavailable' ? (
+                <code>{commitId}</code>
+              ) : (
+                <a href={`https://github.com/msjarc/msj_arc_main/commit/${commitId}`}>
+                  <code>{commitId}</code>
+                </a>
+              )}
+            </dd>
+          </div>
+          <div>
+            <dt class="font-semibold">Build date and time</dt>
+            <dd>
+              <time datetime={buildTime.toISOString()}>
+                {buildTime.toLocaleString('en-US', { dateStyle: 'long', timeStyle: 'long', timeZone: 'UTC' })}
+              </time>
+            </dd>
+          </div>
+        </dl>
       </div>
 
-      <Notification type="info" variant="accent">
-        <div class="space-content">
-          <Heading level="h2" size="h6" class="mb-4">Technical sitemap information</Heading>
-          <ul>
-            <li>
-              <span class="font-bold">XML Sitemap:</span> An automated XML sitemap is generated at
-              <code>/sitemap.xml</code>
-              for search engine optimization.
-            </li>
-            <li>
-              <strong>Generated by:</strong> @astrojs/sitemap integration configured in astro.config.mjs
-            </li>
-            <li>
-              <strong>Last updated:</strong> Automatically updated on each build
-            </li>
-          </ul>
-        </div>
-      </Notification>
+      <p>
+        A <a href="/sitemap-index.xml">machine-readable XML sitemap</a> is also available and lists pages eligible for
+        search indexing.
+      </p>
     </div>
   </section>
 </DefaultLayout>
@@ -195,7 +244,7 @@ const staticPages = [
 <style>
   article {
     border: 1px solid var(--border-color-subtle);
-    border-radius: var(--radius-large);
+    border-radius: var(--radius-l);
     background-color: var(--background-color);
     padding: 1rem;
   }

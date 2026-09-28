@@ -7,6 +7,7 @@ import Header from '@components/Header.astro'
 import Footer from '@components/Footer.astro'
 import { ClientRouter } from 'astro:transitions'
 import type { ImageMetadata } from 'astro'
+import { shouldIndexPage } from '@utils/searchIndexing'
 
 interface Props {
   /**
@@ -50,6 +51,9 @@ const {
   useTitleTemplate = true,
 } = Astro.props
 
+// Resolve relative page paths before using them in canonical and social metadata.
+const pageUrl = new URL(url, Astro.site).href
+
 // For social sharing, we need the full absolute URL
 // If image is an ImageMetadata object, use its src, otherwise treat as string path
 const imagePath = image ? (typeof image === 'string' ? image : image.src) : '/index_preview.png'
@@ -86,16 +90,17 @@ const imageUrl = new URL(imagePath, Astro.site).href
 
     <SEO
       title={title}
+      noindex={!shouldIndexPage(Astro.url.pathname)}
       titleTemplate={useTitleTemplate ? `%s - ${themeConfig.seo.title}` : undefined}
       titleDefault={themeConfig.seo.title}
       description={description}
-      canonical={url}
+      canonical={pageUrl}
       openGraph={{
         basic: {
           title: title,
           type: type,
           image: imageUrl,
-          url: url,
+          url: pageUrl,
         },
         optional: {
           description: description,
