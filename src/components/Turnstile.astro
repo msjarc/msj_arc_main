@@ -65,13 +65,11 @@ const { siteKey } = Astro.props
       //   response-field-name: ''
 
       theme: 'auto',
-      callback: function (token) {
+      callback: function () {
         // window.turnstileComplete = true
-        console.log('verified! token = ', token)
       },
-      'expired-callback': function (token) {
+      'expired-callback': function () {
         // window.turnstileComplete = false
-        console.log('Turnstile token expired:', token)
       },
       'error-callback': function (errorCode) {
         // window.turnstileComplete = false
