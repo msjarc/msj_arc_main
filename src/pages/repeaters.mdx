@@ -2,27 +2,35 @@
 layout: '@layouts/MarkdownLayout.astro'
 title: Local Repeaters
 description: Repeaters in the Bay Area
-narrow: false
+narrow: true
 pageHeader:
   title: Local Repeaters
-  subtitle: Repeaters extend the range of your handheld or mobile radio across the area.
+  subtitle: Repeaters extend the range of your HT or mobile radio so you can hear and be heard
   bgType: bordered
 ---
 
-A **repeater** receives your signal and re-transmits it at higher power from a better location, dramatically extending how far you can be heard on VHF/UHF. To use one, program your radio with its output frequency, offset, and access tone (CTCSS/PL).
-
-The table below shows the format only. Always verify a repeater's current frequency, offset, and tone on [RepeaterBook](https://www.repeaterbook.com) before use.
+A repeater receives and then retransmits your signal at higher power from a better location, dramatically extending how far you can be heard on VHF or UHF. To use one, program your radio with its output frequency, offset, and access tone (also known as PL tone or CTCSS tone). 
 
 ## Repeater list
 
-| Location / Name | Output (MHz) | Offset | Tone (PL) | Band |
-| --- | --- | --- | --- | --- |
-| Example 2m repeater | 146.xxx | − 0.6 MHz | 100.0 Hz | 2m (VHF) |
-| Example 70cm repeater | 44x.xxx | + 5.0 MHz | 100.0 Hz | 70cm (UHF) |
+Here are the two most notable repeaters from Fremont. N6NFI is particularly popular.
 
-Standard offsets: 2m uses ±0.6 MHz, 70cm uses ±5.0 MHz. The access tone must match the repeater's requirement for it to hear you.
+| Name | Output (MHz) | Offset | Tone (PL) |
+| --- | --- | --- | --- |
+| WA6PWW | 147.015 | +0.6 MHz | 103.5 Hz |
+| N6NFI | 145.230 | -0.6 MHz | 100.0 Hz |
+
+Offset just means the difference between the output and input frequencies of the repeater. So for N6NFI, you need to have your radio receive on 145.230 MHz and transmit on 145.230-0.600 = 144.630 MHz. 
+
+We highly recommend using CHIRP to program repeaters into your HT. 
+
+## More Bay Area Repeaters
+
+Below are other club pages with some good references on local repeaters. 
+
+- [https://sbara.org/repeaters.php](https://sbara.org/repeaters.php)
 
 ## Find repeaters near you
 
-- [RepeaterBook](https://www.repeaterbook.com) — searchable directory by location
+- [RepeaterBook](https://www.repeaterbook.com), searchable directory by location
 - [The Repeater Directory](https://www.artscipub.com/repeaters/)

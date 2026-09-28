@@ -17,7 +17,9 @@ import { Tabs, TabsList, TabsTab, TabsPanel } from 'accessible-astro-components'
 
   <section class="quick-links container mb-16">
     <hr class="hero-divider mb-16" />
-    <Heading level="h2" class="mb-8">Quick Links</Heading>
+    <Heading level="h2" class="mb-8">
+      Quick Links
+    </Heading>
     <ul class="quick-link-cards grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
       <li>
         <a href="/newham" class="quick-link-card">
@@ -35,27 +37,28 @@ import { Tabs, TabsList, TabsTab, TabsPanel } from 'accessible-astro-components'
       <li>
         <a href="/repeaters" class="quick-link-card">
           <Feature icon="lucide:radio-tower" title="Local Repeaters">
-            Find local repeaters to extend your range.
+            Some popular local repeaters
           </Feature>
         </a>
       </li>
       <li>
         <a href="/blog" class="quick-link-card">
-          <Feature icon="lucide:newspaper" title="Blog"> News and updates from the club. </Feature>
+          <Feature icon="lucide:newspaper" title="Blog">
+            {' '}
+            Mad ramblings and occaisionally useful info{' '}
+          </Feature>
         </a>
       </li>
       <li>
         <a href="/contact" class="quick-link-card">
-          <Feature icon="lucide:mail" title="Contact"> Have a question? Get in touch with us. </Feature>
+          <Feature icon="lucide:mail" title="Contact">
+            {' '}
+            Get in touch{' '}
+          </Feature>
         </a>
       </li>
       <li>
-        <a
-          href="https://msjarc.atabook.org/"
-          class="quick-link-card"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="https://msjarc.atabook.org/" class="quick-link-card" target="_blank" rel="noopener noreferrer">
           <Feature icon="lucide:book-open" title="Guestbook">
             Leave a note and say hello. <span class="sr-only">Opens in a new tab.</span>
           </Feature>

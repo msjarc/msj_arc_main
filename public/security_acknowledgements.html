@@ -1,18 +1,39 @@
 <html lang="en">
 
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <title>Security Acknowledgements | MSJ ARC</title>
     <style>
+        :root {
+            color-scheme: light dark;
+            --page-background: #fafafa;
+            --page-foreground: #222;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --page-background: #171717;
+                --page-foreground: #f2f2f2;
+            }
+        }
+
         body {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            /* background-color: #fafafa; */
+            padding: 1rem;
+            box-sizing: border-box;
+            background-color: var(--page-background);
+            color: var(--page-foreground);
             font-family: monospace;
         }
 
         pre {
+            max-width: 100%;
             white-space: pre-wrap;
             /* Respects newlines and wraps on small screens */
             text-align: center;

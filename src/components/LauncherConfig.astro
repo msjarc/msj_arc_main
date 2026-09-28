@@ -88,61 +88,32 @@ const launcherSocialItems = (themeConfig.socials ?? []).map((item) => ({
   icon: item.icon,
   external: item.external ?? false,
 }))
-
-const launcherAccessibleAstroProjects = [
-  {
-    label: 'Accessible Astro Starter',
-    href: 'https://github.com/incluud/accessible-astro-starter',
-  },
-  {
-    label: 'Accessible Astro Dashboard',
-    href: 'https://github.com/incluud/accessible-astro-dashboard',
-  },
-  {
-    label: 'Accessible Astro Components',
-    href: 'https://github.com/incluud/accessible-astro-components',
-  },
-  {
-    label: 'Accessible Astro Docs',
-    href: 'https://github.com/incluud/accessible-astro-docs',
-  },
-  {
-    label: 'Accessible Astro Launcher',
-    href: 'https://github.com/incluud/accessible-astro-launcher',
-  },
-  {
-    label: 'Color Contrast Checker',
-    href: 'https://github.com/incluud/color-contrast-checker',
-  },
-]
 ---
 
 <Launcher id="site-launcher">
   <LauncherPreferences label="Preferences">
-    {launcherPreferenceItems.map((item) => <LauncherSwitch label={item.label} onAction={item.onAction} />)}
+    {launcherPreferenceItems.map((item) => (
+      <LauncherSwitch label={item.label} onAction={item.onAction} />
+    ))}
   </LauncherPreferences>
   <LauncherNav label="Navigate to">
-    {
-      launcherNavigationItems.map((item) => (
-        <LauncherLink
-          label={item.label}
-          href={item.href}
-          {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-        />
-      ))
-    }
+    {launcherNavigationItems.map((item) => (
+      <LauncherLink
+        label={item.label}
+        href={item.href}
+        {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      />
+    ))}
   </LauncherNav>
-  {
-    launcherBlogItems.length > 0 && (
-      <LauncherNav label="Blog posts">
-        {launcherBlogItems.map((item) => (
-          <LauncherLink label={item.label} href={item.href} keywords={item.keywords}>
-            <Icon slot="icon" aria-hidden="true" name="lucide:bookmark" size="16" />
-          </LauncherLink>
-        ))}
-      </LauncherNav>
-    )
-  }
+  {launcherBlogItems.length > 0 && (
+    <LauncherNav label="Blog posts">
+      {launcherBlogItems.map((item) => (
+        <LauncherLink label={item.label} href={item.href} keywords={item.keywords}>
+          <Icon slot="icon" aria-hidden="true" name="lucide:bookmark" size="16" />
+        </LauncherLink>
+      ))}
+    </LauncherNav>
+  )}
   <!-- {
     launcherActivityItems.length > 0 && (
       <LauncherNav label="Activities">
@@ -154,17 +125,11 @@ const launcherAccessibleAstroProjects = [
       </LauncherNav>
     )
   } -->
-  {
-    launcherAccessibleAstroProjects.length > 0 && (
-      <LauncherNav label="Accessible Astro Projects">
-        {launcherAccessibleAstroProjects.map((item) => (
-          <LauncherLink label={item.label} href={item.href}>
-            <Icon slot="icon" aria-hidden="true" name="lucide:external-link" size="16" />
-          </LauncherLink>
-        ))}
-      </LauncherNav>
-    )
-  }
+  <LauncherNav label="Sitemap">
+    <LauncherLink label="Website sitemap" href="/sitemap">
+      <Icon slot="icon" aria-hidden="true" name="lucide:map" size="16" />
+    </LauncherLink>
+  </LauncherNav>
   <LauncherNav label="Socials">
     <LauncherLink
       label="Discord"
@@ -176,16 +141,14 @@ const launcherAccessibleAstroProjects = [
     >
       <Icon slot="icon" aria-hidden="true" name="ion:logo-discord" size="16" />
     </LauncherLink>
-    {
-      launcherSocialItems.map((item) => (
-        <LauncherLink
-          label={item.label}
-          href={item.href}
-          {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-        >
-          <Icon slot="icon" aria-hidden="true" name={item.icon} size="16" />
-        </LauncherLink>
-      ))
-    }
+    {launcherSocialItems.map((item) => (
+      <LauncherLink
+        label={item.label}
+        href={item.href}
+        {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      >
+        <Icon slot="icon" aria-hidden="true" name={item.icon} size="16" />
+      </LauncherLink>
+    ))}
   </LauncherNav>
 </Launcher>
